@@ -8,6 +8,8 @@ Creating an API which accepts a parameter and returns the definition.
 ## Current State
 The data layer is complete. Arabic Words are mapped to their definitions.
 
+DISCLAIMER - The original source was a PDF file, which was converted to an XML and parsed. A lot of manual correction was needed and most likely still has many errors. Do let me know if you find any.
+
 ## Documentation
 
 ### Data Model
