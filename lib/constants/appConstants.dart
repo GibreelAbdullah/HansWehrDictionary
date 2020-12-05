@@ -11,7 +11,7 @@ const String ABOUT_APP = '''
     <hr> <br>
     <p style="text-align:center">The <i><b>Dictionary of Modern Written Arabic</b></i> is an Arabic-English dictionary compiled by <a href="https://en.wikipedia.org/wiki/Hans_Wehr" title="Hans Wehr">Hans Wehr</a> and edited by <a href="https://en.wikipedia.org/wiki/J_Milton_Cowan" title="J Milton Cowan">J Milton Cowan</a>.<br><br>
 This is the first version of the app and InShaAllah more feature will be added<br>
-The code is available on github</p><hr> <br>''';
+<br><a href = "https://github.com/MuslimTechNet/HansWehrDictionary">Source code</a></p><hr> <br>''';
 const String COMMUNITY_INVITE = 
     '''<p style="text-align:center">If you are a Muslim tech professional or aspiring to be one join the <br>
     <b>Muslim Tech Network</b></p><br>''';
