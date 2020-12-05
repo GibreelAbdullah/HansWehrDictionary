@@ -48,7 +48,8 @@ class DatabaseAccess {
   Future<List<String>> definition(String word) async {
     Database db = await databaseConnection;
 
-    String query = "SELECT DEFINITION FROM DICTIONARY WHERE WORD = '$word'";
+    String query =
+        "SELECT DEFINITION FROM DICTIONARY WHERE PARENT_ID IN (SELECT PARENT_ID FROM DICTIONARY WHERE WORD = '$word') ORDER BY ID";
     List<Map<String, dynamic>> definition = await db.rawQuery(query);
     List<String> allDefinitions = [];
 
