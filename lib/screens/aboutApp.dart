@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -37,12 +39,12 @@ class _AboutAppState extends State<AboutApp> {
                     children: [
                       InkWell(
                         child: Image.asset("assets/discord.png",
-                            width: 200, height: 70),
+                            width: min(MediaQuery.of(context).size.width * 0.35,220), height: min(MediaQuery.of(context).size.width * 0.105,70),fit: BoxFit.cover),
                         onTap: () => _launchURL(DISCORD_INVITE_LINK),
                       ),
                       InkWell(
                         child: Image.asset("assets/reddit.png",
-                            width: 200, height: 70),
+                            width: min(MediaQuery.of(context).size.width * 0.35,220), height: min(MediaQuery.of(context).size.width * 0.105,70),fit: BoxFit.cover),
                         onTap: () => _launchURL(REDDIT_INVITE_LINK),
                       ),
                     ],
