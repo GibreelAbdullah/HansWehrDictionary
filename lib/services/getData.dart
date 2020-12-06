@@ -1,4 +1,5 @@
 // import 'package:flutter/material.dart';
+import 'package:search/classes/definitionClass.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'dart:io';
@@ -45,18 +46,25 @@ class DatabaseAccess {
     return allDictionaryWords;
   }
 
-  Future<List<String>> definition(String word) async {
+  Future<DefinitionClass> definition(String word) async {
     Database db = await databaseConnection;
 
     String query =
-        "SELECT DEFINITION FROM DICTIONARY WHERE PARENT_ID IN (SELECT PARENT_ID FROM DICTIONARY WHERE WORD = '$word') ORDER BY ID";
+        "SELECT CASE word when '$word' then 1 else 0 end as highlight, DEFINITION, IS_ROOT FROM DICTIONARY WHERE PARENT_ID IN (SELECT PARENT_ID FROM DICTIONARY WHERE WORD = '$word') ORDER BY ID";
     List<Map<String, dynamic>> definition = await db.rawQuery(query);
-    List<String> allDefinitions = [];
+    DefinitionClass allDefinitions =
+        DefinitionClass(definition: [], isRoot: [], highlight: []);
 
     definition.forEach((element) {
       element.forEach((key, value) {
         // print(value);
-        allDefinitions.add(value);
+        if (key == 'definition') {
+          allDefinitions.definition.add(value);
+        } else if (key == 'is_root') {
+          allDefinitions.isRoot.add(value);
+        } else if (key == 'highlight') {
+          allDefinitions.highlight.add(value);
+        }
       });
     });
     return allDefinitions;

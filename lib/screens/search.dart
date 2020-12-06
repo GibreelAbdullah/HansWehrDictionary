@@ -6,6 +6,7 @@ import 'package:implicitly_animated_reorderable_list/transitions.dart';
 import 'package:provider/provider.dart';
 
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'package:search/classes/definitionClass.dart';
 
 import 'search_model.dart';
 import '../components/drawer.dart';
@@ -33,8 +34,18 @@ class _SearchState extends State<Search> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<SearchModel>(
       create: (_) => SearchModel(),
-      child: ChangeNotifierProvider<ValueNotifier<List<String>>>(
-        create: (_) => ValueNotifier<List<String>>(['Type to Search']),
+      child: ChangeNotifierProvider<DefinitionClass>(
+        create: (_) => DefinitionClass(
+          definition: [
+            'Type to search',
+          ],
+          isRoot: [
+            1,
+          ],
+          highlight: [
+            1,
+          ],
+        ),
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           drawer: CommonDrawer(SEARCH_SCREEN_TITLE),
@@ -125,8 +136,7 @@ class _SearchState extends State<Search> {
     final textTheme = theme.textTheme;
 
     final model = Provider.of<SearchModel>(context, listen: false);
-    final definitionList =
-        Provider.of<ValueNotifier<List<String>>>(context, listen: false);
+    final definitionList = Provider.of<DefinitionClass>(context, listen: false);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -139,7 +149,9 @@ class _SearchState extends State<Search> {
             );
             FloatingSearchBar.of(context).close();
             databaseObject.definition(word).then((value) => setState(() {
-                  definitionList.value = value;
+                  definitionList.definition = value.definition;
+                  definitionList.isRoot = value.isRoot;
+                  definitionList.highlight = value.highlight;
                 }));
           },
           child: Padding(
@@ -209,15 +221,22 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
     return FloatingSearchAppBar(
       title: const Text('Title'),
       transitionDuration: const Duration(milliseconds: 800),
-      body: Consumer<ValueNotifier<List<String>>>(
+      body: Consumer<DefinitionClass>(
         builder: (_, definitionList, __) => ListView.separated(
           padding: EdgeInsets.zero,
-          itemCount: definitionList.value.length,
+          itemCount: definitionList.definition.length,
           separatorBuilder: (context, index) => const Divider(),
           itemBuilder: (context, index) {
             return Container(
               child: ListTile(
-                title: Text(definitionList.value[index]),
+                tileColor: definitionList.highlight[index] == 1
+                    ? Colors.green[50]
+                    : Colors.white,
+                contentPadding: EdgeInsets.fromLTRB(
+                    definitionList.isRoot[index] == 1 ? 16.0 : 50.0, 0, 16, 0),
+                title: Text(
+                  definitionList.definition[index],
+                ),
                 onTap: () {},
               ),
             );

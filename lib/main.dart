@@ -10,6 +10,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
         theme: ThemeData.light(),
+        
         // darkTheme: ThemeData.dark(),
         initialRoute: '/search',
         routes: routes);
