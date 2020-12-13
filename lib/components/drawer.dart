@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../constants/appConstants.dart';
+import 'package:search/constants/preferences.dart';
+import 'package:search/constants/appConstants.dart';
 
 // ignore: must_be_immutable
 class CommonDrawer extends StatelessWidget {
@@ -32,10 +33,14 @@ class CommonDrawer extends StatelessWidget {
 
   @override
   Drawer build(BuildContext context) {
+    // double bottomPadding = 0;
+    // showAd.then((value) {
+    //   value ? bottomPadding = 60 : bottomPadding = 0;
+    // });
     return Drawer(
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 60),
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 60),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

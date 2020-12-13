@@ -1,14 +1,26 @@
 # HansWehrDictionary
 
-Hans Wehr Arabic to English Dictionary
+Dictionary of Modern Written Arabic by Hans Wehr
+
+Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechnet.hanswehr
 
 ## Future Work
-Creating an API which accepts a parameter and returns the definition.
+- Option to customise app.
+- Improve text formatting.
 
-## Current State
-The data layer is complete. Arabic Words are mapped to their definitions.
+## Release Notes
 
-DISCLAIMER - The original source was a PDF file, which was converted to an XML and parsed. A lot of manual correction was needed and most likely still has many errors. Do let me know if you find any.
+#### V - 1.0.1 (13 Dec, 2020)
+- Option to Remove ads (Free, No feature loss)
+
+#### V - 1.0.0+2 (11 Dec, 2020)
+- Added advertisements
+
+#### V - 1.0.0 (6 Dec, 2020)
+- Basic app
+
+## Disclaimer
+The original source was a PDF file, which was converted to an XML and parsed which isn't a foolproof method. A lot of manual correction was needed and might still have a few errors. Do let me know if you find any - gibreel.khan@gmail.com
 
 ## Documentation
 
@@ -19,4 +31,4 @@ ID | The primary key
 WORD | Arabic word
 DEFINITION |  The definition of the corresponding WORD
 IS_ROOT | Whether the WORD is an Arabic root word
-PARENT_ID | If it is NOT a root word, references the ID of the root word
+PARENT_ID | If it is NOT a root word, references the ID of the root word else references to itself

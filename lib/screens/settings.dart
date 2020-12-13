@@ -43,6 +43,7 @@ class _SettingsState extends State<Settings> {
                   future: showAd,
                   builder: (context, snapshot) {
                     return FlutterSwitch(
+                      activeColor: Colors.green[200],
                       value: snapshot.data,
                       onToggle: (val) {
                         setState(
