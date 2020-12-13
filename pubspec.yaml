@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+1
+version: 1.0.1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -23,6 +23,9 @@ dependencies:
   flutter_widget_from_html: ^0.5.1+5
   url_launcher: ^5.7.10
   cupertino_icons: ^1.0.0
+  firebase_admob: ^0.10.2
+  shared_preferences: ^0.5.12+4
+  flutter_switch: ^0.1.5
 
 dev_dependencies:
   flutter_launcher_icons: "^0.8.0"

@@ -34,28 +34,33 @@ class CommonDrawer extends StatelessWidget {
   Drawer build(BuildContext context) {
     return Drawer(
       child: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              children: [
-                // drawerItem(context, HOME_SCREEN_TITLE, '/home', Icons.home),
-                drawerItem(
-                  context,
-                  SEARCH_SCREEN_TITLE,
-                  '/search',
-                  Icons.search,
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Divider(),
-                drawerItem(
-                    context, ABOUT_APP_SCREEN_TITLE, '/aboutus', Icons.people),
-              ],
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 60),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  // drawerItem(context, HOME_SCREEN_TITLE, '/home', Icons.home),
+                  drawerItem(
+                    context,
+                    SEARCH_SCREEN_TITLE,
+                    '/search',
+                    Icons.search,
+                  ),
+                  drawerItem(context, ABOUT_APP_SCREEN_TITLE, '/aboutus',
+                      Icons.people),
+                ],
+              ),
+              Column(
+                children: [
+                  Divider(),
+                  drawerItem(context, SETTINGS_SCREEN_TITLE, '/settings',
+                      Icons.settings),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -3,7 +3,7 @@ import 'package:sqflite/sqflite.dart';
 
 import '../services/getData.dart';
 
-const String HOME_SCREEN_TITLE = 'Home';
+const String SETTINGS_SCREEN_TITLE = 'Settings';
 const String ABOUT_APP_SCREEN_TITLE = 'About App';
 const String SEARCH_SCREEN_TITLE = 'Search';
 
@@ -12,7 +12,7 @@ const String ABOUT_APP = '''
     <p style="text-align:center">The <i><b>Dictionary of Modern Written Arabic</b></i> is an Arabic-English dictionary compiled by <a href="https://en.wikipedia.org/wiki/Hans_Wehr" title="Hans Wehr">Hans Wehr</a> and edited by <a href="https://en.wikipedia.org/wiki/J_Milton_Cowan" title="J Milton Cowan">J Milton Cowan</a>.<br><br>
 This is the first version of the app and InShaAllah more feature will be added<br>
 <br><a href = "https://github.com/MuslimTechNet/HansWehrDictionary">Source code</a></p><hr> <br>''';
-const String COMMUNITY_INVITE = 
+const String COMMUNITY_INVITE =
     '''<p style="text-align:center">If you are a Muslim tech professional or aspiring to be one join the <br>
     <b>Muslim Tech Network</b></p><br>''';
 const DISCORD_INVITE_LINK = 'https://discord.gg/QFKwtFC';

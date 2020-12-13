@@ -1,5 +1,6 @@
 import 'dart:math';
 
+
 import 'package:flutter/material.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:implicitly_animated_reorderable_list/transitions.dart';
@@ -8,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:search/classes/definitionClass.dart';
 
-import 'search_model.dart';
+import '../components/search_model.dart';
 import '../components/drawer.dart';
 import '../constants/appConstants.dart';
 
@@ -22,6 +23,8 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   final controller = FloatingSearchBarController();
 
+
+
   int _index = 0;
   int get index => _index;
   set index(int value) {
@@ -32,6 +35,7 @@ class _SearchState extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
+
     return ChangeNotifierProvider<SearchModel>(
       create: (_) => SearchModel(),
       child: ChangeNotifierProvider<DefinitionClass>(
@@ -234,7 +238,7 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
                     : Colors.white,
                 contentPadding: EdgeInsets.fromLTRB(
                     definitionList.isRoot[index] == 1 ? 16.0 : 50.0, 0, 16, 0),
-                title: Text(
+                title: SelectableText(
                   definitionList.definition[index],
                 ),
                 onTap: () {},

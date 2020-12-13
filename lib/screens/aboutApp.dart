@@ -26,7 +26,7 @@ class _AboutAppState extends State<AboutApp> {
           iconTheme: IconThemeData(color: Colors.grey)),
       drawer: CommonDrawer(ABOUT_APP_SCREEN_TITLE),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.fromLTRB(8, 8, 8, 68),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

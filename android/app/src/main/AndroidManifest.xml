@@ -9,6 +9,9 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="Hans Wehr Dictionary"
         android:icon="@mipmap/launcher_icon">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-5691554351241481~7554963330"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

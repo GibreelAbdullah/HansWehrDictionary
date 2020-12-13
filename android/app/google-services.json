@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1006524653782",
+    "project_id": "hans-wehr-dictionary",
+    "storage_bucket": "hans-wehr-dictionary.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1006524653782:android:d0ad77dfd4d68ee7ea2977",
+        "android_client_info": {
+          "package_name": "com.muslimtechnet.hanswehr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1006524653782-mt7d7c5sluvbjs9tfotbkuhhg9rujkra.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoHG4aA6EmO6qTYh4I9qX9LzmqN-rb_HA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1006524653782-mt7d7c5sluvbjs9tfotbkuhhg9rujkra.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
