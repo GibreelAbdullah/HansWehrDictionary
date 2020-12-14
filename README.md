@@ -10,7 +10,7 @@ Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechne
 
 ## Release Notes
 
-#### V - 1.0.1+4 (13 Dec, 2020)
+#### V - 1.0.1+4 (14 Dec, 2020)
 - Changed switch to material switch
 - Updated AboutApp section
 - Fixed hidden definitions under ad
