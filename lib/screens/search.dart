@@ -227,7 +227,7 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
       transitionDuration: const Duration(milliseconds: 800),
       body: Consumer<DefinitionClass>(
         builder: (_, definitionList, __) => ListView.separated(
-          padding: EdgeInsets.zero,
+         padding: EdgeInsets.fromLTRB(0, 0, 0, 65),
           itemCount: definitionList.definition.length,
           separatorBuilder: (context, index) => const Divider(),
           itemBuilder: (context, index) {
