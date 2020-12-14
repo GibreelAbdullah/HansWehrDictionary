@@ -7,7 +7,6 @@ import 'package:search/constants/appConstants.dart';
 import 'package:search/constants/preferences.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_switch/flutter_switch.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends StatefulWidget {
@@ -35,34 +34,29 @@ class _SettingsState extends State<Settings> {
         padding: EdgeInsets.all(8),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Ads'),
-                FutureBuilder(
-                  future: showAd,
-                  builder: (context, snapshot) {
-                    return FlutterSwitch(
-                      activeColor: Colors.green[200],
-                      value: snapshot.data,
-                      onToggle: (val) {
-                        setState(
-                          () {
-                            if (val) {
-                              displayBanner();
-                            } else {
-                              hideBanner();
-                            }
-                            setShowAds(val);
-                            showAd = Future<bool>.value(val);
-                            print(val);
-                          },
-                        );
+            FutureBuilder(
+              future: showAd,
+              builder: (context, snapshot) {
+                return SwitchListTile(
+                  title: const Text('Ads'),
+                  subtitle: const Text('Disable for Free'),
+                  activeColor: Colors.green[200],
+                  value: snapshot.data ?? true, //Expected behaviour of future builder, returns data twice
+                  onChanged: (val) {
+                    setState(
+                      () {
+                        if (val) {
+                          displayBanner();
+                        } else {
+                          hideBanner();
+                        }
+                        setShowAds(val);
+                        showAd = Future<bool>.value(val);
                       },
                     );
                   },
-                ),
-              ],
+                );
+              },
             ),
           ],
         ),

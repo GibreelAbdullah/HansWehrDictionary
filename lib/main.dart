@@ -10,7 +10,6 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     showAd.then((value) {
       if (value) {
         displayBanner();

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:search/constants/preferences.dart';
 import 'package:search/constants/appConstants.dart';
 
 // ignore: must_be_immutable
