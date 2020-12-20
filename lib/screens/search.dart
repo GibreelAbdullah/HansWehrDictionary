@@ -1,6 +1,5 @@
 import 'dart:math';
 
-
 import 'package:flutter/material.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:implicitly_animated_reorderable_list/transitions.dart';
@@ -9,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:search/classes/definitionClass.dart';
 
-import '../components/search_model.dart';
+import '../classes/search_model.dart';
 import '../components/drawer.dart';
 import '../constants/appConstants.dart';
 
@@ -23,8 +22,6 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   final controller = FloatingSearchBarController();
 
-
-
   int _index = 0;
   int get index => _index;
   set index(int value) {
@@ -35,13 +32,12 @@ class _SearchState extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
-
     return ChangeNotifierProvider<SearchModel>(
       create: (_) => SearchModel(),
       child: ChangeNotifierProvider<DefinitionClass>(
         create: (_) => DefinitionClass(
           definition: [
-            'Type to search',
+            'Type in Arabic to search',
           ],
           isRoot: [
             1,
@@ -75,7 +71,6 @@ class _SearchState extends State<Search> {
         controller: controller,
         clearQueryOnClose: false,
         hint: '...بحث',
-        iconColor: Colors.grey,
         transitionDuration: const Duration(milliseconds: 0),
         transitionCurve: Curves.easeInOutCubic,
         physics: const BouncingScrollPhysics(),
@@ -136,8 +131,6 @@ class _SearchState extends State<Search> {
   }
 
   Widget buildItem(BuildContext context, String word) {
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
 
     final model = Provider.of<SearchModel>(context, listen: false);
     final definitionList = Provider.of<DefinitionClass>(context, listen: false);
@@ -170,12 +163,10 @@ class _SearchState extends State<Search> {
                         ? const Icon(
                             Icons.history,
                             key: Key('history'),
-                            color: Colors.grey,
                           )
                         : const Icon(
                             Icons.label_important,
                             key: Key('word'),
-                            color: Colors.grey,
                           ),
                   ),
                 ),
@@ -187,8 +178,6 @@ class _SearchState extends State<Search> {
                     children: [
                       Text(
                         word,
-                        style: textTheme.bodyText2
-                            .copyWith(color: Colors.grey.shade600),
                       ),
                     ],
                   ),
@@ -227,15 +216,15 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
       transitionDuration: const Duration(milliseconds: 800),
       body: Consumer<DefinitionClass>(
         builder: (_, definitionList, __) => ListView.separated(
-         padding: EdgeInsets.fromLTRB(0, 0, 0, 65),
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 65),
           itemCount: definitionList.definition.length,
           separatorBuilder: (context, index) => const Divider(),
           itemBuilder: (context, index) {
             return Container(
               child: ListTile(
                 tileColor: definitionList.highlight[index] == 1
-                    ? Colors.green[50]
-                    : Colors.white,
+                    ? Theme.of(context).highlightColor
+                    : Theme.of(context).scaffoldBackgroundColor,
                 contentPadding: EdgeInsets.fromLTRB(
                     definitionList.isRoot[index] == 1 ? 16.0 : 50.0, 0, 16, 0),
                 title: SelectableText(

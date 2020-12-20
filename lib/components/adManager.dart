@@ -29,15 +29,14 @@ BannerAd _bannerAd = BannerAd(
   size: AdSize.fullBanner,
 );
 
-
-bool showAds = true;
+bool dispose = false;
 
 BannerAd _createBanner() {
   return BannerAd(
       adUnitId: BannerAd.testAdUnitId,
       size: AdSize.banner,
       listener: (MobileAdEvent event) {
-        if (event == MobileAdEvent.loaded) if (!showAds)
+        if (event == MobileAdEvent.loaded) if (dispose)
           _bannerAd.dispose();
         else
           _bannerAd.show(anchorType: AnchorType.bottom);
@@ -45,15 +44,9 @@ BannerAd _createBanner() {
 }
 
 void displayBanner() async {
-  showAds = true;
+  dispose = false;
   if (_bannerAd == null) _bannerAd = _createBanner();
   _bannerAd
     ..load()
     ..show(anchorType: AnchorType.bottom);
-}
-
-void hideBanner() async {
-  await _bannerAd?.dispose();
-  showAds = false;
-  _bannerAd = null;
 }

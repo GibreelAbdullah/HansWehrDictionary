@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:search/classes/themeModel.dart';
 import 'package:search/constants/appConstants.dart';
+import 'package:search/serviceLocator.dart';
+import 'package:search/services/LocalStorageService.dart';
 
 // ignore: must_be_immutable
 class CommonDrawer extends StatelessWidget {
@@ -32,10 +36,6 @@ class CommonDrawer extends StatelessWidget {
 
   @override
   Drawer build(BuildContext context) {
-    // double bottomPadding = 0;
-    // showAd.then((value) {
-    //   value ? bottomPadding = 60 : bottomPadding = 0;
-    // });
     return Drawer(
       child: SafeArea(
         child: Padding(
@@ -45,7 +45,6 @@ class CommonDrawer extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  // drawerItem(context, HOME_SCREEN_TITLE, '/home', Icons.home),
                   drawerItem(
                     context,
                     SEARCH_SCREEN_TITLE,
@@ -54,19 +53,67 @@ class CommonDrawer extends StatelessWidget {
                   ),
                   drawerItem(context, ABOUT_APP_SCREEN_TITLE, '/aboutus',
                       Icons.people),
+                  ThemeIcon()
                 ],
               ),
               Column(
                 children: [
                   Divider(),
-                  drawerItem(context, SETTINGS_SCREEN_TITLE, '/settings',
-                      Icons.settings),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // drawerItem(context, SETTINGS_SCREEN_TITLE, '/settings',
+                      //     Icons.settings),
+                      // Text("Theme"),
+                    ],
+                  ),
                 ],
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class ThemeIcon extends StatefulWidget {
+  @override
+  _ThemeIconState createState() => _ThemeIconState();
+}
+
+class _ThemeIconState extends State<ThemeIcon> {
+  IconData themeIcon = locator<LocalStorageService>().darkTheme
+      ? Icons.wb_sunny
+      : Icons.nights_stay_outlined;
+
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      child: Row(
+        children: [
+          Icon(
+            themeIcon,
+            color: Colors.yellow[800],
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text("Theme"),
+        ],
+      ),
+      onPressed: () {
+        setState(() {
+          if (locator<LocalStorageService>().darkTheme) {
+            locator<LocalStorageService>().darkTheme = false;
+            themeIcon = Icons.nights_stay_outlined;
+          } else {
+            locator<LocalStorageService>().darkTheme = true;
+            themeIcon = Icons.wb_sunny;
+          }
+          Provider.of<ThemeModel>(context, listen: false).toggleTheme();
+        });
+      },
     );
   }
 }

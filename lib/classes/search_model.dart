@@ -1,10 +1,5 @@
-// import 'dart:convert';
-// import '../services/getData.dart';
 import 'package:flutter/material.dart';
 import '../constants/appConstants.dart';
-// import 'package:http/http.dart' as http;
-
-// import 'place.dart';
 
 class SearchModel extends ChangeNotifier {
   bool _isLoading = false;

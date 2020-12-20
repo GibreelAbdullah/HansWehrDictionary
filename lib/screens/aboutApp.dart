@@ -17,13 +17,14 @@ class _AboutAppState extends State<AboutApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          toolbarHeight: 56,
-          title: Text(
-            ABOUT_APP_SCREEN_TITLE,
-            style: TextStyle(color: Colors.grey),
-          ),
-          backgroundColor: Colors.white,
-          iconTheme: IconThemeData(color: Colors.grey)),
+        toolbarHeight: 56,
+        title: Text(
+          ABOUT_APP_SCREEN_TITLE,
+          // style: TextStyle(color: Colors.grey),
+        ),
+        backgroundColor: Theme.of(context).appBarTheme.color,
+        iconTheme: Theme.of(context).iconTheme,
+      ),
       drawer: CommonDrawer(ABOUT_APP_SCREEN_TITLE),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(8, 8, 8, 68),
@@ -32,19 +33,28 @@ class _AboutAppState extends State<AboutApp> {
             children: [
               HtmlWidget(ABOUT_APP),
               Column(
-                crossAxisAlignment : CrossAxisAlignment.start,
-                children: [HtmlWidget(COMMUNITY_INVITE),
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  HtmlWidget(COMMUNITY_INVITE),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       InkWell(
                         child: Image.asset("assets/discord.png",
-                            width: min(MediaQuery.of(context).size.width * 0.35,220), height: min(MediaQuery.of(context).size.width * 0.105,70),fit: BoxFit.cover),
+                            width: min(
+                                MediaQuery.of(context).size.width * 0.35, 220),
+                            height: min(
+                                MediaQuery.of(context).size.width * 0.105, 70),
+                            fit: BoxFit.cover),
                         onTap: () => _launchURL(DISCORD_INVITE_LINK),
                       ),
                       InkWell(
                         child: Image.asset("assets/reddit.png",
-                            width: min(MediaQuery.of(context).size.width * 0.35,220), height: min(MediaQuery.of(context).size.width * 0.105,70),fit: BoxFit.cover),
+                            width: min(
+                                MediaQuery.of(context).size.width * 0.35, 220),
+                            height: min(
+                                MediaQuery.of(context).size.width * 0.105, 70),
+                            fit: BoxFit.cover),
                         onTap: () => _launchURL(REDDIT_INVITE_LINK),
                       ),
                     ],
