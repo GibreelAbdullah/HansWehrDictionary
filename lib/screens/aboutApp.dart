@@ -20,7 +20,6 @@ class _AboutAppState extends State<AboutApp> {
         toolbarHeight: 56,
         title: Text(
           ABOUT_APP_SCREEN_TITLE,
-          // style: TextStyle(color: Colors.grey),
         ),
         backgroundColor: Theme.of(context).appBarTheme.color,
         iconTheme: Theme.of(context).iconTheme,

@@ -59,14 +59,8 @@ class CommonDrawer extends StatelessWidget {
               Column(
                 children: [
                   Divider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // drawerItem(context, SETTINGS_SCREEN_TITLE, '/settings',
-                      //     Icons.settings),
-                      // Text("Theme"),
-                    ],
-                  ),
+                  drawerItem(context, SETTINGS_SCREEN_TITLE, '/settings',
+                      Icons.settings),
                 ],
               ),
             ],

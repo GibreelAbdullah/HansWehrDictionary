@@ -10,6 +10,9 @@ Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechne
 
 ## Release Notes
 
+#### V - 1.0.3+6 (21 Dec, 2020)
+- Highlight Color Customization
+
 #### V - 1.0.2+5 (20 Dec, 2020)
 - Dark Theme
 - Removed option to disbale ads

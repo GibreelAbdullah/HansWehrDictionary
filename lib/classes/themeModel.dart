@@ -9,17 +9,15 @@ class ThemeModel extends ChangeNotifier {
   ThemeData currentTheme = setCurrentTheme();
 
   toggleTheme() {
-    currentTheme = currentTheme == DarkAppTheme.theme
-        ? LightAppTheme.theme
-        : DarkAppTheme.theme;
+    currentTheme = currentTheme == darkTheme ? lightTheme : darkTheme;
     return notifyListeners();
   }
 }
 
 ThemeData setCurrentTheme() {
   if (locator<LocalStorageService>().darkTheme) {
-    return DarkAppTheme.theme;
+    return darkTheme;
   } else {
-    return LightAppTheme.theme;
+    return lightTheme;
   }
 }

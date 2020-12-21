@@ -6,11 +6,14 @@ import 'package:implicitly_animated_reorderable_list/transitions.dart';
 import 'package:provider/provider.dart';
 
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'package:search/classes/appTheme.dart';
 import 'package:search/classes/definitionClass.dart';
+import 'package:search/services/LocalStorageService.dart';
 
 import '../classes/search_model.dart';
 import '../components/drawer.dart';
 import '../constants/appConstants.dart';
+import '../serviceLocator.dart';
 
 class Search extends StatefulWidget {
   const Search({Key key}) : super(key: key);
@@ -131,7 +134,6 @@ class _SearchState extends State<Search> {
   }
 
   Widget buildItem(BuildContext context, String word) {
-
     final model = Provider.of<SearchModel>(context, listen: false);
     final definitionList = Provider.of<DefinitionClass>(context, listen: false);
 
@@ -223,7 +225,7 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
             return Container(
               child: ListTile(
                 tileColor: definitionList.highlight[index] == 1
-                    ? Theme.of(context).highlightColor
+                    ? hexToColor(locator<LocalStorageService>().highlightColor)
                     : Theme.of(context).scaffoldBackgroundColor,
                 contentPadding: EdgeInsets.fromLTRB(
                     definitionList.isRoot[index] == 1 ? 16.0 : 50.0, 0, 16, 0),

@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LocalStorageService {
   static const String UserPreferencesKey = 'userPreferences';
   static const String DarkThemeKey = 'darkTheme';
+  static const String HighlightColorKey = 'highlightColor';
 
   static LocalStorageService _instance;
   static SharedPreferences _preferences;
@@ -22,7 +23,8 @@ class LocalStorageService {
   UserPreferences get userPreferences {
     var userPreferencesJson = _getFromDisk(UserPreferencesKey);
     if (userPreferencesJson == null) {
-      return UserPreferences.fromJson(json.decode('{"darkTheme":true}'));
+      return UserPreferences.fromJson(
+          json.decode('{"darkTheme":false,"highlightColor":"0xFF000000"}'));
     }
     return UserPreferences.fromJson(json.decode(userPreferencesJson));
   }
@@ -33,7 +35,7 @@ class LocalStorageService {
   }
 
   dynamic _getFromDisk(String key) {
-    var value = _preferences.get(key) ?? true;
+    var value = _preferences.get(key);
     print('(TRACE) LocalStorageService:_getFromDisk. key: $key value: $value');
     return value;
   }
@@ -44,8 +46,11 @@ class LocalStorageService {
     _preferences.setString(UserPreferencesKey, content);
   }
 
-  bool get darkTheme => _getFromDisk(DarkThemeKey);
+  bool get darkTheme => _getFromDisk(DarkThemeKey) ?? false;
   set darkTheme(bool value) => _saveToDisk(DarkThemeKey, value);
+
+  String get highlightColor => _getFromDisk(HighlightColorKey) ?? "0xffaaaaaa";
+  set highlightColor(String  value) => _saveToDisk(HighlightColorKey, value);
 
   void _saveToDisk<T>(String key, T content) {
     print(
@@ -70,15 +75,18 @@ class LocalStorageService {
 
 class UserPreferences {
   final bool darkTheme;
+  final String highlightColor;
 
-  UserPreferences({this.darkTheme});
+  UserPreferences({this.darkTheme, this.highlightColor});
 
   UserPreferences.fromJson(Map<String, dynamic> json)
-      : darkTheme = json['darkTheme'];
+      : darkTheme = json['darkTheme'],
+        highlightColor = json['highlightColor'];
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['darkTheme'] = this.darkTheme;
+    data['highlightColor'] = this.highlightColor;
     return data;
   }
 }
