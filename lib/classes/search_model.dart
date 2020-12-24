@@ -21,7 +21,7 @@ class SearchModel extends ChangeNotifier {
     if (query.isEmpty) {
       _suggestions = history;
     } else {
-      _suggestions = await databaseObject.words(query);
+      _suggestions = await databaseObject.topFiveWords(query);
     }
 
     _isLoading = false;

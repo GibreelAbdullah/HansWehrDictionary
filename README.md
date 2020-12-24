@@ -10,6 +10,10 @@ Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechne
 
 ## Release Notes
 
+#### V - 1.1.0+7 (24 Dec, 2020)
+- Browse Screen
+- Rate Us
+
 #### V - 1.0.3+6 (21 Dec, 2020)
 - Highlight Color Customization
 

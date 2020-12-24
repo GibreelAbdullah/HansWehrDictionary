@@ -4,6 +4,7 @@ import 'package:search/classes/themeModel.dart';
 import 'package:search/constants/appConstants.dart';
 import 'package:search/serviceLocator.dart';
 import 'package:search/services/LocalStorageService.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // ignore: must_be_immutable
 class CommonDrawer extends StatelessWidget {
@@ -17,9 +18,14 @@ class CommonDrawer extends StatelessWidget {
       BuildContext context, String title, String route, IconData icon) {
     return FlatButton(
       onPressed: () {
-        if (_currentScreen != title)
-          Navigator.pushReplacementNamed(context, route);
-        else
+        if (_currentScreen != title) {
+          if (_currentScreen == SEARCH_SCREEN_TITLE) {
+            Navigator.pop(context);
+            Navigator.pushNamed(context, route);
+          } else {
+            Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
+          }
+        } else
           Navigator.pop(context);
       },
       child: Row(
@@ -51,9 +57,16 @@ class CommonDrawer extends StatelessWidget {
                     '/search',
                     Icons.search,
                   ),
+                  drawerItem(
+                    context,
+                    BROWSE_SCREEN_TITLE,
+                    '/browse',
+                    Icons.list,
+                  ),
                   drawerItem(context, ABOUT_APP_SCREEN_TITLE, '/aboutus',
                       Icons.people),
-                  ThemeIcon()
+                  ThemeIcon(),
+                  rateUs(),
                 ],
               ),
               Column(
@@ -69,6 +82,26 @@ class CommonDrawer extends StatelessWidget {
       ),
     );
   }
+}
+
+FlatButton rateUs() {
+  return FlatButton(
+    child: Row(
+      children: [
+        Icon(
+          Icons.star,
+        ),
+        SizedBox(
+          width: 10,
+        ),
+        Text("Rate Us"),
+      ],
+    ),
+    onPressed: () {
+      launch(
+          'https://play.google.com/store/apps/details?id=com.muslimtechnet.hanswehr');
+    },
+  );
 }
 
 class ThemeIcon extends StatefulWidget {

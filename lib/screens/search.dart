@@ -73,7 +73,7 @@ class _SearchState extends State<Search> {
         automaticallyImplyBackButton: false,
         controller: controller,
         clearQueryOnClose: false,
-        hint: '...بحث',
+        hint: '...ابحث',
         transitionDuration: const Duration(milliseconds: 0),
         transitionCurve: Curves.easeInOutCubic,
         physics: const BouncingScrollPhysics(),
@@ -147,7 +147,7 @@ class _SearchState extends State<Search> {
               () => model.clear(),
             );
             FloatingSearchBar.of(context).close();
-            databaseObject.definition(word).then((value) => setState(() {
+            databaseObject.definition(word, false).then((value) => setState(() {
                   definitionList.definition = value.definition;
                   definitionList.isRoot = value.isRoot;
                   definitionList.highlight = value.highlight;
@@ -218,7 +218,7 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
       transitionDuration: const Duration(milliseconds: 800),
       body: Consumer<DefinitionClass>(
         builder: (_, definitionList, __) => ListView.separated(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 65),
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
           itemCount: definitionList.definition.length,
           separatorBuilder: (context, index) => const Divider(),
           itemBuilder: (context, index) {

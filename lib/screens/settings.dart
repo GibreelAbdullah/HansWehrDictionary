@@ -21,10 +21,6 @@ class _SettingsState extends State<Settings> {
   void changeColor(Color color) => setState(
         () {
           locator<LocalStorageService>().highlightColor = color.toString();
-          // Provider.of<ThemeModel>(context, listen: false)
-          //     .updateTheme(ThemeData.light().copyWith(highlightColor: color));
-          // LightAppTheme.theme =
-          //     ThemeData.light().copyWith(highlightColor: color);
         },
       );
 
