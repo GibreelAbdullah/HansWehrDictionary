@@ -45,7 +45,7 @@ class CommonDrawer extends StatelessWidget {
     return Drawer(
       child: SafeArea(
         child: Padding(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 60),
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 65),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -62,6 +62,12 @@ class CommonDrawer extends StatelessWidget {
                     BROWSE_SCREEN_TITLE,
                     '/browse',
                     Icons.list,
+                  ),
+                  drawerItem(
+                    context,
+                    ABBREVIATIONS_SCREEN_TITLE,
+                    '/abbreviations',
+                    Icons.info,
                   ),
                   drawerItem(context, ABOUT_APP_SCREEN_TITLE, '/aboutus',
                       Icons.people),

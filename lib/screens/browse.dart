@@ -23,15 +23,13 @@ class _BrowseState extends State<Browse> {
         iconTheme: Theme.of(context).iconTheme,
       ),
       drawer: CommonDrawer(BROWSE_SCREEN_TITLE),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(0,0,0,65),
-        child: buildFirstLevelAlphabets(),
-      ),
+      body: buildFirstLevelAlphabets(),
     );
   }
 
   ListView buildFirstLevelAlphabets() {
     return ListView.builder(
+      padding: EdgeInsets.fromLTRB(0,0,0,100),
       itemCount: ALL_ALPHABETS.length,
       itemBuilder: (context, i) {
         return ExpansionTile(

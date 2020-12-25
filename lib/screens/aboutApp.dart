@@ -26,7 +26,7 @@ class _AboutAppState extends State<AboutApp> {
       ),
       drawer: CommonDrawer(ABOUT_APP_SCREEN_TITLE),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 8, 8, 68),
+        padding: const EdgeInsets.fromLTRB(8, 8, 8, 100),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

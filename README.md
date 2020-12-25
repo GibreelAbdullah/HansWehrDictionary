@@ -5,10 +5,12 @@ Dictionary of Modern Written Arabic by Hans Wehr
 Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechnet.hanswehr
 
 ## Future Work
-- Option to customise app.
-- Improve text formatting.
+- TBD
 
 ## Release Notes
+
+#### V - 1.2.0+8 (25 Dec, 2020)
+- Abbreviations
 
 #### V - 1.1.0+7 (24 Dec, 2020)
 - Browse Screen
