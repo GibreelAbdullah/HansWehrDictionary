@@ -58,3 +58,7 @@ WORD | Arabic word
 DEFINITION |  The definition of the corresponding WORD
 IS_ROOT | Whether the WORD is an Arabic root word
 PARENT_ID | If it is NOT a root word, references the ID of the root word else references to itself
+
+## Courtesy
+- https://github.com/muhammad-abdurrahman/hans-wehr-fodt-parser/ for the source xml.
+
