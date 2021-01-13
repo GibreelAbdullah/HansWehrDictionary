@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:implicitly_animated_reorderable_list/transitions.dart';
@@ -142,6 +143,7 @@ class _SearchState extends State<Search> {
       children: [
         InkWell(
           onTap: () {
+            addHistory(word);
             Future.delayed(
               const Duration(milliseconds: 50000),
               () => model.clear(),
@@ -161,7 +163,7 @@ class _SearchState extends State<Search> {
                   width: 36,
                   child: AnimatedSwitcher(
                     duration: const Duration(milliseconds: 50),
-                    child: model.suggestions == history
+                    child: listEquals(model.suggestions, getHistory())
                         ? const Icon(
                             Icons.history,
                             key: Key('history'),

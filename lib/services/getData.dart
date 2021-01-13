@@ -9,7 +9,7 @@ import '../constants/appConstants.dart';
 
 class DatabaseAccess {
   Future<Database> openDatabaseConnection() async {
-    var path = join(await getDatabasesPath(), "hanswehrV2.db");
+    var path = join(await getDatabasesPath(), "hanswehrV3.db");
     var exists = await databaseExists(path);
 
     if (!exists) {
@@ -17,11 +17,11 @@ class DatabaseAccess {
       try {
         await Directory(dirname(path)).create(recursive: true);
       } catch (_) {}
-      ByteData data = await rootBundle.load(join("assets", "hanswehrV2.db"));
+      ByteData data = await rootBundle.load(join("assets", "hanswehrV3.db"));
       List<int> bytes =
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       await File(path).writeAsBytes(bytes, flush: true);
-      var oldPath = join(await getDatabasesPath(), "hanswehr.db");
+      var oldPath = join(await getDatabasesPath(), "hanswehrV2.db");
       exists = await databaseExists(oldPath);
       if (exists) {
         print("HansWehr DB V1 exist");
