@@ -1,16 +1,1 @@
-4
-UPDATE contacts SET dictionary = REPLACE(definition,' II ',' <b>II</b> ');
-UPDATE contacts SET dictionary = REPLACE(definition,' II ',' <b>III</b> ');
-UPDATE contacts SET dictionary = REPLACE(definition,' II ',' <b>IV</b> ');
-UPDATE contacts SET dictionary = REPLACE(definition,' II ',' <b>V</b> ');
-UPDATE contacts SET dictionary = REPLACE(definition,' II ',' <b>VI</b> ');
-UPDATE contacts SET dictionary = REPLACE(definition,' II ',' <b>VII</b> ');
-UPDATE contacts SET dictionary = REPLACE(definition,' II ',' <b>VIII</b> ');
-UPDATE contacts SET dictionary = REPLACE(definition,' II ',' <b>IX</b> ');
-UPDATE contacts SET dictionary = REPLACE(definition,' II ',' <b>X</b> ');
-UPDATE contacts SET dictionary = REPLACE(definition,' II ',' <b>XI</b> ');
-3
-JUST SOME RANDOM STUFF
-BLA BLA BLA
-2
-WWWWWWWWHHHHHHHHHHHHHHYYYYYYYYYYYYYYYYY
+UPDATE dictionary SET definition = 'محبس maḥbas, maḥbis pl. محابس maḥābis2 place where s.th. is confined or locked up; jail, prison; (prison) cell' WHERE id = 4197;
