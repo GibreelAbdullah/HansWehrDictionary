@@ -1,0 +1,10 @@
+UPDATE contacts SET dictionary = REPLACE(definition,' II ',' <b>II</b> ');
+UPDATE contacts SET dictionary = REPLACE(definition,' III ',' <b>III</b> ');
+UPDATE contacts SET dictionary = REPLACE(definition,' IV ',' <b>IV</b> ');
+UPDATE contacts SET dictionary = REPLACE(definition,' V ',' <b>V</b> ');
+UPDATE contacts SET dictionary = REPLACE(definition,' VI ',' <b>VI</b> ');
+UPDATE contacts SET dictionary = REPLACE(definition,' VII ',' <b>VII</b> ');
+UPDATE contacts SET dictionary = REPLACE(definition,' VIII ',' <b>VIII</b> ');
+UPDATE contacts SET dictionary = REPLACE(definition,' IX ',' <b>IX</b> ');
+UPDATE contacts SET dictionary = REPLACE(definition,' X ',' <b>X</b> ');
+UPDATE contacts SET dictionary = REPLACE(definition,' XI ',' <b>XI</b> ');
