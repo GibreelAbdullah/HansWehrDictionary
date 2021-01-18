@@ -57,7 +57,7 @@ class _NotificationsState extends State<Notifications> {
                 return ListTile(
                   tileColor: highlightColor,
                   title: Text(
-                      'Database updated on ${snapshot.data[index]['CREATED_DATE']} ${snapshot.data[index]['VISIBLE_FLAG']}'),
+                      'Database updated on ${snapshot.data[index]['CREATED_DATE']}'),
                   subtitle: Text(snapshot.data[index]['NOTIFICATION']),
                 );
               },
