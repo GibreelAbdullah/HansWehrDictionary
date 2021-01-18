@@ -8,3 +8,4 @@ UPDATE dictionary SET definition = REPLACE(definition,' VIII ',' <b>VIII</b> ');
 UPDATE dictionary SET definition = REPLACE(definition,' IX ',' <b>IX</b> ');
 UPDATE dictionary SET definition = REPLACE(definition,' X ',' <b>X</b> ');
 UPDATE dictionary SET definition = REPLACE(definition,' XI ',' <b>XI</b> ');
+INSERT INTO NOTIFICATIONS ("NOTIFICATION","CREATED_DATE","VISIBLE_FLAG","TYPE") VALUES ('Made the roman numbers depicting verb forms bold',DateTime('now'),1,'Database Update');
