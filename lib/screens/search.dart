@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:implicitly_animated_reorderable_list/transitions.dart';
 import 'package:provider/provider.dart';
@@ -231,7 +232,7 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
                     : Theme.of(context).scaffoldBackgroundColor,
                 contentPadding: EdgeInsets.fromLTRB(
                     definitionList.isRoot[index] == 1 ? 16.0 : 50.0, 0, 16, 0),
-                title: SelectableText(
+                title: HtmlWidget(
                   definitionList.definition[index],
                 ),
                 onTap: () {},

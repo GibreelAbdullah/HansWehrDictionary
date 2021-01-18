@@ -72,6 +72,12 @@ class CommonDrawer extends StatelessWidget {
                   ),
                   drawerItem(context, ABOUT_APP_SCREEN_TITLE, '/aboutus',
                       Icons.people),
+                  drawerItem(
+                    context,
+                    NOTIFICATION_SCREEN_TITLE,
+                    '/notifications',
+                    Icons.notifications,
+                  ),
                   ThemeIcon(),
                   rateUs(),
                 ],

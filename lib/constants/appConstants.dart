@@ -8,6 +8,7 @@ const String ABOUT_APP_SCREEN_TITLE = 'About App';
 const String ABBREVIATIONS_SCREEN_TITLE = 'Abbreviations';
 const String SEARCH_SCREEN_TITLE = 'Search';
 const String BROWSE_SCREEN_TITLE = 'Browse';
+const String NOTIFICATION_SCREEN_TITLE = 'Notification';
 
 const String ABOUT_APP = '''
     <br> <br>
@@ -16,10 +17,9 @@ const String ABOUT_APP = '''
     <a href="https://en.wikipedia.org/wiki/J_Milton_Cowan" title="J Milton Cowan">J Milton Cowan</a>.<hr><br><br>
     <p style="text-align:center"><b> What's New :</b> </p>
     <p style="text-align:left">
-    <br> -> History of 5 recent searches (Thanks Mohammed Irfan)
-    <br> -> Corrected typo in definition of دخل (Thanks Yusuf)
-    <br> -> Corrected the root of كشف 
-    <br> -> Share App option 
+    <br> -> Highlighted roman numerals depicting verb forms (Thanks Mohammed Irfan)
+    <br> -> Future database updates will now be pushed directly without the need to update the app.
+    <br> -> Introduced notification screen which will notify about the updated database
     </p> <p style="text-align:center">
     <br> <a href = "https://github.com/MuslimTechNet/HansWehrDictionary/blob/master/README.md">Full Release Notes and Future Work</a></p><hr> <br>''';
 const String COMMUNITY_INVITE =

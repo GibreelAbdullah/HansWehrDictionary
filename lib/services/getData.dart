@@ -9,7 +9,8 @@ import '../constants/appConstants.dart';
 
 class DatabaseAccess {
   Future<Database> openDatabaseConnection() async {
-    var path = join(await getDatabasesPath(), "hanswehrV3.db");
+    // Sqflite.devSetDebugModeOn(true);
+    var path = join(await getDatabasesPath(), "hanswehrV4.db");
     var exists = await databaseExists(path);
 
     if (!exists) {
@@ -17,18 +18,18 @@ class DatabaseAccess {
       try {
         await Directory(dirname(path)).create(recursive: true);
       } catch (_) {}
-      ByteData data = await rootBundle.load(join("assets", "hanswehrV3.db"));
+      ByteData data = await rootBundle.load(join("assets", "hanswehrV4.db"));
       List<int> bytes =
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       await File(path).writeAsBytes(bytes, flush: true);
-      var oldPath = join(await getDatabasesPath(), "hanswehrV2.db");
+      var oldPath = join(await getDatabasesPath(), "hanswehrV3.db");
       exists = await databaseExists(oldPath);
       if (exists) {
-        print("HansWehr DB V1 exist");
+        print("HansWehr DB V3 exist");
         databaseFactory.deleteDatabase(oldPath);
       }
     }
-    Database db = await openDatabase(path, readOnly: true);
+    Database db = await openDatabase(path);
     return db;
   }
 
@@ -109,5 +110,39 @@ class DatabaseAccess {
       });
     });
     return allWords;
+  }
+
+  Future<Map<String, dynamic>> dbVersionDetails() async {
+    Database db = await databaseConnection;
+    String query = 'SELECT DB_VERSION, LAST_CHECKED FROM DATABASE_VERSION';
+    List<Map<String, dynamic>> version = await db.rawQuery(query);
+    return version.first;
+  }
+
+  Future<List<Map<String, dynamic>>> notifications() async {
+    Database db = await databaseConnection;
+    String query =
+        "SELECT NOTIFICATION, strftime('%Y-%m-%d %H:%M',CREATED_DATE) AS CREATED_DATE, VISIBLE_FLAG FROM NOTIFICATIONS WHERE VISIBLE_FLAG = 1";
+    List<Map<String, dynamic>> version = await db.rawQuery(query);
+    return version;
+  }
+
+  applyUpdates(String updateDBScript) async {
+    Database db = await databaseConnection;
+
+    List<String> updateDBCommand = updateDBScript.split('\n');
+
+    await db.transaction((txn) async {
+      for (var command in updateDBCommand) {
+        txn.execute(command);
+      }
+      // return await txn.rawUpdate(updateDBScript);
+    });
+  }
+
+  markNotificationsRead() async {
+    Database db = await databaseConnection;
+    db.rawUpdate(
+        'UPDATE NOTIFICATIONS SET VISIBLE_FLAG = 0 WHERE VISIBLE_FLAG = 1');
   }
 }
