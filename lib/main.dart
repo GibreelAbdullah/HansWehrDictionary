@@ -5,7 +5,7 @@ import 'package:search/classes/themeModel.dart';
 // import 'package:search/components/facebookAdManager.dart';
 import 'package:search/serviceLocator.dart';
 import 'package:search/services/checkDatabaseUpdates.dart';
-import 'components/adManager.dart';
+// import 'components/adManager.dart';
 import 'routes.dart';
 
 void main() async {
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // FacebookAdManager();
     // MopubBannerAd();
-    displayBanner();
+    // displayBanner();
     checkDatabaseUpdates();
     return new MaterialApp(
         title: "Hans Wehr Dictionary",

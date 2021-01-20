@@ -13,23 +13,27 @@ void checkDatabaseUpdates() async {
   int i = 1;
   bool fileAvailable = true;
   while (fileAvailable) {
-    print('Hitting ${version + i}.txt');
-    var request = await HttpClient().getUrl(Uri.parse(
-        'https://raw.githubusercontent.com/GibreelAbdullah/HansWehrDictionary/master/${version + i++}.txt'));
-    // sends the request
-    var response = await request.close();
+    try {
+      var request = await HttpClient().getUrl(Uri.parse(
+          'https://raw.githubusercontent.com/MuslimTechNet/HansWehrDictionary/master/${version + i++}.txt'));
+      var response = await request.close();
 
-    // transforms and prints the response
-    await for (String contents in response.transform(Utf8Decoder())) {
-      if (contents == '404: Not Found') {
-        databaseObject.applyUpdates(
-            "UPDATE DATABASE_VERSION SET LAST_CHECKED = '${DateTime.now().toString()}';");
-        fileAvailable = false;
-      } else {
-        contents = contents +
-            "UPDATE DATABASE_VERSION SET DB_VERSION = ${version + i - 1} AND LAST_CHECKED = '${DateTime.now().toString()}';";
-        databaseObject.applyUpdates(contents);
+      await for (String contents in response.transform(Utf8Decoder())) {
+        if (contents == '404: Not Found') {
+          databaseObject.applyUpdates(
+              "UPDATE DATABASE_VERSION SET LAST_CHECKED = '${DateTime.now().toString()}';");
+          fileAvailable = false;
+        } else {
+          contents = contents +
+              "UPDATE DATABASE_VERSION SET DB_VERSION = ${version + i - 1} AND LAST_CHECKED = '${DateTime.now().toString()}';";
+          databaseObject.applyUpdates(contents);
+        }
       }
+    } on Exception catch (_) {
+      databaseObject.applyUpdates(
+          "UPDATE DATABASE_VERSION SET LAST_CHECKED = '${DateTime.now().toString()}';");
+      fileAvailable = false;
+      return;
     }
   }
 }

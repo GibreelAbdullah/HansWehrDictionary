@@ -31,7 +31,20 @@ class _AboutAppState extends State<AboutApp> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Divider(),
+                ),
                 HtmlWidget(ABOUT_APP),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Divider(),
+                ),
+                HtmlWidget(WHATS_NEW),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Divider(),
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -65,7 +78,15 @@ class _AboutAppState extends State<AboutApp> {
                     ),
                   ],
                 ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Divider(),
+                ),
                 HtmlWidget(DISCLAIMER),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Divider(),
+                ),
               ]),
         ),
       ),

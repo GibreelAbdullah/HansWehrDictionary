@@ -9,6 +9,9 @@ Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechne
 
 ## Release Notes
 
+#### V - 1.4.1+11 (20 Jan, 2020)
+- Bug Fixes and Improvements in Notification and About App screen.
+
 #### V - 1.4.0+10 (18 Jan, 2020)
 - Highlighted roman numerals depicting verb forms (Thanks Mohammed Irfan)
 - Future database updates will now be pushed directly without the need to update the app.
