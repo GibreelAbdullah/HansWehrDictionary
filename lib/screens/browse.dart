@@ -1,6 +1,7 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:search/classes/definitionClass.dart';
 import 'package:search/components/drawer.dart';
 import 'package:search/constants/appConstants.dart';
@@ -128,7 +129,7 @@ class _BrowseState extends State<Browse> {
                               0,
                               16,
                               0),
-                          title: Text(snapshot.data.definition[index]));
+                          title: HtmlWidget(snapshot.data.definition[index]));
                     },
                   );
                 }
