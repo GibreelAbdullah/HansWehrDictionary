@@ -1,2 +1,0 @@
-UPDATE dictionary SET definition = 'محبس maḥbas, maḥbis pl. محابس maḥābis2 place where s.th. is confined or locked up; jail, prison; (prison) cell' WHERE id = 4197;
-INSERT INTO NOTIFICATIONS ("NOTIFICATION","CREATED_DATE","VISIBLE_FLAG","TYPE") VALUES ('Removed number from the definition of محبس',DateTime('now'),'1','Database Update');
