@@ -15,12 +15,10 @@ const String ABOUT_APP = '''
     <p style="text-align:center">The <i><b>Dictionary of Modern Written Arabic</b></i> is an Arabic-English dictionary compiled by 
     <a href="https://en.wikipedia.org/wiki/Hans_Wehr" title="Hans Wehr">Hans Wehr</a> and edited by 
     <a href="https://en.wikipedia.org/wiki/J_Milton_Cowan" title="J Milton Cowan">J Milton Cowan</a>.<br>''';
-const String WHATS_NEW = '''<p style="text-align:center"><b> What's New :</b> </p>
+const String WHATS_NEW =
+    '''<p style="text-align:center"><b> What's New :</b> </p>
     <p style="text-align:left">
-    -> Highlighted roman numerals depicting verb forms (Thanks Mohammed Irfan)
-    <br> -> Future database updates will now be pushed directly without the need to update the app.
-    <br> -> Introduced notification screen which will notify about the updated database
-    <br> -> Fixed hidden content in About App screen on smaller devices
+    -> Bug Fix - Browse Screen now also highlights roman numbers denoting verb forms
     </p> <p style="text-align:center"> <a href = "https://github.com/MuslimTechNet/HansWehrDictionary/blob/master/README.md">Full Release Notes and Future Work</a></p><br>''';
 const String COMMUNITY_INVITE =
     '''<p style="text-align:center">If you are a Muslim tech professional or aspiring to be one join the <br>

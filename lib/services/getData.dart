@@ -14,7 +14,7 @@ class DatabaseAccess {
     var exists = await databaseExists(path);
 
     if (!exists) {
-      print("HansWehr DB V2 doesn't exist");
+      print("HansWehr DB V3 doesn't exist");
       try {
         await Directory(dirname(path)).create(recursive: true);
       } catch (_) {}
