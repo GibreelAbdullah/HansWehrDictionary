@@ -5,6 +5,7 @@ import 'package:search/constants/appConstants.dart';
 import 'package:search/serviceLocator.dart';
 import 'package:search/services/LocalStorageService.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:share/share.dart';
 
 // ignore: must_be_immutable
 class CommonDrawer extends StatelessWidget {
@@ -71,6 +72,12 @@ class CommonDrawer extends StatelessWidget {
                   ),
                   drawerItem(context, ABOUT_APP_SCREEN_TITLE, '/aboutus',
                       Icons.people),
+                  drawerItem(
+                    context,
+                    NOTIFICATION_SCREEN_TITLE,
+                    '/notifications',
+                    Icons.notifications,
+                  ),
                   ThemeIcon(),
                   rateUs(),
                 ],
@@ -90,23 +97,36 @@ class CommonDrawer extends StatelessWidget {
   }
 }
 
-FlatButton rateUs() {
-  return FlatButton(
-    child: Row(
-      children: [
-        Icon(
-          Icons.star,
+Row rateUs() {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Expanded(
+        child: FlatButton(
+          child: Row(
+            children: [
+              Icon(
+                Icons.star,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text("Rate Us"),
+            ],
+          ),
+          onPressed: () {
+            launch(PLAY_STORE_LINK);
+          },
         ),
-        SizedBox(
-          width: 10,
-        ),
-        Text("Rate Us"),
-      ],
-    ),
-    onPressed: () {
-      launch(
-          'https://play.google.com/store/apps/details?id=com.muslimtechnet.hanswehr');
-    },
+      ),
+      FlatButton(
+        child: Icon(Icons.share),
+        onPressed: () {
+          Share.share(
+              'Check out this Hans Wehr Dictionary App : ' + PLAY_STORE_LINK);
+        },
+      ),
+    ],
   );
 }
 

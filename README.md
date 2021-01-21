@@ -9,6 +9,22 @@ Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechne
 
 ## Release Notes
 
+#### V - 1.4.1+11 (20 Jan, 2020)
+- Bug Fixes and Improvements in Notification and About App screen.
+
+#### V - 1.4.0+10 (18 Jan, 2020)
+- Highlighted roman numerals depicting verb forms (Thanks Mohammed Irfan)
+- Future database updates will now be pushed directly without the need to update the app.
+- Introduced notification screen which will notify about the updated database
+
+#### V - 1.3.0+9 (13 Jan, 2020)
+- History of 5 recent searches (Thanks Mohammed Irfan)
+- Corrected typo in definition of دخل (Thanks Yusuf)
+- Corrected the root of كشف 
+- Share App option
+- Set up DB to recieve updates without updating entire app (Code changes remaining)
+- Experimented with MoPub ads (Incomplete)
+
 #### V - 1.2.0+8 (25 Dec, 2020)
 - Abbreviations
 

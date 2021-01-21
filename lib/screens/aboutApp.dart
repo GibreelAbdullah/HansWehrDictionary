@@ -25,43 +25,70 @@ class _AboutAppState extends State<AboutApp> {
         iconTheme: Theme.of(context).iconTheme,
       ),
       drawer: CommonDrawer(ABOUT_APP_SCREEN_TITLE),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 8, 8, 100),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              HtmlWidget(ABOUT_APP),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  HtmlWidget(COMMUNITY_INVITE),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InkWell(
-                        child: Image.asset("assets/discord.png",
-                            width: min(
-                                MediaQuery.of(context).size.width * 0.35, 220),
-                            height: min(
-                                MediaQuery.of(context).size.width * 0.105, 70),
-                            fit: BoxFit.cover),
-                        onTap: () => _launchURL(DISCORD_INVITE_LINK),
-                      ),
-                      InkWell(
-                        child: Image.asset("assets/reddit.png",
-                            width: min(
-                                MediaQuery.of(context).size.width * 0.35, 220),
-                            height: min(
-                                MediaQuery.of(context).size.width * 0.105, 70),
-                            fit: BoxFit.cover),
-                        onTap: () => _launchURL(REDDIT_INVITE_LINK),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              HtmlWidget(DISCLAIMER),
-            ]),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(8, 8, 8, 100),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Divider(),
+                ),
+                HtmlWidget(ABOUT_APP),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Divider(),
+                ),
+                HtmlWidget(WHATS_NEW),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Divider(),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    HtmlWidget(COMMUNITY_INVITE),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        InkWell(
+                          child: Image.asset("assets/discord.png",
+                              width: min(
+                                  MediaQuery.of(context).size.width * 0.35,
+                                  220),
+                              height: min(
+                                  MediaQuery.of(context).size.width * 0.105,
+                                  70),
+                              fit: BoxFit.cover),
+                          onTap: () => _launchURL(DISCORD_INVITE_LINK),
+                        ),
+                        InkWell(
+                          child: Image.asset("assets/reddit.png",
+                              width: min(
+                                  MediaQuery.of(context).size.width * 0.35,
+                                  220),
+                              height: min(
+                                  MediaQuery.of(context).size.width * 0.105,
+                                  70),
+                              fit: BoxFit.cover),
+                          onTap: () => _launchURL(REDDIT_INVITE_LINK),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Divider(),
+                ),
+                HtmlWidget(DISCLAIMER),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Divider(),
+                ),
+              ]),
+        ),
       ),
     );
   }
