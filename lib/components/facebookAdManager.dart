@@ -13,7 +13,8 @@ class _FacebookAdManagerState extends State<FacebookAdManager> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    FacebookAudienceNetwork.init();
+    FacebookAudienceNetwork.init(
+        testingId: "06b82565-32ef-47bb-a063-65b64d25dcb3");
   }
 
   @override

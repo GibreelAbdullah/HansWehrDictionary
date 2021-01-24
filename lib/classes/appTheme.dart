@@ -29,5 +29,5 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
 );
 
 Color hexToColor(String code) {
-  return new Color(int.parse(code));
+  return code == null ? null : Color(int.parse(code));
 }
