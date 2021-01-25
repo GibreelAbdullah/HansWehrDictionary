@@ -18,7 +18,8 @@ const String ABOUT_APP = '''
 const String WHATS_NEW =
     '''<p style="text-align:center"><b> What's New :</b> </p>
     <p style="text-align:left">
-    -> Bug Fix - Browse Screen now also highlights roman numbers denoting verb forms
+    -> Bug Fix - Clicking on search history gives no result. (Thanks Mohammed Irfan). Kindly clear storage data/reinstall app if you are still facing issues.
+    -> Bug Fix in Notification screen. 
     </p> <p style="text-align:center"> <a href = "https://github.com/MuslimTechNet/HansWehrDictionary/blob/master/README.md">Full Release Notes and Future Work</a></p><br>''';
 const String COMMUNITY_INVITE =
     '''<p style="text-align:center">If you are a Muslim tech professional or aspiring to be one join the <br>

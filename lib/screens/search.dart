@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:search/classes/appTheme.dart';
 import 'package:search/classes/definitionClass.dart';
+// import 'package:search/components/facebookAdManager.dart';
 import 'package:search/services/LocalStorageService.dart';
 
 import '../classes/search_model.dart';
@@ -55,6 +56,7 @@ class _SearchState extends State<Search> {
           resizeToAvoidBottomInset: false,
           drawer: CommonDrawer(SEARCH_SCREEN_TITLE),
           body: buildSearchBar(),
+          // body: Column(children: [buildSearchBar(), FacebookAdManager()]),
         ),
       ),
     );
@@ -144,7 +146,7 @@ class _SearchState extends State<Search> {
       children: [
         InkWell(
           onTap: () {
-            addHistory(word);
+            model.addHistory(word);
             Future.delayed(
               const Duration(milliseconds: 50000),
               () => model.clear(),
@@ -164,7 +166,9 @@ class _SearchState extends State<Search> {
                   width: 36,
                   child: AnimatedSwitcher(
                     duration: const Duration(milliseconds: 50),
-                    child: listEquals(model.suggestions, getHistory())
+                    // child: listEquals(model.suggestions, getHistory())
+                    // child: newMethod(model)
+                    child: model.getHistory().contains(word)
                         ? const Icon(
                             Icons.history,
                             key: Key('history'),

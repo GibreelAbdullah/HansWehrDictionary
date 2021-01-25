@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:search/services/LocalStorageService.dart';
 import '../constants/appConstants.dart';
@@ -9,7 +7,9 @@ class SearchModel extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  List<String> _suggestions = getHistory();
+  List<String> _suggestions = locator<LocalStorageService>().history != ""
+      ? List.from(locator<LocalStorageService>().history.split(',').reversed)
+      : [];
   List<String> get suggestions => _suggestions;
 
   String _query = '';
@@ -23,7 +23,9 @@ class SearchModel extends ChangeNotifier {
     notifyListeners();
 
     if (query.isEmpty) {
-      _suggestions = getHistory();
+      _suggestions = cachedHistory != ""
+          ? List.from(cachedHistory.split(',').reversed)
+          : [];
     } else {
       _suggestions = await databaseObject.topFiveWords(query);
     }
@@ -33,31 +35,33 @@ class SearchModel extends ChangeNotifier {
   }
 
   void clear() {
-    _suggestions = getHistory();
+    _suggestions =
+        cachedHistory != "" ? List.from(cachedHistory.split(',').reversed) : [];
     notifyListeners();
   }
-}
 
-//Even I don't know what I am doing here
-Queue<String> _history = locator<LocalStorageService>().history != ""
-    ? Queue.from(locator<LocalStorageService>()
-        .history
-        .substring(1, locator<LocalStorageService>().history.length - 1)
-        .split(','))
-    : Queue();
+  String cachedHistory = locator<LocalStorageService>().history;
 
-List<String> getHistory() {
-  String history = locator<LocalStorageService>().history;
-  return history != ""
-      ? List.from(history.substring(1, history.length - 1).split(',').reversed)
-      : ["Your 5 most recent searches will come here"];
-}
-
-void addHistory(String item) {
-  _history.remove(item);
-  _history.add(item);
-  if (_history.length > 5) {
-    _history.removeFirst();
+  List<String> getHistory() {
+    // String history = locator<LocalStorageService>().history;
+    List<String> historyList =
+        cachedHistory != "" ? cachedHistory.split(',') : [];
+    return historyList;
   }
-  locator<LocalStorageService>().history = _history.toString();
+
+  void addHistory(String item) {
+    List<String> history = getHistory();
+    history.remove(item);
+    history.add(item);
+
+    if (history.length > 5) {
+      history.removeAt(0);
+    }
+    cachedHistory = history
+        .toString()
+        .substring(1, history.toString().length - 1)
+        .replaceAll(' ', '');
+    locator<LocalStorageService>().history = cachedHistory;
+    notifyListeners();
+  }
 }

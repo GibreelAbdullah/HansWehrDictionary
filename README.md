@@ -5,9 +5,17 @@ Dictionary of Modern Written Arabic by Hans Wehr
 Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechnet.hanswehr
 
 ## Future Work
-- TBD
+- Merge Browse Screen and Search Screen
+- Enable search in English
 
 ## Release Notes
+
+#### V - 1.4.3+13 (21 Jan, 2020)
+Bug Fix - Clicking on search history gives no result. (Thanks Mohammed Irfan).
+Bug Fix in Notification screen. 
+
+#### V - 1.4.2+12 (21 Jan, 2020)
+Bug Fix - Browse Screen now also highlights roman numbers denoting verb forms
 
 #### V - 1.4.1+11 (20 Jan, 2020)
 - Bug Fixes and Improvements in Notification and About App screen.
