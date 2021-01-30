@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:appodeal_flutter/appodeal_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
@@ -13,7 +14,7 @@ import 'package:search/classes/definitionClass.dart';
 // import 'package:search/components/facebookAdManager.dart';
 import 'package:search/services/LocalStorageService.dart';
 
-import '../classes/search_model.dart';
+import '../classes/searchModel.dart';
 import '../components/drawer.dart';
 import '../constants/appConstants.dart';
 import '../serviceLocator.dart';
@@ -54,6 +55,9 @@ class _SearchState extends State<Search> {
         ),
         child: Scaffold(
           resizeToAvoidBottomInset: false,
+          bottomNavigationBar: AppodealBanner(
+            placementName: "Appodeal Banner Ad",
+          ),
           drawer: CommonDrawer(SEARCH_SCREEN_TITLE),
           body: buildSearchBar(),
           // body: Column(children: [buildSearchBar(), FacebookAdManager()]),
@@ -86,28 +90,14 @@ class _SearchState extends State<Search> {
         maxWidth: 1000,
         actions: actions,
         progress: model.isLoading,
-        debounceDelay: const Duration(milliseconds: 0),
+        // debounceDelay: const Duration(milliseconds: 0),
+        // onSubmitted: model.onSubmitted,
         onQueryChanged: model.onQueryChanged,
         scrollPadding: EdgeInsets.zero,
         transition: ExpandingFloatingSearchBarTransition(),
         builder: (context, _) => buildExpandableBody(model),
         body: buildDefinitionSpace(),
       ),
-    );
-  }
-
-  Widget buildDefinitionSpace() {
-    return Column(
-      children: [
-        Expanded(
-          child: IndexedStack(
-            index: min(index, 2),
-            children: [
-              DefinitionSpace(),
-            ],
-          ),
-        ),
-      ],
     );
   }
 
@@ -206,6 +196,21 @@ class _SearchState extends State<Search> {
     controller.dispose();
     super.dispose();
   }
+
+  Widget buildDefinitionSpace() {
+    return Column(
+      children: [
+        Expanded(
+          child: IndexedStack(
+            index: min(index, 2),
+            children: [
+              DefinitionSpace(),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
 }
 
 class DefinitionSpace extends StatefulWidget {
@@ -221,7 +226,6 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
   _DefinitionSpaceState();
   Widget build(BuildContext context) {
     return FloatingSearchAppBar(
-      title: const Text('Title'),
       transitionDuration: const Duration(milliseconds: 800),
       body: Consumer<DefinitionClass>(
         builder: (_, definitionList, __) => ListView.separated(

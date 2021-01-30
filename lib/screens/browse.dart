@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:appodeal_flutter/appodeal_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:search/classes/definitionClass.dart';
@@ -23,6 +24,7 @@ class _BrowseState extends State<Browse> {
         backgroundColor: Theme.of(context).appBarTheme.color,
         iconTheme: Theme.of(context).iconTheme,
       ),
+      bottomNavigationBar: AppodealBanner(placementName: "Appodeal Banner Ad"),
       drawer: CommonDrawer(BROWSE_SCREEN_TITLE),
       body: buildFirstLevelAlphabets(),
     );
@@ -30,7 +32,7 @@ class _BrowseState extends State<Browse> {
 
   ListView buildFirstLevelAlphabets() {
     return ListView.builder(
-      padding: EdgeInsets.fromLTRB(0,0,0,100),
+      padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
       itemCount: ALL_ALPHABETS.length,
       itemBuilder: (context, i) {
         return ExpansionTile(

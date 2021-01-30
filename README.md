@@ -10,6 +10,18 @@ Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechne
 
 ## Release Notes
 
+#### V - 1.4.7+17 (28 Jan, 2020)
+- Fixed incorrect app label.
+
+#### V - 1.4.6+16 (28 Jan, 2020)
+- Switched to mediation.
+
+#### V - 1.4.5+15 (25 Jan, 2020) Not released
+- Changed admob banner ad
+
+#### V - 1.4.4+14 (24 Jan, 2020) Alpha release - reverted
+- FAN
+
 #### V - 1.4.3+13 (21 Jan, 2020)
 Bug Fix - Clicking on search history gives no result. (Thanks Mohammed Irfan).
 Bug Fix in Notification screen. 

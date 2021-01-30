@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:search/classes/themeModel.dart';
-// import 'package:search/components/moPubAdManager.dart';
-// import 'package:search/components/facebookAdManager.dart';
 import 'package:search/serviceLocator.dart';
 import 'package:search/services/checkDatabaseUpdates.dart';
-// import 'components/adManager.dart';
 import 'routes.dart';
+import 'package:appodeal_flutter/appodeal_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,12 +18,38 @@ void main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool isAppodealInitialized = false;
+  @override
+  void initState() {
+    super.initState();
+
+    checkDatabaseUpdates();
+
+    Appodeal.setAppKeys(
+        androidAppKey: 'c91d3d046c246d863c9109bc783197ed13a7c5ec658cc937',
+        iosAppKey: '3a2ef99639e29dfe3333e4b3b496964dae6097cc510cbb2f');
+
+    Appodeal.requestIOSTrackingAuthorization().then((_) async {
+      // Initialize Appodeal after the authorization was granted or not
+      await Appodeal.initialize(
+        hasConsent: true,
+        adTypes: [
+          AdType.BANNER,
+        ],
+      );
+
+      setState(() => this.isAppodealInitialized = true);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    // MopubBannerAd();
-    // displayBanner();
-    checkDatabaseUpdates();
     return new MaterialApp(
         title: "Hans Wehr Dictionary",
         theme: Provider.of<ThemeModel>(context, listen: true).currentTheme,

@@ -66,6 +66,10 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 
@@ -76,6 +80,19 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.google.android.gms:play-services-ads:19.3.0'
+    implementation 'com.appodeal.ads.sdk:core:2.8.1'
+    implementation 'com.appodeal.ads.sdk.networks:a4g:2.8.1.7'
+    implementation 'com.appodeal.ads.sdk.networks:amazon_ads:2.8.1.2'
+    implementation 'com.appodeal.ads.sdk.networks:applovin:2.8.1.9'
+    implementation 'com.appodeal.ads.sdk.networks:bidmachine:2.8.1.4'
+    implementation 'com.appodeal.ads.sdk.networks:facebook:2.8.1.8'
+    implementation 'com.appodeal.ads.sdk.networks:admob:2.8.1.8'
+    implementation 'com.appodeal.ads.sdk.networks:mraid:2.8.1.2'
+    implementation 'com.appodeal.ads.sdk.networks:my_target:2.8.1.8'
+    implementation 'com.appodeal.ads.sdk.networks:smaato:2.8.1.4'
+    implementation 'com.appodeal.ads.sdk.networks:startapp:2.8.1.7'
+    implementation 'com.appodeal.ads.sdk.networks:unity_ads:2.8.1.7'
+    // implementation 'com.appodeal.ads.sdk.networks:yandex:2.8.1.6'
     // implementation 'com.google.android.gms:play-services-basement:17.5.0'
     // implementation 'com.google.firebase:firebase-analytics:18.0.0'
     // implementation 'com.google.firebase:firebase-analytics-ktx'

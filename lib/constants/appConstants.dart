@@ -7,6 +7,7 @@ const String SETTINGS_SCREEN_TITLE = 'Settings';
 const String ABOUT_APP_SCREEN_TITLE = 'About App';
 const String ABBREVIATIONS_SCREEN_TITLE = 'Abbreviations';
 const String SEARCH_SCREEN_TITLE = 'Search';
+const String REVERSE_SEARCH_SCREEN_TITLE = 'Search in English';
 const String BROWSE_SCREEN_TITLE = 'Browse';
 const String NOTIFICATION_SCREEN_TITLE = 'Notification';
 
@@ -18,8 +19,7 @@ const String ABOUT_APP = '''
 const String WHATS_NEW =
     '''<p style="text-align:center"><b> What's New :</b> </p>
     <p style="text-align:left">
-    -> Bug Fix - Clicking on search history gives no result. (Thanks Mohammed Irfan). Kindly clear storage data/reinstall app if you are still facing issues.
-    -> Bug Fix in Notification screen. 
+    -> Switched to mediation.
     </p> <p style="text-align:center"> <a href = "https://github.com/MuslimTechNet/HansWehrDictionary/blob/master/README.md">Full Release Notes and Future Work</a></p><br>''';
 const String COMMUNITY_INVITE =
     '''<p style="text-align:center">If you are a Muslim tech professional or aspiring to be one join the <br>

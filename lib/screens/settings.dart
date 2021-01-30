@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:appodeal_flutter/appodeal_flutter.dart';
 import 'package:search/classes/appTheme.dart';
 import 'package:search/components/drawer.dart';
 import 'package:search/constants/appConstants.dart';
@@ -35,6 +36,7 @@ class _SettingsState extends State<Settings> {
         backgroundColor: Theme.of(context).appBarTheme.color,
         iconTheme: Theme.of(context).iconTheme,
       ),
+      bottomNavigationBar: AppodealBanner(placementName: "Appodeal Banner Ad"),
       drawer: CommonDrawer(SETTINGS_SCREEN_TITLE),
       body: Container(
         padding: EdgeInsets.all(8),

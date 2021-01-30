@@ -34,6 +34,8 @@ class SearchModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void onSubmitted(String query) async {}
+
   void clear() {
     _suggestions =
         cachedHistory != "" ? List.from(cachedHistory.split(',').reversed) : [];
