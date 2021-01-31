@@ -10,6 +10,10 @@ Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechne
 
 ## Release Notes
 
+#### V - 1.5.0+18 (31 Jan, 2020)
+- Full text search in English and Arabic
+- Enter/Submit to search.
+
 #### V - 1.4.7+17 (28 Jan, 2020)
 - Fixed incorrect app label.
 

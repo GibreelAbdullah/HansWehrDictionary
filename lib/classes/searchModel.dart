@@ -34,8 +34,6 @@ class SearchModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void onSubmitted(String query) async {}
-
   void clear() {
     _suggestions =
         cachedHistory != "" ? List.from(cachedHistory.split(',').reversed) : [];
@@ -45,7 +43,6 @@ class SearchModel extends ChangeNotifier {
   String cachedHistory = locator<LocalStorageService>().history;
 
   List<String> getHistory() {
-    // String history = locator<LocalStorageService>().history;
     List<String> historyList =
         cachedHistory != "" ? cachedHistory.split(',') : [];
     return historyList;
@@ -56,7 +53,7 @@ class SearchModel extends ChangeNotifier {
     history.remove(item);
     history.add(item);
 
-    if (history.length > 5) {
+    if (history.length > 10) {
       history.removeAt(0);
     }
     cachedHistory = history

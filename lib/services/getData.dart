@@ -53,12 +53,26 @@ class DatabaseAccess {
     return allDictionaryWords;
   }
 
-  Future<DefinitionClass> definition(String word, bool rootOnly) async {
+  Future<DefinitionClass> definition(String word, String type) async {
     Database db = await databaseConnection;
+    String query;
+    switch (type) {
+      case "BrowseScreen":
+        query =
+            "SELECT 0 highlight, DEFINITION, IS_ROOT FROM DICTIONARY WHERE PARENT_ID IN (SELECT ID FROM DICTIONARY WHERE WORD = '$word' and IS_ROOT=1) ORDER BY ID";
+        break;
+      case "RootSearch":
+        query =
+            "SELECT CASE word when '$word' then 1 else 0 end as highlight, DEFINITION, IS_ROOT FROM DICTIONARY WHERE PARENT_ID IN (SELECT PARENT_ID FROM DICTIONARY WHERE WORD = '$word') ORDER BY ID";
+        break;
+      case "FullTextSearch":
+        query =
+            "SELECT MAX(highlight) highlight, definition, is_root from (SELECT dict.id, CASE dict.id WHEN dict2.id then 1 else 0 end as highlight, REPLACE(dict.definition,'$word','<b>$word</b>') AS definition,  dict.is_root FROM DICTIONARY dict inner join (SELECT ID, PARENT_ID, is_root FROM DICTIONARY WHERE definition like '%$word%' LIMIT 50) dict2 ON dict.parent_id = dict2.parent_id) group by definition, is_root order by id ";
+        break;
+      default:
+        break;
+    }
 
-    String query = rootOnly
-        ? "SELECT 0 highlight, DEFINITION, IS_ROOT FROM DICTIONARY WHERE PARENT_ID IN (SELECT ID FROM DICTIONARY WHERE WORD = '$word' and IS_ROOT=1) ORDER BY ID"
-        : "SELECT CASE word when '$word' then 1 else 0 end as highlight, DEFINITION, IS_ROOT FROM DICTIONARY WHERE PARENT_ID IN (SELECT PARENT_ID FROM DICTIONARY WHERE WORD = '$word') ORDER BY ID";
     List<Map<String, dynamic>> definition = await db.rawQuery(query);
     DefinitionClass allDefinitions =
         DefinitionClass(definition: [], isRoot: [], highlight: []);
@@ -81,7 +95,7 @@ class DatabaseAccess {
     Database db = await databaseConnection;
 
     String query =
-        "SELECT DISTINCT WORD FROM DICTIONARY WHERE WORD like '$word%' ORDER BY LENGTH(WORD), WORD LIMIT 5";
+        "SELECT DISTINCT WORD FROM DICTIONARY WHERE WORD like '$word%' ORDER BY LENGTH(WORD), WORD LIMIT 6";
     List<Map<String, dynamic>> definition = await db.rawQuery(query);
     List<String> allWords = [];
 

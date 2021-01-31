@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:search/classes/themeModel.dart';
+import 'package:search/properties.dart';
 import 'package:search/serviceLocator.dart';
 import 'package:search/services/checkDatabaseUpdates.dart';
 import 'routes.dart';
@@ -32,8 +33,8 @@ class _MyAppState extends State<MyApp> {
     checkDatabaseUpdates();
 
     Appodeal.setAppKeys(
-        androidAppKey: 'c91d3d046c246d863c9109bc783197ed13a7c5ec658cc937',
-        iosAppKey: '3a2ef99639e29dfe3333e4b3b496964dae6097cc510cbb2f');
+        androidAppKey: APPODEAL_ANDROID_API,
+        iosAppKey: '3a2ef99639e29dfe3333e4b3b496964dae6097cc510cbb2f'); //DUMMY
 
     Appodeal.requestIOSTrackingAuthorization().then((_) async {
       // Initialize Appodeal after the authorization was granted or not

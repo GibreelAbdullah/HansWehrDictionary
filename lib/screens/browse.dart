@@ -110,7 +110,7 @@ class _BrowseState extends State<Browse> {
             height: MediaQuery.of(context).size.height * .7,
             width: MediaQuery.of(context).size.width * .9,
             child: FutureBuilder<DefinitionClass>(
-              future: databaseObject.definition(word, true),
+              future: databaseObject.definition(word, "BrowseScreen"),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return Center(

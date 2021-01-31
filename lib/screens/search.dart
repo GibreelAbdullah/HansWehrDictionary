@@ -43,15 +43,9 @@ class _SearchState extends State<Search> {
       create: (_) => SearchModel(),
       child: ChangeNotifierProvider<DefinitionClass>(
         create: (_) => DefinitionClass(
-          definition: [
-            'Type in Arabic to search',
-          ],
-          isRoot: [
-            1,
-          ],
-          highlight: [
-            1,
-          ],
+          definition: [],
+          isRoot: [],
+          highlight: [],
         ),
         child: Scaffold(
           resizeToAvoidBottomInset: false,
@@ -69,7 +63,7 @@ class _SearchState extends State<Search> {
   Widget buildSearchBar() {
     final actions = [
       FloatingSearchBarAction.searchToClear(
-        showIfClosed: false,
+        showIfClosed: true,
       ),
     ];
 
@@ -81,7 +75,7 @@ class _SearchState extends State<Search> {
         automaticallyImplyBackButton: false,
         controller: controller,
         clearQueryOnClose: false,
-        hint: '...ابحث',
+        hint: 'Arabic/English العربية/الإنكليزية',
         transitionDuration: const Duration(milliseconds: 0),
         transitionCurve: Curves.easeInOutCubic,
         physics: const BouncingScrollPhysics(),
@@ -91,7 +85,15 @@ class _SearchState extends State<Search> {
         actions: actions,
         progress: model.isLoading,
         // debounceDelay: const Duration(milliseconds: 0),
-        // onSubmitted: model.onSubmitted,
+        onSubmitted: (query) {
+          controller.close();
+          model.addHistory(query);
+          buildDefinitionOnSubmission(
+            context,
+            query,
+          );
+        },
+        onFocusChanged: (isFocused) {},
         onQueryChanged: model.onQueryChanged,
         scrollPadding: EdgeInsets.zero,
         transition: ExpandingFloatingSearchBarTransition(),
@@ -99,6 +101,18 @@ class _SearchState extends State<Search> {
         body: buildDefinitionSpace(),
       ),
     );
+  }
+
+  void buildDefinitionOnSubmission(
+      BuildContext context, String searchWord) async {
+    final definitionList = Provider.of<DefinitionClass>(context, listen: false);
+    DefinitionClass value =
+        await databaseObject.definition(searchWord, "FullTextSearch");
+    setState(() {
+      definitionList.definition = value.definition;
+      definitionList.isRoot = value.isRoot;
+      definitionList.highlight = value.highlight;
+    });
   }
 
   Widget buildExpandableBody(SearchModel model) {
@@ -142,11 +156,13 @@ class _SearchState extends State<Search> {
               () => model.clear(),
             );
             FloatingSearchBar.of(context).close();
-            databaseObject.definition(word, false).then((value) => setState(() {
-                  definitionList.definition = value.definition;
-                  definitionList.isRoot = value.isRoot;
-                  definitionList.highlight = value.highlight;
-                }));
+            databaseObject
+                .definition(word, "RootSearch")
+                .then((value) => setState(() {
+                      definitionList.definition = value.definition;
+                      definitionList.isRoot = value.isRoot;
+                      definitionList.highlight = value.highlight;
+                    }));
           },
           child: Padding(
             padding: const EdgeInsets.all(16),
