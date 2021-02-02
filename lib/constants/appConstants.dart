@@ -19,7 +19,9 @@ const String ABOUT_APP = '''
 const String WHATS_NEW =
     '''<p style="text-align:center"><b> What's New :</b> </p>
     <p style="text-align:left">
-    -> Search in English
+    -> Search in English <br>
+    -> Highlight text instead of highlight tile. <br>
+    -> Removed settings screen.
     <br> -> Press enter for full text search. Clicking on the items in drop down menu will search only for the words, while submitting will search in the definition as well.
     </p> <p style="text-align:center"> <a href = "https://github.com/MuslimTechNet/HansWehrDictionary/blob/master/README.md">Full Release Notes and Future Work</a></p><br>''';
 const String COMMUNITY_INVITE =
@@ -31,7 +33,8 @@ const String DISCLAIMER =
     '''<p style="text-align:center"><b>DISCLAIMER</b></br>The original source was a PDF file,
     which was converted to an XML and parsed which isn't a foolproof method.
     A lot of manual correction was needed and might still have a few errors. 
-    Do let me know if you find any - <a href = "mailto: gibreel.khan@gmail.com">gibreel.khan@gmail.com</a></p><br>''';
+    Do let me know if you find any - <a href = "mailto: gibreel.khan@gmail.com">gibreel.khan@gmail.com</a><br>
+    Mail me if you have a job offer.</p><br>''';
 final DatabaseAccess databaseObject = new DatabaseAccess();
 final Future<Database> databaseConnection =
     DatabaseAccess().openDatabaseConnection();

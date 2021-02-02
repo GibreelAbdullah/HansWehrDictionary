@@ -58,12 +58,6 @@ class CommonDrawer extends StatelessWidget {
                     '/search',
                     Icons.search,
                   ),
-                  // drawerItem(
-                  //   context,
-                  //   REVERSE_SEARCH_SCREEN_TITLE,
-                  //   '/reverseSearch',
-                  //   Icons.search,
-                  // ),
                   drawerItem(
                     context,
                     BROWSE_SCREEN_TITLE,
@@ -86,13 +80,6 @@ class CommonDrawer extends StatelessWidget {
                   ),
                   ThemeIcon(),
                   rateUs(),
-                ],
-              ),
-              Column(
-                children: [
-                  Divider(),
-                  drawerItem(context, SETTINGS_SCREEN_TITLE, '/settings',
-                      Icons.settings),
                 ],
               ),
             ],

@@ -67,7 +67,7 @@ class DatabaseAccess {
         break;
       case "FullTextSearch":
         query =
-            "SELECT MAX(highlight) highlight, definition, is_root from (SELECT dict.id, CASE dict.id WHEN dict2.id then 1 else 0 end as highlight, REPLACE(dict.definition,'$word','<b>$word</b>') AS definition,  dict.is_root FROM DICTIONARY dict inner join (SELECT ID, PARENT_ID, is_root FROM DICTIONARY WHERE definition like '%$word%' LIMIT 50) dict2 ON dict.parent_id = dict2.parent_id) group by definition, is_root order by id ";
+            "SELECT MAX(highlight) highlight, definition, is_root from (SELECT dict.id, CASE dict.id WHEN dict2.id then 1 else 0 end as highlight, REPLACE(dict.definition,'$word','<mark>$word</mark>') AS definition,  dict.is_root FROM DICTIONARY dict inner join (SELECT ID, PARENT_ID, is_root FROM DICTIONARY WHERE definition like '%$word%' LIMIT 50) dict2 ON dict.parent_id = dict2.parent_id) group by definition, is_root order by id ";
         break;
       default:
         break;

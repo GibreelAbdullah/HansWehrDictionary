@@ -5,8 +5,8 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../components/drawer.dart';
-import '../constants/appConstants.dart';
+import 'package:search/widgets/drawer.dart';
+import 'package:search/constants/appConstants.dart';
 
 class AboutApp extends StatefulWidget {
   @override

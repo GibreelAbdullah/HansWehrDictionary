@@ -3,21 +3,17 @@ import 'dart:math';
 import 'package:appodeal_flutter/appodeal_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:implicitly_animated_reorderable_list/transitions.dart';
 import 'package:provider/provider.dart';
 
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
-import 'package:search/classes/appTheme.dart';
 import 'package:search/classes/definitionClass.dart';
-// import 'package:search/components/facebookAdManager.dart';
-import 'package:search/services/LocalStorageService.dart';
 
-import '../classes/searchModel.dart';
-import '../components/drawer.dart';
-import '../constants/appConstants.dart';
-import '../serviceLocator.dart';
+import 'package:search/classes/searchModel.dart';
+import 'package:search/widgets/definitionSpace.dart';
+import 'package:search/widgets/drawer.dart';
+import 'package:search/constants/appConstants.dart';
 
 class Search extends StatefulWidget {
   const Search({Key key}) : super(key: key);
@@ -37,6 +33,8 @@ class _SearchState extends State<Search> {
     setState(() {});
   }
 
+  // String searchType = '';
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<SearchModel>(
@@ -54,7 +52,6 @@ class _SearchState extends State<Search> {
           ),
           drawer: CommonDrawer(SEARCH_SCREEN_TITLE),
           body: buildSearchBar(),
-          // body: Column(children: [buildSearchBar(), FacebookAdManager()]),
         ),
       ),
     );
@@ -84,10 +81,10 @@ class _SearchState extends State<Search> {
         maxWidth: 1000,
         actions: actions,
         progress: model.isLoading,
-        // debounceDelay: const Duration(milliseconds: 0),
         onSubmitted: (query) {
           controller.close();
           model.addHistory(query);
+
           buildDefinitionOnSubmission(
             context,
             query,
@@ -96,7 +93,7 @@ class _SearchState extends State<Search> {
         onFocusChanged: (isFocused) {},
         onQueryChanged: model.onQueryChanged,
         scrollPadding: EdgeInsets.zero,
-        transition: ExpandingFloatingSearchBarTransition(),
+        transition: CircularFloatingSearchBarTransition(),
         builder: (context, _) => buildExpandableBody(model),
         body: buildDefinitionSpace(),
       ),
@@ -106,9 +103,11 @@ class _SearchState extends State<Search> {
   void buildDefinitionOnSubmission(
       BuildContext context, String searchWord) async {
     final definitionList = Provider.of<DefinitionClass>(context, listen: false);
+    definitionList.searchType = 'FullTextSearch';
     DefinitionClass value =
-        await databaseObject.definition(searchWord, "FullTextSearch");
+        await databaseObject.definition(searchWord, definitionList.searchType);
     setState(() {
+      definitionList.searchWord = searchWord;
       definitionList.definition = value.definition;
       definitionList.isRoot = value.isRoot;
       definitionList.highlight = value.highlight;
@@ -150,6 +149,11 @@ class _SearchState extends State<Search> {
       children: [
         InkWell(
           onTap: () {
+            definitionList.searchType =
+                ALL_ALPHABETS.contains(word.substring(0, 1))
+                    ? 'RootSearch'
+                    : 'FullTextSearch';
+            definitionList.searchWord = word;
             model.addHistory(word);
             Future.delayed(
               const Duration(milliseconds: 50000),
@@ -157,7 +161,7 @@ class _SearchState extends State<Search> {
             );
             FloatingSearchBar.of(context).close();
             databaseObject
-                .definition(word, "RootSearch")
+                .definition(word, definitionList.searchType)
                 .then((value) => setState(() {
                       definitionList.definition = value.definition;
                       definitionList.isRoot = value.isRoot;
@@ -172,8 +176,6 @@ class _SearchState extends State<Search> {
                   width: 36,
                   child: AnimatedSwitcher(
                     duration: const Duration(milliseconds: 50),
-                    // child: listEquals(model.suggestions, getHistory())
-                    // child: newMethod(model)
                     child: model.getHistory().contains(word)
                         ? const Icon(
                             Icons.history,
@@ -225,46 +227,6 @@ class _SearchState extends State<Search> {
           ),
         ),
       ],
-    );
-  }
-}
-
-class DefinitionSpace extends StatefulWidget {
-  const DefinitionSpace({
-    Key key,
-  }) : super(key: key);
-  @override
-  _DefinitionSpaceState createState() => _DefinitionSpaceState();
-}
-
-class _DefinitionSpaceState extends State<DefinitionSpace> {
-  @override
-  _DefinitionSpaceState();
-  Widget build(BuildContext context) {
-    return FloatingSearchAppBar(
-      transitionDuration: const Duration(milliseconds: 800),
-      body: Consumer<DefinitionClass>(
-        builder: (_, definitionList, __) => ListView.separated(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
-          itemCount: definitionList.definition.length,
-          separatorBuilder: (context, index) => const Divider(),
-          itemBuilder: (context, index) {
-            return Container(
-              child: ListTile(
-                tileColor: definitionList.highlight[index] == 1
-                    ? hexToColor(locator<LocalStorageService>().highlightColor)
-                    : Theme.of(context).scaffoldBackgroundColor,
-                contentPadding: EdgeInsets.fromLTRB(
-                    definitionList.isRoot[index] == 1 ? 16.0 : 50.0, 0, 16, 0),
-                title: HtmlWidget(
-                  definitionList.definition[index],
-                ),
-                onTap: () {},
-              ),
-            );
-          },
-        ),
-      ),
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:appodeal_flutter/appodeal_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:search/components/drawer.dart';
+import 'package:search/widgets/drawer.dart';
 import 'package:search/constants/appConstants.dart';
 import 'package:search/constants/abbreviationList.dart';
 
@@ -22,12 +22,12 @@ class Abbreviations extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(8, 8, 8, 100),
         itemCount: 196,
         itemBuilder: (context, index) {
-          if (fullForm[index] == "") {
+          if (FULL_FORM[index] == "") {
             return Container(
               height: 50,
               alignment: AlignmentDirectional.bottomStart,
               child: Text(
-                abbreviation[index],
+                ABBREVIATIONS[index],
                 textScaleFactor: 2,
                 textAlign: TextAlign.left,
                 style: TextStyle(color: Colors.grey),
@@ -39,11 +39,11 @@ class Abbreviations extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(width: 100, child: Text(abbreviation[index])),
+                  Container(width: 100, child: Text(ABBREVIATIONS[index])),
                   SizedBox(
                     width: 10,
                   ),
-                  Container(width: 200, child: Text(fullForm[index])),
+                  Container(width: 200, child: Text(FULL_FORM[index])),
                 ],
               ),
             );

@@ -4,7 +4,7 @@ import 'package:appodeal_flutter/appodeal_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:search/classes/definitionClass.dart';
-import 'package:search/components/drawer.dart';
+import 'package:search/widgets/drawer.dart';
 import 'package:search/constants/appConstants.dart';
 
 class Browse extends StatefulWidget {

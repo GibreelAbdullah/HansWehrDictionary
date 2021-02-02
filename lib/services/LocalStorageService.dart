@@ -6,7 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LocalStorageService {
   static const String UserPreferencesKey = 'userPreferences';
   static const String DarkThemeKey = 'darkTheme';
-  static const String HighlightColorKey = 'highlightColor';
   static const String HistoryKey = 'history';
 
   static LocalStorageService _instance;
@@ -49,9 +48,6 @@ class LocalStorageService {
 
   bool get darkTheme => _getFromDisk(DarkThemeKey) ?? false;
   set darkTheme(bool value) => _saveToDisk(DarkThemeKey, value);
-
-  String get highlightColor => _getFromDisk(HighlightColorKey) ?? "0xffaaaaaa";
-  set highlightColor(String value) => _saveToDisk(HighlightColorKey, value);
 
   String get history => _getFromDisk(HistoryKey) ?? "";
   set history(String value) => _saveToDisk(HistoryKey, value);

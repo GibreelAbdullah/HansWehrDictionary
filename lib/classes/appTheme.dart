@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:search/serviceLocator.dart';
-import 'package:search/services/LocalStorageService.dart';
 
 ThemeData lightTheme = ThemeData.light().copyWith(
   appBarTheme: AppBarTheme(
@@ -12,7 +10,6 @@ ThemeData lightTheme = ThemeData.light().copyWith(
   ),
   scaffoldBackgroundColor: Colors.white,
   iconTheme: IconThemeData(color: Colors.black),
-  highlightColor: hexToColor(locator<LocalStorageService>().highlightColor),
 );
 
 ThemeData darkTheme = ThemeData.dark().copyWith(
@@ -25,7 +22,6 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
   ),
   scaffoldBackgroundColor: Colors.grey[900],
   iconTheme: IconThemeData(color: Colors.white),
-  highlightColor: hexToColor(locator<LocalStorageService>().highlightColor),
 );
 
 Color hexToColor(String code) {

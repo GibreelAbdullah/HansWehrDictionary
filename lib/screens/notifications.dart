@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 import 'package:search/classes/appTheme.dart';
-import 'package:search/components/drawer.dart';
+import 'package:search/widgets/drawer.dart';
 import 'package:search/constants/appConstants.dart';
 
 class Notifications extends StatefulWidget {

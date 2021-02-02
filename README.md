@@ -6,11 +6,19 @@ Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechne
 
 ## Future Work
 - Merge Browse Screen and Search Screen
-- Enable search in English
+- In App Review
 
 ## Release Notes
 
-#### V - 1.5.0+18 (31 Jan, 2020)
+#### V - 1.5.4+22 (02 Feb, 2020)
+- Highlight text instead of highlight tile.
+- Removed settings screen.
+- Bug Fix : Search word in first tile not getting updated.
+
+#### V - 1.5.1/2/3+19/20/21 (01 Feb, 2020) Beta - Not released to production
+- Bug Fix in history of English words.
+
+#### V - 1.5.0+18 (31 Jan, 2020) Beta - Not released to production
 - Full text search in English and Arabic
 - Enter/Submit to search.
 
