@@ -1,4 +1,3 @@
-import 'package:appodeal_flutter/appodeal_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +37,6 @@ class _NotificationsState extends State<Notifications> {
           )
         ],
       ),
-      bottomNavigationBar: AppodealBanner(placementName: "Appodeal Banner Ad"),
       drawer: CommonDrawer(NOTIFICATION_SCREEN_TITLE),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: databaseObject.notifications(),

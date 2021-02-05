@@ -19,10 +19,9 @@ const String ABOUT_APP = '''
 const String WHATS_NEW =
     '''<p style="text-align:center"><b> What's New :</b> </p>
     <p style="text-align:left">
-    -> Search in English <br>
-    -> Highlight text instead of highlight tile. <br>
-    -> Removed settings screen.
-    <br> -> Press enter for full text search. Clicking on the items in drop down menu will search only for the words, while submitting will search in the definition as well.
+    -> Highlight Text and Tile customization. (Thanks Suleman Chaudhary)<br>
+    -> Re-introduced settings screen.<br>
+    -> Added missing words شرف and others. (Thanks mspec786)
     </p> <p style="text-align:center"> <a href = "https://github.com/MuslimTechNet/HansWehrDictionary/blob/master/README.md">Full Release Notes and Future Work</a></p><br>''';
 const String COMMUNITY_INVITE =
     '''<p style="text-align:center">If you are a Muslim tech professional or aspiring to be one join the <br>
@@ -43,7 +42,6 @@ const String PLAY_STORE_LINK =
     'https://play.google.com/store/apps/details?id=com.muslimtechnet.hanswehr';
 const List<String> ALL_ALPHABETS = [
   "آ",
-  "أ",
   "ا",
   "ب",
   "ت",

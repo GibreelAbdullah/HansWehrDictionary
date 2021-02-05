@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:appodeal_flutter/appodeal_flutter.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -25,7 +24,6 @@ class _AboutAppState extends State<AboutApp> {
         backgroundColor: Theme.of(context).appBarTheme.color,
         iconTheme: Theme.of(context).iconTheme,
       ),
-      bottomNavigationBar: AppodealBanner(placementName: "Appodeal Banner Ad"),
       drawer: CommonDrawer(ABOUT_APP_SCREEN_TITLE),
       body: SingleChildScrollView(
         child: Padding(

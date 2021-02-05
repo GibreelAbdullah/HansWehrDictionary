@@ -82,6 +82,13 @@ class CommonDrawer extends StatelessWidget {
                   rateUs(),
                 ],
               ),
+              Column(
+                children: [
+                  Divider(),
+                  drawerItem(context, SETTINGS_SCREEN_TITLE, '/settings',
+                      Icons.settings),
+                ],
+              ),
             ],
           ),
         ),

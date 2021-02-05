@@ -4,6 +4,7 @@ import 'package:search/screens/abbreviations.dart';
 import 'package:search/screens/aboutApp.dart';
 import 'package:search/screens/browse.dart';
 import 'package:search/screens/search.dart';
+import 'package:search/screens/settings.dart';
 
 Map<String, WidgetBuilder> routes = {
   '/search': (context) => Search(),
@@ -11,4 +12,5 @@ Map<String, WidgetBuilder> routes = {
   '/browse': (context) => Browse(),
   '/abbreviations': (context) => Abbreviations(),
   '/notifications': (context) => Notifications(),
+  '/settings': (context) => Settings(),
 };

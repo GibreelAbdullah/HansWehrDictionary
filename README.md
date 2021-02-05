@@ -6,9 +6,16 @@ Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechne
 
 ## Future Work
 - Merge Browse Screen and Search Screen
-- In App Review
 
 ## Release Notes
+
+#### V - 1.6.2+26 (05 Feb, 2020)
+- Back to admob :(
+
+#### V - 1.6.0+23 (05 Feb, 2020)
+- Highlight Text and Tile customization. (Thanks Suleman Chaudhary)
+- Re-introduced settings screen.
+- Added missing words شرف and others (Thanks mspec786)
 
 #### V - 1.5.4+22 (02 Feb, 2020)
 - Highlight text instead of highlight tile.

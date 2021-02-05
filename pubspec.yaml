@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.5.4+22
+version: 1.6.3+27
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -15,16 +15,18 @@ dependencies:
   path:
   http: ^0.12.2
   material_floating_search_bar: ^0.2.6
-  provider: ^4.3.2+2
-  implicitly_animated_reorderable_list: ^0.2.5
+  provider: ^4.3.3
+  implicitly_animated_reorderable_list: ^0.3.2
   flutter_widget_from_html: ^0.5.1+5
   url_launcher: ^5.7.10
   cupertino_icons: ^1.0.0
   shared_preferences: ^0.5.12+4
   get_it: ^5.0.3
   share: ^0.6.5+4
-  appodeal_flutter: ^0.5.0
-    
+  in_app_review: ^1.0.4
+  flutter_colorpicker: ^0.3.5
+  firebase_admob: ^0.11.0+1
+
 dev_dependencies:
   flutter_launcher_icons: "^0.8.0"
   flutter_test:

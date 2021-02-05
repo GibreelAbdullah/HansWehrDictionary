@@ -7,6 +7,9 @@ class LocalStorageService {
   static const String UserPreferencesKey = 'userPreferences';
   static const String DarkThemeKey = 'darkTheme';
   static const String HistoryKey = 'history';
+  static const String AppUsageKey = 'appUsage';
+  static const String HighLightTextKey = 'highlightText';
+  static const String HighLightTileKey = 'highlightTile';
 
   static LocalStorageService _instance;
   static SharedPreferences _preferences;
@@ -24,7 +27,7 @@ class LocalStorageService {
     var userPreferencesJson = _getFromDisk(UserPreferencesKey);
     if (userPreferencesJson == null) {
       return UserPreferences.fromJson(json.decode(
-          '{"darkTheme":false,"highlightColor":"0xFF000000","history":""}'));
+          '{"darkTheme":false,"history":"","appUsage":1,"highlightText":null,"highlightTile":null}'));
     }
     return UserPreferences.fromJson(json.decode(userPreferencesJson));
   }
@@ -51,6 +54,15 @@ class LocalStorageService {
 
   String get history => _getFromDisk(HistoryKey) ?? "";
   set history(String value) => _saveToDisk(HistoryKey, value);
+
+  int get appUsage => _getFromDisk(AppUsageKey) ?? 1;
+  set appUsage(int value) => _saveToDisk(AppUsageKey, value);
+
+  String get highlightTextColor => _getFromDisk(HighLightTextKey) ?? null;
+  set highlightTextColor(String value) => _saveToDisk(HighLightTextKey, value);
+
+  String get highlightTileColor => _getFromDisk(HighLightTileKey) ?? null;
+  set highlightTileColor(String value) => _saveToDisk(HighLightTileKey, value);
 
   void _saveToDisk<T>(String key, T content) {
     print(

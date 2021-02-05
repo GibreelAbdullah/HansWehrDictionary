@@ -1,4 +1,3 @@
-import 'package:appodeal_flutter/appodeal_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:search/widgets/drawer.dart';
 import 'package:search/constants/appConstants.dart';
@@ -16,7 +15,6 @@ class Abbreviations extends StatelessWidget {
         backgroundColor: Theme.of(context).appBarTheme.color,
         iconTheme: Theme.of(context).iconTheme,
       ),
-      bottomNavigationBar: AppodealBanner(placementName: "Appodeal Banner Ad"),
       drawer: CommonDrawer(ABBREVIATIONS_SCREEN_TITLE),
       body: ListView.builder(
         padding: EdgeInsets.fromLTRB(8, 8, 8, 100),
@@ -39,7 +37,8 @@ class Abbreviations extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(width: 100, child: Text(ABBREVIATIONS[index])),
+                  Container(
+                      width: 100, child: Text(ABBREVIATIONS[index])),
                   SizedBox(
                     width: 10,
                   ),

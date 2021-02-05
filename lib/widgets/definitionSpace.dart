@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:search/classes/appTheme.dart';
 import 'package:search/classes/definitionClass.dart';
 import 'package:search/constants/appConstants.dart';
+import 'package:search/serviceLocator.dart';
+import 'package:search/services/LocalStorageService.dart';
 
 class DefinitionSpace extends StatefulWidget {
   DefinitionSpace({
@@ -69,17 +72,23 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
               }
             }
             return Container(
-              child: ListTile(
-                selected: definitionList.highlight[index - 1] == 1,
-                contentPadding: EdgeInsets.fromLTRB(
-                    definitionList.isRoot[index - 1] == 1 ? 16.0 : 50.0,
-                    0,
-                    16,
-                    0),
-                title: HtmlWidget(
-                  definitionList.definition[index - 1],
+              child: ListTileTheme(
+                selectedColor: hexToColor(
+                    locator<LocalStorageService>().highlightTextColor),
+                child: ListTile(
+                  selected: definitionList.highlight[index - 1] == 1,
+                  selectedTileColor: hexToColor(
+                      locator<LocalStorageService>().highlightTileColor),
+                  contentPadding: EdgeInsets.fromLTRB(
+                      definitionList.isRoot[index - 1] == 1 ? 16.0 : 50.0,
+                      0,
+                      16,
+                      0),
+                  title: HtmlWidget(
+                    definitionList.definition[index - 1],
+                  ),
+                  onTap: () {},
                 ),
-                onTap: () {},
               ),
             );
           },

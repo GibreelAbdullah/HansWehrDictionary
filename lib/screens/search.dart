@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:appodeal_flutter/appodeal_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
@@ -47,9 +46,6 @@ class _SearchState extends State<Search> {
         ),
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          bottomNavigationBar: AppodealBanner(
-            placementName: "Appodeal Banner Ad",
-          ),
           drawer: CommonDrawer(SEARCH_SCREEN_TITLE),
           body: buildSearchBar(),
         ),
