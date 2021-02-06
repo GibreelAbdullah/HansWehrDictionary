@@ -15,7 +15,7 @@ void checkDatabaseUpdates() async {
   while (fileAvailable) {
     try {
       var request = await HttpClient().getUrl(Uri.parse(
-          'https://raw.githubusercontent.com/MuslimTechNet/HansWehrDictionary/master/${version + i++}.txt'));
+          'https://raw.githubusercontent.com/MuslimTechNet/HansWehrDictionary/master/databaseUpdates/${version + i++}.txt'));
       var response = await request.close();
 
       await for (String contents in response.transform(Utf8Decoder())) {

@@ -16,6 +16,7 @@ class AdManager {
 }
 
 void displayBanner() async {
+  FirebaseAdMob.instance.initialize(appId: ADMOB_APP_ID);
   BannerAd(
     adUnitId: AdManager.bannerAdUnitId,
     size: AdSize.fullBanner,
