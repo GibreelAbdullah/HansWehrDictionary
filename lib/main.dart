@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:search/classes/themeModel.dart';
 import 'package:search/serviceLocator.dart';
-import 'package:search/services/admob.dart';
 import 'package:search/services/appReview.dart';
 import 'package:search/services/checkDatabaseUpdates.dart';
-import 'routes.dart';
+import 'package:search/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,11 +24,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool isAppodealInitialized = false;
   @override
   void initState() {
     super.initState();
-    displayBanner();
     appReview();
     checkDatabaseUpdates();
   }

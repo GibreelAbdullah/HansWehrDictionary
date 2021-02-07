@@ -46,7 +46,7 @@ class _SearchState extends State<Search> {
         ),
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          drawer: CommonDrawer(SEARCH_SCREEN_TITLE),
+          drawer: CommonDrawer(currentScreen: SEARCH_SCREEN_TITLE),
           body: buildSearchBar(),
         ),
       ),

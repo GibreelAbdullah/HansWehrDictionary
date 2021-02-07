@@ -24,7 +24,7 @@ class _AboutAppState extends State<AboutApp> {
         backgroundColor: Theme.of(context).appBarTheme.color,
         iconTheme: Theme.of(context).iconTheme,
       ),
-      drawer: CommonDrawer(ABOUT_APP_SCREEN_TITLE),
+      drawer: CommonDrawer(currentScreen: ABOUT_APP_SCREEN_TITLE),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(8, 8, 8, 100),

@@ -23,7 +23,7 @@ class _BrowseState extends State<Browse> {
         backgroundColor: Theme.of(context).appBarTheme.color,
         iconTheme: Theme.of(context).iconTheme,
       ),
-      drawer: CommonDrawer(BROWSE_SCREEN_TITLE),
+      drawer: CommonDrawer(currentScreen: BROWSE_SCREEN_TITLE),
       body: buildFirstLevelAlphabets(),
     );
   }

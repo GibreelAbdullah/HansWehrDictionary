@@ -6,13 +6,23 @@ Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechne
 
 ## Future Work
 - Merge Browse Screen and Search Screen
+- R
 
 ## Release Notes
 
-#### V - 1.6.2+26 (05 Feb, 2020)
+#### V - 1.6.5+29 (07 Feb, 2020) 
+- Verb Roots helper
+- Uncluttered Drawer
+- Code refactoring
+
+#### V - 1.6.4+28 (06 Feb, 2020) 
+- Setup for Quran roots integration
+- Corrected lot of root words
+
+#### V - 1.6.2+26 (05 Feb, 2020) Beta - Not released to production
 - Back to admob :(
 
-#### V - 1.6.0+23 (05 Feb, 2020)
+#### V - 1.6.0+23 (05 Feb, 2020) Beta - Not released to production
 - Highlight Text and Tile customization. (Thanks Suleman Chaudhary)
 - Re-introduced settings screen.
 - Added missing words شرف and others (Thanks mspec786)

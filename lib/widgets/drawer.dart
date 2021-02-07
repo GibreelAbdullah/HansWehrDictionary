@@ -1,26 +1,124 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:search/classes/themeModel.dart';
 import 'package:search/constants/appConstants.dart';
-import 'package:search/serviceLocator.dart';
-import 'package:search/services/LocalStorageService.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share/share.dart';
 
-// ignore: must_be_immutable
 class CommonDrawer extends StatelessWidget {
-  String _currentScreen;
+  final String currentScreen;
 
-  CommonDrawer(String title) {
-    _currentScreen = title;
+  const CommonDrawer({this.currentScreen});
+
+  @override
+  Drawer build(BuildContext context) {
+    return Drawer(
+      child: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 65),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  DrawerItem(
+                    currentScreen: currentScreen,
+                    title: SEARCH_SCREEN_TITLE,
+                    route: '/search',
+                    icon: Icons.search,
+                  ),
+                  DrawerItem(
+                    currentScreen: currentScreen,
+                    title: BROWSE_SCREEN_TITLE,
+                    route: '/browse',
+                    icon: Icons.list,
+                  ),
+                  DrawerItem(
+                    currentScreen: currentScreen,
+                    title: ABBREVIATIONS_SCREEN_TITLE,
+                    route: '/abbreviations',
+                    icon: Icons.info,
+                  ),
+                  VerbForms(),
+                ],
+              ),
+              Column(
+                children: [
+                  Divider(),
+                  DrawerItem(
+                      currentScreen: currentScreen,
+                      title: SETTINGS_SCREEN_TITLE,
+                      route: '/settings',
+                      icon: Icons.settings),
+                  DrawerItem(
+                      currentScreen: currentScreen,
+                      title: ABOUT_APP_SCREEN_TITLE,
+                      route: '/aboutus',
+                      icon: Icons.people),
+                  DrawerItem(
+                    currentScreen: currentScreen,
+                    title: NOTIFICATION_SCREEN_TITLE,
+                    route: '/notifications',
+                    icon: Icons.notifications,
+                  ),
+                  RateUs(),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
+}
 
-  FlatButton drawerItem(
-      BuildContext context, String title, String route, IconData icon) {
+class RateUs extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: FlatButton(
+            child: Row(
+              children: [
+                Icon(
+                  Icons.star,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("Rate Us"),
+              ],
+            ),
+            onPressed: () {
+              launch(PLAY_STORE_LINK);
+            },
+          ),
+        ),
+        FlatButton(
+          child: Icon(Icons.share),
+          onPressed: () {
+            Share.share(
+                'Check out this Hans Wehr Dictionary App : ' + PLAY_STORE_LINK);
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class DrawerItem extends StatelessWidget {
+  final String currentScreen;
+  final String title;
+  final String route;
+  final IconData icon;
+  DrawerItem({this.currentScreen, this.title, this.route, this.icon});
+
+  @override
+  Widget build(BuildContext context) {
     return FlatButton(
       onPressed: () {
-        if (_currentScreen != title) {
-          if (_currentScreen == SEARCH_SCREEN_TITLE) {
+        if (currentScreen != title) {
+          if (currentScreen == SEARCH_SCREEN_TITLE) {
             Navigator.pop(context);
             Navigator.pushNamed(context, route);
           } else {
@@ -40,133 +138,66 @@ class CommonDrawer extends StatelessWidget {
       ),
     );
   }
-
-  @override
-  Drawer build(BuildContext context) {
-    return Drawer(
-      child: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 65),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  drawerItem(
-                    context,
-                    SEARCH_SCREEN_TITLE,
-                    '/search',
-                    Icons.search,
-                  ),
-                  drawerItem(
-                    context,
-                    BROWSE_SCREEN_TITLE,
-                    '/browse',
-                    Icons.list,
-                  ),
-                  drawerItem(
-                    context,
-                    ABBREVIATIONS_SCREEN_TITLE,
-                    '/abbreviations',
-                    Icons.info,
-                  ),
-                  drawerItem(context, ABOUT_APP_SCREEN_TITLE, '/aboutus',
-                      Icons.people),
-                  drawerItem(
-                    context,
-                    NOTIFICATION_SCREEN_TITLE,
-                    '/notifications',
-                    Icons.notifications,
-                  ),
-                  ThemeIcon(),
-                  rateUs(),
-                ],
-              ),
-              Column(
-                children: [
-                  Divider(),
-                  drawerItem(context, SETTINGS_SCREEN_TITLE, '/settings',
-                      Icons.settings),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }
 
-Row rateUs() {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      Expanded(
-        child: FlatButton(
-          child: Row(
-            children: [
-              Icon(
-                Icons.star,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text("Rate Us"),
-            ],
-          ),
-          onPressed: () {
-            launch(PLAY_STORE_LINK);
-          },
-        ),
-      ),
-      FlatButton(
-        child: Icon(Icons.share),
-        onPressed: () {
-          Share.share(
-              'Check out this Hans Wehr Dictionary App : ' + PLAY_STORE_LINK);
-        },
-      ),
-    ],
-  );
-}
-
-class ThemeIcon extends StatefulWidget {
-  @override
-  _ThemeIconState createState() => _ThemeIconState();
-}
-
-class _ThemeIconState extends State<ThemeIcon> {
-  IconData themeIcon = locator<LocalStorageService>().darkTheme
-      ? Icons.wb_sunny
-      : Icons.nights_stay_outlined;
-
+class VerbForms extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlatButton(
+      onPressed: () {
+        Navigator.pop(context);
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              titlePadding: const EdgeInsets.all(0.0),
+              contentPadding: const EdgeInsets.all(0.0),
+              content: Container(
+                height: MediaQuery.of(context).size.height * .7,
+                width: MediaQuery.of(context).size.width * .9,
+                child: ListView.builder(
+                  itemCount: VERB_FORMS.length,
+                  itemBuilder: (_, i) {
+                    return ExpansionTile(
+                      childrenPadding: EdgeInsets.fromLTRB(30, 0, 16, 0),
+                      title: Text(VERB_FORMS[i]),
+                      expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                      expandedAlignment: Alignment.topLeft,
+                      children: [
+                        Container(
+                          child: Text(
+                            'Pattern Meaning : ' + VERB_FORM_DESCRIPTIONS[i],
+                          ),
+                        ),
+                        Container(
+                          child: Text(
+                            'Eg. : ' + VERB_FORM_EXAMPLES[i],
+                          ),
+                        )
+                      ],
+                    );
+                  },
+                ),
+              ),
+              actions: [
+                FlatButton(
+                  child: Text('DISMISS'),
+                  onPressed: Navigator.of(context).pop,
+                ),
+              ],
+            );
+          },
+        );
+      },
       child: Row(
         children: [
-          Icon(
-            themeIcon,
-            color: Colors.yellow[800],
-          ),
+          Icon(Icons.info),
           SizedBox(
             width: 10,
           ),
-          Text("Theme"),
+          Text('Verb Forms')
         ],
       ),
-      onPressed: () {
-        setState(() {
-          if (locator<LocalStorageService>().darkTheme) {
-            locator<LocalStorageService>().darkTheme = false;
-            themeIcon = Icons.nights_stay_outlined;
-          } else {
-            locator<LocalStorageService>().darkTheme = true;
-            themeIcon = Icons.wb_sunny;
-          }
-          Provider.of<ThemeModel>(context, listen: false).toggleTheme();
-        });
-      },
     );
   }
 }

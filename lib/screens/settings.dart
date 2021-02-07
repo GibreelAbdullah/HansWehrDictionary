@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:provider/provider.dart';
 import 'package:search/classes/appTheme.dart';
+import 'package:search/classes/themeModel.dart';
 import 'package:search/widgets/drawer.dart';
 import 'package:search/constants/appConstants.dart';
 
@@ -30,11 +32,12 @@ class _SettingsState extends State<Settings> {
         backgroundColor: Theme.of(context).appBarTheme.color,
         iconTheme: Theme.of(context).iconTheme,
       ),
-      drawer: CommonDrawer(SETTINGS_SCREEN_TITLE),
+      drawer: CommonDrawer(currentScreen: SETTINGS_SCREEN_TITLE),
       body: Container(
         padding: EdgeInsets.all(8),
         child: Column(
           children: [
+            ThemeIcon(),
             ListTile(
               title: Text("Highlight Text Color"),
               trailing: IconButton(
@@ -65,9 +68,13 @@ class _SettingsState extends State<Settings> {
                             child: Text('OK'),
                             onPressed: () {
                               Navigator.of(context).pop();
-                              setState(() => locator<LocalStorageService>()
-                                      .highlightTextColor =
-                                  _tempColor.value.toString());
+                              setState(
+                                () {
+                                  locator<LocalStorageService>()
+                                          .highlightTextColor =
+                                      _tempColor.value.toString();
+                                },
+                              );
                             },
                           ),
                         ],
@@ -133,6 +140,42 @@ class _SettingsState extends State<Settings> {
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ThemeIcon extends StatefulWidget {
+  @override
+  _ThemeIconState createState() => _ThemeIconState();
+}
+
+class _ThemeIconState extends State<ThemeIcon> {
+  IconData themeIcon = locator<LocalStorageService>().darkTheme
+      ? Icons.wb_sunny
+      : Icons.nights_stay_outlined;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text("Theme"),
+      trailing: IconButton(
+        icon: Icon(
+          themeIcon,
+          color: Colors.yellow[800],
+        ),
+        onPressed: () {
+          setState(() {
+            if (locator<LocalStorageService>().darkTheme) {
+              locator<LocalStorageService>().darkTheme = false;
+              themeIcon = Icons.nights_stay_outlined;
+            } else {
+              locator<LocalStorageService>().darkTheme = true;
+              themeIcon = Icons.wb_sunny;
+            }
+            Provider.of<ThemeModel>(context, listen: false).toggleTheme();
+          });
+        },
       ),
     );
   }

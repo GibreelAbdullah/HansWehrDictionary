@@ -8,11 +8,6 @@
          FlutterApplication and put your custom class here. -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET"/>    
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!--optional-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!--optional-->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!--optional-->
-    <uses-permission android:name="android.permission.VIBRATE" /> <!--optional-->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!--partially optional-->
 
     <application 
         tools:replace="android:label"
@@ -20,9 +15,6 @@
         android:label="Hans Wehr Dictionary"
         android:icon="@mipmap/launcher_icon"
         android:networkSecurityConfig="@xml/network_security_config">
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-5691554351241481~7554963330"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

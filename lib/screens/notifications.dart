@@ -37,7 +37,7 @@ class _NotificationsState extends State<Notifications> {
           )
         ],
       ),
-      drawer: CommonDrawer(NOTIFICATION_SCREEN_TITLE),
+      drawer: CommonDrawer(currentScreen: NOTIFICATION_SCREEN_TITLE),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: databaseObject.notifications(),
         builder: (context, snapshot) {
