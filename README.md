@@ -6,9 +6,58 @@ Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechne
 
 ## Future Work
 - Merge Browse Screen and Search Screen
-- Enable search in English
+- R
 
 ## Release Notes
+
+#### V - 1.6.7+31 (08 Feb, 2020) 
+- Quran Occurrence
+- Remvoved Ads
+- Incorrect numbering of root (Thanks Faisal)
+
+#### V - 1.6.6+30 (07 Feb, 2020) 
+- Quran Occurrence
+
+#### V - 1.6.5+29 (07 Feb, 2020) 
+- Verb Roots helper
+- Uncluttered Drawer
+- Code refactoring
+
+#### V - 1.6.4+28 (06 Feb, 2020) 
+- Setup for Quran roots integration
+- Corrected lot of root words
+
+#### V - 1.6.2+26 (05 Feb, 2020) Beta - Not released to production
+- Back to admob :(
+
+#### V - 1.6.0+23 (05 Feb, 2020) Beta - Not released to production
+- Highlight Text and Tile customization. (Thanks Suleman Chaudhary)
+- Re-introduced settings screen.
+- Added missing words شرف and others (Thanks mspec786)
+
+#### V - 1.5.4+22 (02 Feb, 2020)
+- Highlight text instead of highlight tile.
+- Removed settings screen.
+- Bug Fix : Search word in first tile not getting updated.
+
+#### V - 1.5.1/2/3+19/20/21 (01 Feb, 2020) Beta - Not released to production
+- Bug Fix in history of English words.
+
+#### V - 1.5.0+18 (31 Jan, 2020) Beta - Not released to production
+- Full text search in English and Arabic
+- Enter/Submit to search.
+
+#### V - 1.4.7+17 (28 Jan, 2020)
+- Fixed incorrect app label.
+
+#### V - 1.4.6+16 (28 Jan, 2020)
+- Switched to mediation.
+
+#### V - 1.4.5+15 (25 Jan, 2020) Not released
+- Changed admob banner ad
+
+#### V - 1.4.4+14 (24 Jan, 2020) Alpha release - reverted
+- FAN
 
 #### V - 1.4.3+13 (21 Jan, 2020)
 Bug Fix - Clicking on search history gives no result. (Thanks Mohammed Irfan).

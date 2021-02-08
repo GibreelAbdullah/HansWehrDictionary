@@ -4,8 +4,8 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../components/drawer.dart';
-import '../constants/appConstants.dart';
+import 'package:search/widgets/drawer.dart';
+import 'package:search/constants/appConstants.dart';
 
 class AboutApp extends StatefulWidget {
   @override
@@ -24,7 +24,7 @@ class _AboutAppState extends State<AboutApp> {
         backgroundColor: Theme.of(context).appBarTheme.color,
         iconTheme: Theme.of(context).iconTheme,
       ),
-      drawer: CommonDrawer(ABOUT_APP_SCREEN_TITLE),
+      drawer: CommonDrawer(currentScreen: ABOUT_APP_SCREEN_TITLE),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(8, 8, 8, 100),

@@ -1,2 +1,0 @@
-UPDATE DICTIONARY SET word = 'بصر'where id = 1728;
-INSERT INTO NOTIFICATIONS ("NOTIFICATION","CREATED_DATE","VISIBLE_FLAG","TYPE") VALUES ('Corrected the root of بصر',DateTime('now'),1,'Database Update');

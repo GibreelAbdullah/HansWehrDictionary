@@ -2,21 +2,17 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:implicitly_animated_reorderable_list/transitions.dart';
 import 'package:provider/provider.dart';
 
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
-import 'package:search/classes/appTheme.dart';
 import 'package:search/classes/definitionClass.dart';
-// import 'package:search/components/facebookAdManager.dart';
-import 'package:search/services/LocalStorageService.dart';
 
-import '../classes/search_model.dart';
-import '../components/drawer.dart';
-import '../constants/appConstants.dart';
-import '../serviceLocator.dart';
+import 'package:search/classes/searchModel.dart';
+import 'package:search/widgets/definitionSpace.dart';
+import 'package:search/widgets/drawer.dart';
+import 'package:search/constants/appConstants.dart';
 
 class Search extends StatefulWidget {
   const Search({Key key}) : super(key: key);
@@ -36,27 +32,24 @@ class _SearchState extends State<Search> {
     setState(() {});
   }
 
+  // String searchType = '';
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<SearchModel>(
       create: (_) => SearchModel(),
       child: ChangeNotifierProvider<DefinitionClass>(
         create: (_) => DefinitionClass(
-          definition: [
-            'Type in Arabic to search',
-          ],
-          isRoot: [
-            1,
-          ],
-          highlight: [
-            1,
-          ],
+          word: [],
+          definition: [],
+          isRoot: [],
+          highlight: [],
+          quranOccurance: [],
         ),
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          drawer: CommonDrawer(SEARCH_SCREEN_TITLE),
+          drawer: CommonDrawer(currentScreen: SEARCH_SCREEN_TITLE),
           body: buildSearchBar(),
-          // body: Column(children: [buildSearchBar(), FacebookAdManager()]),
         ),
       ),
     );
@@ -65,7 +58,7 @@ class _SearchState extends State<Search> {
   Widget buildSearchBar() {
     final actions = [
       FloatingSearchBarAction.searchToClear(
-        showIfClosed: false,
+        showIfClosed: true,
       ),
     ];
 
@@ -77,7 +70,7 @@ class _SearchState extends State<Search> {
         automaticallyImplyBackButton: false,
         controller: controller,
         clearQueryOnClose: false,
-        hint: '...ابحث',
+        hint: 'Arabic/English العربية/الإنكليزية',
         transitionDuration: const Duration(milliseconds: 0),
         transitionCurve: Curves.easeInOutCubic,
         physics: const BouncingScrollPhysics(),
@@ -86,29 +79,39 @@ class _SearchState extends State<Search> {
         maxWidth: 1000,
         actions: actions,
         progress: model.isLoading,
-        debounceDelay: const Duration(milliseconds: 0),
+        onSubmitted: (query) {
+          controller.close();
+          model.addHistory(query);
+
+          buildDefinitionOnSubmission(
+            context,
+            query,
+          );
+        },
+        onFocusChanged: (isFocused) {},
         onQueryChanged: model.onQueryChanged,
         scrollPadding: EdgeInsets.zero,
-        transition: ExpandingFloatingSearchBarTransition(),
+        transition: CircularFloatingSearchBarTransition(),
         builder: (context, _) => buildExpandableBody(model),
         body: buildDefinitionSpace(),
       ),
     );
   }
 
-  Widget buildDefinitionSpace() {
-    return Column(
-      children: [
-        Expanded(
-          child: IndexedStack(
-            index: min(index, 2),
-            children: [
-              DefinitionSpace(),
-            ],
-          ),
-        ),
-      ],
-    );
+  void buildDefinitionOnSubmission(
+      BuildContext context, String searchWord) async {
+    final definitionList = Provider.of<DefinitionClass>(context, listen: false);
+    definitionList.searchType = 'FullTextSearch';
+    DefinitionClass value =
+        await databaseObject.definition(searchWord, definitionList.searchType);
+    setState(() {
+      definitionList.searchWord = searchWord;
+      definitionList.word = value.word;
+      definitionList.definition = value.definition;
+      definitionList.isRoot = value.isRoot;
+      definitionList.highlight = value.highlight;
+      definitionList.quranOccurance = value.quranOccurance;
+    });
   }
 
   Widget buildExpandableBody(SearchModel model) {
@@ -146,17 +149,26 @@ class _SearchState extends State<Search> {
       children: [
         InkWell(
           onTap: () {
+            definitionList.searchType =
+                ALL_ALPHABETS.contains(word.substring(0, 1))
+                    ? 'RootSearch'
+                    : 'FullTextSearch';
+            definitionList.searchWord = word;
             model.addHistory(word);
             Future.delayed(
               const Duration(milliseconds: 50000),
               () => model.clear(),
             );
             FloatingSearchBar.of(context).close();
-            databaseObject.definition(word, false).then((value) => setState(() {
-                  definitionList.definition = value.definition;
-                  definitionList.isRoot = value.isRoot;
-                  definitionList.highlight = value.highlight;
-                }));
+            databaseObject
+                .definition(word, definitionList.searchType)
+                .then((value) => setState(() {
+                      definitionList.word = value.word;
+                      definitionList.definition = value.definition;
+                      definitionList.isRoot = value.isRoot;
+                      definitionList.highlight = value.highlight;
+                      definitionList.quranOccurance = value.quranOccurance;
+                    }));
           },
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -166,8 +178,6 @@ class _SearchState extends State<Search> {
                   width: 36,
                   child: AnimatedSwitcher(
                     duration: const Duration(milliseconds: 50),
-                    // child: listEquals(model.suggestions, getHistory())
-                    // child: newMethod(model)
                     child: model.getHistory().contains(word)
                         ? const Icon(
                             Icons.history,
@@ -206,45 +216,19 @@ class _SearchState extends State<Search> {
     controller.dispose();
     super.dispose();
   }
-}
 
-class DefinitionSpace extends StatefulWidget {
-  const DefinitionSpace({
-    Key key,
-  }) : super(key: key);
-  @override
-  _DefinitionSpaceState createState() => _DefinitionSpaceState();
-}
-
-class _DefinitionSpaceState extends State<DefinitionSpace> {
-  @override
-  _DefinitionSpaceState();
-  Widget build(BuildContext context) {
-    return FloatingSearchAppBar(
-      title: const Text('Title'),
-      transitionDuration: const Duration(milliseconds: 800),
-      body: Consumer<DefinitionClass>(
-        builder: (_, definitionList, __) => ListView.separated(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
-          itemCount: definitionList.definition.length,
-          separatorBuilder: (context, index) => const Divider(),
-          itemBuilder: (context, index) {
-            return Container(
-              child: ListTile(
-                tileColor: definitionList.highlight[index] == 1
-                    ? hexToColor(locator<LocalStorageService>().highlightColor)
-                    : Theme.of(context).scaffoldBackgroundColor,
-                contentPadding: EdgeInsets.fromLTRB(
-                    definitionList.isRoot[index] == 1 ? 16.0 : 50.0, 0, 16, 0),
-                title: HtmlWidget(
-                  definitionList.definition[index],
-                ),
-                onTap: () {},
-              ),
-            );
-          },
+  Widget buildDefinitionSpace() {
+    return Column(
+      children: [
+        Expanded(
+          child: IndexedStack(
+            index: min(index, 2),
+            children: [
+              DefinitionSpace(),
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }

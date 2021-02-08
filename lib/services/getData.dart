@@ -10,22 +10,22 @@ import '../constants/appConstants.dart';
 class DatabaseAccess {
   Future<Database> openDatabaseConnection() async {
     // Sqflite.devSetDebugModeOn(true);
-    var path = join(await getDatabasesPath(), "hanswehrV4.db");
+    var path = join(await getDatabasesPath(), "hanswehrV5.db");
     var exists = await databaseExists(path);
 
     if (!exists) {
-      print("HansWehr DB V3 doesn't exist");
+      print("HansWehr DB V4 doesn't exist");
       try {
         await Directory(dirname(path)).create(recursive: true);
       } catch (_) {}
-      ByteData data = await rootBundle.load(join("assets", "hanswehrV4.db"));
+      ByteData data = await rootBundle.load(join("assets", "hanswehrV5.db"));
       List<int> bytes =
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       await File(path).writeAsBytes(bytes, flush: true);
-      var oldPath = join(await getDatabasesPath(), "hanswehrV3.db");
+      var oldPath = join(await getDatabasesPath(), "hanswehrV4.db");
       exists = await databaseExists(oldPath);
       if (exists) {
-        print("HansWehr DB V3 exist");
+        print("HansWehr DB V4 exist");
         databaseFactory.deleteDatabase(oldPath);
       }
     }
@@ -53,24 +53,47 @@ class DatabaseAccess {
     return allDictionaryWords;
   }
 
-  Future<DefinitionClass> definition(String word, bool rootOnly) async {
+  Future<DefinitionClass> definition(String word, String type) async {
     Database db = await databaseConnection;
+    String query;
+    switch (type) {
+      case "BrowseScreen":
+        query =
+            "SELECT word, 0 highlight, definition, is_root, quran_occurance FROM DICTIONARY WHERE PARENT_ID IN (SELECT ID FROM DICTIONARY WHERE WORD = '$word' and IS_ROOT=1) ORDER BY ID";
+        break;
+      case "RootSearch":
+        query =
+            "SELECT word, CASE word when '$word' then 1 else 0 end as highlight, definition, is_root, quran_occurance FROM DICTIONARY WHERE PARENT_ID IN (SELECT PARENT_ID FROM DICTIONARY WHERE WORD = '$word') ORDER BY ID";
+        break;
+      case "FullTextSearch":
+        query =
+            "SELECT word, MAX(highlight) highlight, definition, is_root, quran_occurance from (SELECT dict.word, dict.id, CASE dict.id WHEN dict2.id then 1 else 0 end as highlight, REPLACE(dict.definition,'$word','<mark>$word</mark>') AS definition,  dict.is_root , dict.quran_occurance FROM DICTIONARY dict inner join (SELECT ID, PARENT_ID, is_root FROM DICTIONARY WHERE definition like '%$word%' LIMIT 50) dict2 ON dict.parent_id = dict2.parent_id) group by word, definition, is_root, quran_occurance order by id ";
+        break;
+      default:
+        break;
+    }
 
-    String query = rootOnly
-        ? "SELECT 0 highlight, DEFINITION, IS_ROOT FROM DICTIONARY WHERE PARENT_ID IN (SELECT ID FROM DICTIONARY WHERE WORD = '$word' and IS_ROOT=1) ORDER BY ID"
-        : "SELECT CASE word when '$word' then 1 else 0 end as highlight, DEFINITION, IS_ROOT FROM DICTIONARY WHERE PARENT_ID IN (SELECT PARENT_ID FROM DICTIONARY WHERE WORD = '$word') ORDER BY ID";
     List<Map<String, dynamic>> definition = await db.rawQuery(query);
-    DefinitionClass allDefinitions =
-        DefinitionClass(definition: [], isRoot: [], highlight: []);
+    DefinitionClass allDefinitions = DefinitionClass(
+      word: [],
+      definition: [],
+      isRoot: [],
+      highlight: [],
+      quranOccurance: [],
+    );
 
     definition.forEach((element) {
       element.forEach((key, value) {
-        if (key == 'definition') {
+        if (key == 'word') {
+          allDefinitions.word.add(value);
+        } else if (key == 'definition') {
           allDefinitions.definition.add(value);
         } else if (key == 'is_root') {
           allDefinitions.isRoot.add(value);
         } else if (key == 'highlight') {
           allDefinitions.highlight.add(value);
+        } else if (key == 'quran_occurance') {
+          allDefinitions.quranOccurance.add(value);
         }
       });
     });
@@ -81,7 +104,7 @@ class DatabaseAccess {
     Database db = await databaseConnection;
 
     String query =
-        "SELECT DISTINCT WORD FROM DICTIONARY WHERE WORD like '$word%' ORDER BY LENGTH(WORD), WORD LIMIT 5";
+        "SELECT DISTINCT WORD FROM DICTIONARY WHERE WORD like '$word%' ORDER BY LENGTH(WORD), WORD LIMIT 6";
     List<Map<String, dynamic>> definition = await db.rawQuery(query);
     List<String> allWords = [];
 
@@ -110,6 +133,17 @@ class DatabaseAccess {
       });
     });
     return allWords;
+  }
+
+  Future<List<Map<String, dynamic>>> quranicDetails(String word) async {
+    Database db = await databaseConnection;
+
+    String query =
+        "SELECT SURAH, AYAH, WORD as POSITION FROM quran WHERE root_word = '$word'";
+    List<Map<String, dynamic>> quranLocation = await db.rawQuery(query);
+
+    print(123);
+    return quranLocation;
   }
 
   Future<Map<String, dynamic>> dbVersionDetails() async {

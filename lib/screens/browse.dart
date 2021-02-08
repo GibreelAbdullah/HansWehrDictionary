@@ -3,7 +3,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:search/classes/definitionClass.dart';
-import 'package:search/components/drawer.dart';
+import 'package:search/widgets/drawer.dart';
 import 'package:search/constants/appConstants.dart';
 
 class Browse extends StatefulWidget {
@@ -23,14 +23,14 @@ class _BrowseState extends State<Browse> {
         backgroundColor: Theme.of(context).appBarTheme.color,
         iconTheme: Theme.of(context).iconTheme,
       ),
-      drawer: CommonDrawer(BROWSE_SCREEN_TITLE),
+      drawer: CommonDrawer(currentScreen: BROWSE_SCREEN_TITLE),
       body: buildFirstLevelAlphabets(),
     );
   }
 
   ListView buildFirstLevelAlphabets() {
     return ListView.builder(
-      padding: EdgeInsets.fromLTRB(0,0,0,100),
+      padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
       itemCount: ALL_ALPHABETS.length,
       itemBuilder: (context, i) {
         return ExpansionTile(
@@ -108,7 +108,7 @@ class _BrowseState extends State<Browse> {
             height: MediaQuery.of(context).size.height * .7,
             width: MediaQuery.of(context).size.width * .9,
             child: FutureBuilder<DefinitionClass>(
-              future: databaseObject.definition(word, true),
+              future: databaseObject.definition(word, "BrowseScreen"),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return Center(
