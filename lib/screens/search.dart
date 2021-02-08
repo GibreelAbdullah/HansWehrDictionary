@@ -40,9 +40,11 @@ class _SearchState extends State<Search> {
       create: (_) => SearchModel(),
       child: ChangeNotifierProvider<DefinitionClass>(
         create: (_) => DefinitionClass(
+          word: [],
           definition: [],
           isRoot: [],
           highlight: [],
+          quranOccurance: [],
         ),
         child: Scaffold(
           resizeToAvoidBottomInset: false,
@@ -104,9 +106,11 @@ class _SearchState extends State<Search> {
         await databaseObject.definition(searchWord, definitionList.searchType);
     setState(() {
       definitionList.searchWord = searchWord;
+      definitionList.word = value.word;
       definitionList.definition = value.definition;
       definitionList.isRoot = value.isRoot;
       definitionList.highlight = value.highlight;
+      definitionList.quranOccurance = value.quranOccurance;
     });
   }
 
@@ -159,9 +163,11 @@ class _SearchState extends State<Search> {
             databaseObject
                 .definition(word, definitionList.searchType)
                 .then((value) => setState(() {
+                      definitionList.word = value.word;
                       definitionList.definition = value.definition;
                       definitionList.isRoot = value.isRoot;
                       definitionList.highlight = value.highlight;
+                      definitionList.quranOccurance = value.quranOccurance;
                     }));
           },
           child: Padding(

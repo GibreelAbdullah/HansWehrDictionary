@@ -19,8 +19,9 @@ const String ABOUT_APP = '''
 const String WHATS_NEW =
     '''<p style="text-align:center"><b> What's New :</b> </p>
     <p style="text-align:left">
-    -> Verb Forms helper (Thanks Asyraf Ali)
-    -> Uncluttered The drawer
+    -> Removed Ads.
+    -> Quran Occurrence of roots
+    -> Incorrect numbering of root (Thanks Faisal)
     </p> <p style="text-align:center"> <a href = "https://github.com/MuslimTechNet/HansWehrDictionary/blob/master/README.md">Source Code, Full Release Notes and Future Work</a></p><br>''';
 const String COMMUNITY_INVITE =
     '''<p style="text-align:center">If you are a Muslim tech professional or aspiring to be one join the <br>
@@ -45,7 +46,7 @@ const List<String> VERB_FORMS = [
   'II - فَعّل',
   'III - فََاعَل',
   'IV - أَفْعَل',
-  'IV - تَفَعّل',
+  'V - تَفَعّل',
   'VI - تَفَاعَل',
   'VII - اِنْفَعَل',
   'VIII - اِفْتَعَل',

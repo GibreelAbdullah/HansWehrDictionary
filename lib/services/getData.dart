@@ -59,32 +59,41 @@ class DatabaseAccess {
     switch (type) {
       case "BrowseScreen":
         query =
-            "SELECT 0 highlight, DEFINITION, IS_ROOT FROM DICTIONARY WHERE PARENT_ID IN (SELECT ID FROM DICTIONARY WHERE WORD = '$word' and IS_ROOT=1) ORDER BY ID";
+            "SELECT word, 0 highlight, definition, is_root, quran_occurance FROM DICTIONARY WHERE PARENT_ID IN (SELECT ID FROM DICTIONARY WHERE WORD = '$word' and IS_ROOT=1) ORDER BY ID";
         break;
       case "RootSearch":
         query =
-            "SELECT CASE word when '$word' then 1 else 0 end as highlight, DEFINITION, IS_ROOT FROM DICTIONARY WHERE PARENT_ID IN (SELECT PARENT_ID FROM DICTIONARY WHERE WORD = '$word') ORDER BY ID";
+            "SELECT word, CASE word when '$word' then 1 else 0 end as highlight, definition, is_root, quran_occurance FROM DICTIONARY WHERE PARENT_ID IN (SELECT PARENT_ID FROM DICTIONARY WHERE WORD = '$word') ORDER BY ID";
         break;
       case "FullTextSearch":
         query =
-            "SELECT MAX(highlight) highlight, definition, is_root from (SELECT dict.id, CASE dict.id WHEN dict2.id then 1 else 0 end as highlight, REPLACE(dict.definition,'$word','<mark>$word</mark>') AS definition,  dict.is_root FROM DICTIONARY dict inner join (SELECT ID, PARENT_ID, is_root FROM DICTIONARY WHERE definition like '%$word%' LIMIT 50) dict2 ON dict.parent_id = dict2.parent_id) group by definition, is_root order by id ";
+            "SELECT word, MAX(highlight) highlight, definition, is_root, quran_occurance from (SELECT dict.word, dict.id, CASE dict.id WHEN dict2.id then 1 else 0 end as highlight, REPLACE(dict.definition,'$word','<mark>$word</mark>') AS definition,  dict.is_root , dict.quran_occurance FROM DICTIONARY dict inner join (SELECT ID, PARENT_ID, is_root FROM DICTIONARY WHERE definition like '%$word%' LIMIT 50) dict2 ON dict.parent_id = dict2.parent_id) group by word, definition, is_root, quran_occurance order by id ";
         break;
       default:
         break;
     }
 
     List<Map<String, dynamic>> definition = await db.rawQuery(query);
-    DefinitionClass allDefinitions =
-        DefinitionClass(definition: [], isRoot: [], highlight: []);
+    DefinitionClass allDefinitions = DefinitionClass(
+      word: [],
+      definition: [],
+      isRoot: [],
+      highlight: [],
+      quranOccurance: [],
+    );
 
     definition.forEach((element) {
       element.forEach((key, value) {
-        if (key == 'definition') {
+        if (key == 'word') {
+          allDefinitions.word.add(value);
+        } else if (key == 'definition') {
           allDefinitions.definition.add(value);
         } else if (key == 'is_root') {
           allDefinitions.isRoot.add(value);
         } else if (key == 'highlight') {
           allDefinitions.highlight.add(value);
+        } else if (key == 'quran_occurance') {
+          allDefinitions.quranOccurance.add(value);
         }
       });
     });
@@ -124,6 +133,17 @@ class DatabaseAccess {
       });
     });
     return allWords;
+  }
+
+  Future<List<Map<String, dynamic>>> quranicDetails(String word) async {
+    Database db = await databaseConnection;
+
+    String query =
+        "SELECT SURAH, AYAH, WORD as POSITION FROM quran WHERE root_word = '$word'";
+    List<Map<String, dynamic>> quranLocation = await db.rawQuery(query);
+
+    print(123);
+    return quranLocation;
   }
 
   Future<Map<String, dynamic>> dbVersionDetails() async {

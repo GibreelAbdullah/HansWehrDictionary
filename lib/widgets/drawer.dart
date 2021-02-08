@@ -150,7 +150,8 @@ class VerbForms extends StatelessWidget {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              titlePadding: const EdgeInsets.all(0.0),
+              title: Center(child: Text('VERB FORMS')),
+              titlePadding: const EdgeInsets.all(8.0),
               contentPadding: const EdgeInsets.all(0.0),
               content: Container(
                 height: MediaQuery.of(context).size.height * .7,
