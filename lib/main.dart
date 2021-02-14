@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:search/classes/themeModel.dart';
 import 'package:search/serviceLocator.dart';
-import 'package:search/services/appReview.dart';
-import 'package:search/services/checkDatabaseUpdates.dart';
+// import 'package:search/services/appReview.dart';
+// import 'package:search/services/checkDatabaseUpdates.dart';
 import 'package:search/routes.dart';
 
 void main() async {
@@ -27,8 +27,8 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    appReview();
-    checkDatabaseUpdates();
+    // appReview();
+    // checkDatabaseUpdates();
   }
 
   @override
@@ -36,7 +36,7 @@ class _MyAppState extends State<MyApp> {
     return new MaterialApp(
         title: "Hans Wehr Dictionary",
         theme: Provider.of<ThemeModel>(context, listen: true).currentTheme,
-        initialRoute: '/search',
+        initialRoute: '/settings',
         routes: routes);
   }
 }

@@ -35,6 +35,9 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
             if (index == 0) {
               if (definitionList.searchType == 'RootSearch') {
                 return ListTile(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(300)),
+                  ),
                   leading: Icon(Icons.info),
                   title: Text(definitionList.searchWord),
                   subtitle: Text(
@@ -76,6 +79,9 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
             }
             return Container(
               child: ListTileTheme(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(300)),
+                ),
                 selectedColor: hexToColor(
                     locator<LocalStorageService>().highlightTextColor),
                 child: DefinitionTile(
@@ -120,6 +126,8 @@ class DefinitionTile extends StatelessWidget {
         contentPadding: EdgeInsets.fromLTRB(16.0, 0, 16, 0),
         title: HtmlWidget(
           definitionList.definition[index - 1],
+          // textStyle: TextStyle(
+          //     fontSize: Theme.of(context).primaryTextTheme.headline6.fontSize),
         ),
         subtitle: Row(
           children: [

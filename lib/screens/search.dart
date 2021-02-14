@@ -67,6 +67,7 @@ class _SearchState extends State<Search> {
 
     return Consumer<SearchModel>(
       builder: (context, model, _) => FloatingSearchBar(
+        // backgroundColor: Theme.of(context).,
         automaticallyImplyBackButton: false,
         controller: controller,
         clearQueryOnClose: false,
