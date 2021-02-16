@@ -3,11 +3,11 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:search/classes/appTheme.dart';
-import 'package:search/classes/definitionClass.dart';
-import 'package:search/constants/appConstants.dart';
-import 'package:search/serviceLocator.dart';
-import 'package:search/services/LocalStorageService.dart';
+import '../classes/appTheme.dart';
+import '../classes/definitionClass.dart';
+import '../constants/appConstants.dart';
+import '../serviceLocator.dart';
+import '../services/LocalStorageService.dart';
 
 class DefinitionSpace extends StatefulWidget {
   DefinitionSpace({
@@ -39,9 +39,20 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
                     borderRadius: BorderRadius.all(Radius.circular(300)),
                   ),
                   leading: Icon(Icons.info),
-                  title: Text(definitionList.searchWord),
+                  title: Text(
+                    definitionList.searchWord,
+                    style: TextStyle(
+                      fontSize:
+                          Theme.of(context).primaryTextTheme.bodyText1.fontSize,
+                    ),
+                  ),
                   subtitle: Text(
-                      'Tap for full text search. Tip : To directly do a full text search press the Enter key instead of selecting from the dropdown'),
+                    'Tap for full text search. Tip : To directly do a full text search press the Enter key instead of selecting from the dropdown',
+                    style: TextStyle(
+                      fontSize:
+                          Theme.of(context).primaryTextTheme.bodyText1.fontSize,
+                    ),
+                  ),
                   onTap: () async {
                     definitionList.searchType = 'FullTextSearch';
                     DefinitionClass value = await databaseObject.definition(
@@ -61,7 +72,14 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
                     child: FlatButton.icon(
                       icon: Icon(Icons.info),
                       label: Text(
-                          'Showing First 50 results for ${definitionList.searchWord}'),
+                        'Showing First 50 results for ${definitionList.searchWord}',
+                        style: TextStyle(
+                          fontSize: Theme.of(context)
+                              .primaryTextTheme
+                              .bodyText1
+                              .fontSize,
+                        ),
+                      ),
                       onPressed: () {},
                     ),
                   );
@@ -69,9 +87,17 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
                 return Container(
                   child: FlatButton.icon(
                     icon: Icon(Icons.info),
-                    label: Text(definitionList.searchWord == null
-                        ? "Search In Arabic or English"
-                        : definitionList.searchWord),
+                    label: Text(
+                      definitionList.searchWord == null
+                          ? "Search In Arabic or English"
+                          : definitionList.searchWord,
+                      style: TextStyle(
+                        fontSize: Theme.of(context)
+                            .primaryTextTheme
+                            .bodyText1
+                            .fontSize,
+                      ),
+                    ),
                     onPressed: () {},
                   ),
                 );
@@ -115,25 +141,34 @@ class DefinitionTile extends StatelessWidget {
             definitionList.isRoot[index - 1] == 1 ? 16.0 : 50, 0, 16, 0),
         title: HtmlWidget(
           definitionList.definition[index - 1],
+          textStyle: TextStyle(
+            fontSize: Theme.of(context).primaryTextTheme.bodyText1.fontSize,
+          ),
         ),
         onTap: () {},
       );
     } else {
       return ListTile(
+        isThreeLine: true,
         selected: definitionList.highlight[index - 1] == 1,
         selectedTileColor:
             hexToColor(locator<LocalStorageService>().highlightTileColor),
         contentPadding: EdgeInsets.fromLTRB(16.0, 0, 16, 0),
         title: HtmlWidget(
           definitionList.definition[index - 1],
-          // textStyle: TextStyle(
-          //     fontSize: Theme.of(context).primaryTextTheme.headline6.fontSize),
+          textStyle: TextStyle(
+            fontSize: Theme.of(context).primaryTextTheme.bodyText1.fontSize,
+          ),
         ),
         subtitle: Row(
           children: [
             Icon(Icons.arrow_forward),
             Text(
-                'Appears ${definitionList.quranOccurance[index - 1]} times in the Qur\'an. Tap for details'),
+              'In Qur\'an - ${definitionList.quranOccurance[index - 1]} times.',
+              style: TextStyle(
+                fontSize: Theme.of(context).primaryTextTheme.bodyText1.fontSize,
+              ),
+            ),
           ],
         ),
         onTap: () {
@@ -142,8 +177,14 @@ class DefinitionTile extends StatelessWidget {
             builder: (BuildContext context) {
               return AlertDialog(
                 title: Center(
-                    child: Text(
-                        '${definitionList.quranOccurance[index - 1]} Occurances in the Qur\'an')),
+                  child: Text(
+                    '${definitionList.quranOccurance[index - 1]} Occurances in the Qur\'an',
+                    style: TextStyle(
+                      fontSize:
+                          Theme.of(context).primaryTextTheme.bodyText1.fontSize,
+                    ),
+                  ),
+                ),
                 titlePadding: const EdgeInsets.all(8.0),
                 contentPadding: const EdgeInsets.all(0.0),
                 content: Container(
@@ -172,10 +213,22 @@ class DefinitionTile extends StatelessWidget {
                                         launch(
                                             "https://www.quran.com/${snapshot.data[j]['SURAH']}/${snapshot.data[j]['AYAH']}");
                                     },
-                                    leading: Text('${j + 1} - '),
+                                    leading: Text(
+                                      '${j + 1} - ',
+                                      style: TextStyle(
+                                        fontSize: Theme.of(context)
+                                            .primaryTextTheme
+                                            .bodyText1
+                                            .fontSize,
+                                      ),
+                                    ),
                                     title: Text(
                                       "Quran ${snapshot.data[j]['SURAH']}:${snapshot.data[j]['AYAH']}/${snapshot.data[j]['POSITION']}",
                                       style: TextStyle(
+                                          fontSize: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .fontSize,
                                           decoration: TextDecoration.underline,
                                           color: Theme.of(context).accentColor),
                                     ),
@@ -191,7 +244,15 @@ class DefinitionTile extends StatelessWidget {
                 ),
                 actions: [
                   FlatButton(
-                    child: Text('DISMISS'),
+                    child: Text(
+                      'DISMISS',
+                      style: TextStyle(
+                        fontSize: Theme.of(context)
+                            .primaryTextTheme
+                            .bodyText1
+                            .fontSize,
+                      ),
+                    ),
                     onPressed: Navigator.of(context).pop,
                   ),
                 ],

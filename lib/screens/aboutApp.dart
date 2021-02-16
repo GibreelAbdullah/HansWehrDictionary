@@ -2,10 +2,13 @@ import 'dart:math';
 
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter/material.dart';
+import '../services/LocalStorageService.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:search/widgets/drawer.dart';
-import 'package:search/constants/appConstants.dart';
+import '../widgets/drawer.dart';
+import '../constants/appConstants.dart';
+
+import '../serviceLocator.dart';
 
 class AboutApp extends StatefulWidget {
   @override
@@ -20,6 +23,11 @@ class _AboutAppState extends State<AboutApp> {
         toolbarHeight: 56,
         title: Text(
           ABOUT_APP_SCREEN_TITLE,
+          style: TextStyle(
+            color: locator<LocalStorageService>().darkTheme
+                ? Colors.white
+                : Colors.black,
+          ),
         ),
         backgroundColor: Theme.of(context).appBarTheme.color,
         iconTheme: Theme.of(context).iconTheme,
@@ -35,12 +43,24 @@ class _AboutAppState extends State<AboutApp> {
                   padding: const EdgeInsets.all(16.0),
                   child: Divider(),
                 ),
-                HtmlWidget(ABOUT_APP),
+                HtmlWidget(
+                  ABOUT_APP,
+                  textStyle: TextStyle(
+                    fontSize:
+                        Theme.of(context).primaryTextTheme.bodyText1.fontSize,
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Divider(),
                 ),
-                HtmlWidget(WHATS_NEW),
+                HtmlWidget(
+                  WHATS_NEW,
+                  textStyle: TextStyle(
+                    fontSize:
+                        Theme.of(context).primaryTextTheme.bodyText1.fontSize,
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Divider(),
@@ -48,7 +68,15 @@ class _AboutAppState extends State<AboutApp> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    HtmlWidget(COMMUNITY_INVITE),
+                    HtmlWidget(
+                      COMMUNITY_INVITE,
+                      textStyle: TextStyle(
+                        fontSize: Theme.of(context)
+                            .primaryTextTheme
+                            .bodyText1
+                            .fontSize,
+                      ),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -82,7 +110,13 @@ class _AboutAppState extends State<AboutApp> {
                   padding: const EdgeInsets.all(16.0),
                   child: Divider(),
                 ),
-                HtmlWidget(DISCLAIMER),
+                HtmlWidget(
+                  DISCLAIMER,
+                  textStyle: TextStyle(
+                    fontSize:
+                        Theme.of(context).primaryTextTheme.bodyText1.fontSize,
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Divider(),

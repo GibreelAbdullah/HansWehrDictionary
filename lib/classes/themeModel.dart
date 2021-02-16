@@ -7,12 +7,7 @@ class ThemeModel extends ChangeNotifier {
   ThemeData currentTheme =
       locator<LocalStorageService>().darkTheme ? darkTheme : lightTheme;
 
-  // toggleTheme() {
-  //   currentTheme = currentTheme == darkTheme ? lightTheme : darkTheme;
-  //   return notifyListeners();
-  // }
-
-  refreshColors() {
+  refreshTheme() {
     currentTheme = locator<LocalStorageService>().darkTheme
         ? darkTheme.copyWith(
             canvasColor:
@@ -27,6 +22,18 @@ class ThemeModel extends ChangeNotifier {
                   hexToColor(locator<LocalStorageService>().searchBarColor) ??
                       Colors.grey[850],
             ),
+            primaryColor:
+                hexToColor(locator<LocalStorageService>().highlightTextColor),
+            accentColor:
+                hexToColor(locator<LocalStorageService>().highlightTextColor),
+            primaryTextTheme: TextTheme(
+              bodyText1: TextStyle(
+                fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
+              ),
+              headline6: TextStyle(
+                fontSize: 20 + locator<LocalStorageService>().fontSizeDelta,
+              ),
+            ),
           )
         : lightTheme.copyWith(
             canvasColor:
@@ -40,6 +47,18 @@ class ThemeModel extends ChangeNotifier {
               color:
                   hexToColor(locator<LocalStorageService>().searchBarColor) ??
                       Colors.grey[100],
+            ),
+            primaryColor:
+                hexToColor(locator<LocalStorageService>().highlightTextColor),
+            accentColor:
+                hexToColor(locator<LocalStorageService>().highlightTextColor),
+            primaryTextTheme: TextTheme(
+              bodyText1: TextStyle(
+                fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
+              ),
+              headline6: TextStyle(
+                fontSize: 20 + locator<LocalStorageService>().fontSizeDelta,
+              ),
             ),
           );
     return notifyListeners();

@@ -1,7 +1,7 @@
 // import 'dart:convert';
 // import 'dart:io';
 
-// import 'package:search/constants/appConstants.dart';
+// import '../constants/appConstants.dart';
 
 // void checkDatabaseUpdates() async {
 //   Map<String, dynamic> versionDetails = await databaseObject.dbVersionDetails();

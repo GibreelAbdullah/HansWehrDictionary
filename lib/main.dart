@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:search/classes/themeModel.dart';
-import 'package:search/serviceLocator.dart';
-// import 'package:search/services/appReview.dart';
-// import 'package:search/services/checkDatabaseUpdates.dart';
-import 'package:search/routes.dart';
+import './classes/themeModel.dart';
+import './serviceLocator.dart';
+// import '../services/appReview.dart';
+// import './services/checkDatabaseUpdates.dart';
+import './routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +36,7 @@ class _MyAppState extends State<MyApp> {
     return new MaterialApp(
         title: "Hans Wehr Dictionary",
         theme: Provider.of<ThemeModel>(context, listen: true).currentTheme,
-        initialRoute: '/settings',
+        initialRoute: '/search',
         routes: routes);
   }
 }

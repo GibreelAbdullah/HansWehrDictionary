@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.6.7+31
+version: 1.7.0+32
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -25,7 +25,7 @@ dependencies:
   share: ^0.6.5+4
   in_app_review: ^1.0.4
   flutter_colorpicker: ^0.3.5
-  
+    
 dev_dependencies:
   flutter_launcher_icons: "^0.8.0"
   flutter_test:

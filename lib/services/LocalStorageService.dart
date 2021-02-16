@@ -12,6 +12,7 @@ class LocalStorageService {
   static const String HighLightTileKey = 'highlightTile';
   static const String BackgroundKey = 'background';
   static const String SearchBarKey = 'searchBar';
+  static const String FontSizeKey = 'fontSize';
 
   static LocalStorageService _instance;
   static SharedPreferences _preferences;
@@ -29,7 +30,7 @@ class LocalStorageService {
     var userPreferencesJson = _getFromDisk(UserPreferencesKey);
     if (userPreferencesJson == null) {
       return UserPreferences.fromJson(json.decode(
-          '{"darkTheme":false,"history":"","appUsage":1,"highlightText":null,"highlightTile":null,"background":null,"searchBar":null}'));
+          '{"darkTheme":false,"history":"","appUsage":1,"highlightText":null,"highlightTile":null,"background":null,"searchBar":null,"fontSize":0.0}'));
     }
     return UserPreferences.fromJson(json.decode(userPreferencesJson));
   }
@@ -72,6 +73,9 @@ class LocalStorageService {
   String get searchBarColor => _getFromDisk(SearchBarKey) ?? null;
   set searchBarColor(String value) => _saveToDisk(SearchBarKey, value);
 
+  double get fontSizeDelta => _getFromDisk(FontSizeKey) ?? 0.0;
+  set fontSizeDelta(double value) => _saveToDisk(FontSizeKey, value);
+
   void _saveToDisk<T>(String key, T content) {
     print(
         '(TRACE) LocalStorageService:_saveStringToDisk. key: $key value: $content');
@@ -100,6 +104,7 @@ class UserPreferences {
   final String history;
   final String background;
   final String searchBar;
+  final int fontSize;
 
   UserPreferences({
     this.darkTheme,
@@ -108,6 +113,7 @@ class UserPreferences {
     this.history,
     this.background,
     this.searchBar,
+    this.fontSize,
   });
 
   UserPreferences.fromJson(Map<String, dynamic> json)
@@ -116,7 +122,8 @@ class UserPreferences {
         highlightTile = json['highlightTile'],
         history = json['history'],
         background = json['background'],
-        searchBar = json['background'];
+        searchBar = json['searchBar'],
+        fontSize = json['fontSize'];
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -126,6 +133,7 @@ class UserPreferences {
     data['history'] = this.history;
     data['background'] = this.background;
     data['searchBar'] = this.searchBar;
+    data['fontSize'] = this.fontSize;
     return data;
   }
 }

@@ -1,17 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:search/serviceLocator.dart';
-import 'package:search/services/LocalStorageService.dart';
+import '../serviceLocator.dart';
+import '../services/LocalStorageService.dart';
 
 ThemeData lightTheme = ThemeData.light().copyWith(
   textTheme: ThemeData.light().textTheme.apply(
         fontFamily: 'Scheherazade',
       ),
-  primaryTextTheme: ThemeData.light().textTheme.apply(
+  primaryTextTheme: ThemeData.light()
+      .textTheme
+      .apply(
         fontFamily: 'Scheherazade',
+      )
+      .copyWith(
+        headline6: TextStyle(
+          fontSize: 20 + locator<LocalStorageService>().fontSizeDelta,
+        ),
+        bodyText1: TextStyle(
+          fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
+        ),
       ),
   accentTextTheme: ThemeData.light().textTheme.apply(
         fontFamily: 'Scheherazade',
       ),
+  primaryColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
+  accentColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
   canvasColor: hexToColor(locator<LocalStorageService>().backgroundColor),
   scaffoldBackgroundColor:
       hexToColor(locator<LocalStorageService>().backgroundColor) ??
@@ -29,12 +41,24 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
   textTheme: ThemeData.dark().textTheme.apply(
         fontFamily: 'Scheherazade',
       ),
-  primaryTextTheme: ThemeData.dark().textTheme.apply(
+  primaryTextTheme: ThemeData.dark()
+      .textTheme
+      .apply(
         fontFamily: 'Scheherazade',
+      )
+      .copyWith(
+        headline6: TextStyle(
+          fontSize: 20 + locator<LocalStorageService>().fontSizeDelta,
+        ),
+        bodyText1: TextStyle(
+          fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
+        ),
       ),
   accentTextTheme: ThemeData.dark().textTheme.apply(
         fontFamily: 'Scheherazade',
       ),
+  primaryColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
+  accentColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
   canvasColor: hexToColor(locator<LocalStorageService>().backgroundColor),
   scaffoldBackgroundColor:
       hexToColor(locator<LocalStorageService>().backgroundColor) ??
@@ -48,22 +72,6 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
   brightness: Brightness.dark,
   iconTheme: IconThemeData(color: Colors.white),
 );
-
-// ThemeData customTheme = ThemeData(
-//   fontFamily: 'Scheherazade',
-//   primaryTextTheme: TextTheme(
-//       // subtitle1: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
-//       // headline6: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
-//       // bodyText1: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
-//       // bodyText2: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
-//       ),
-//   canvasColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
-//   // primarySwatch: Colors.brown,
-//   // scaffoldBackgroundColor: primarySwatch[400],
-//   // canvasColor: Color(0xFFF5F5DC),
-//   // accentColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
-//   // scaffoldBackgroundColor: ,
-// );
 
 Color hexToColor(String code) {
   return code == null ? null : Color(int.parse(code));

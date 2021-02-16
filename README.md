@@ -10,12 +10,18 @@ Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechne
 
 ## Release Notes
 
+#### V - 1.7.0+32 (16 Feb, 2020) 
+- More Color Customizations (Thanks Suleman)
+- Change font size (Thanks Suleman)
+- Multiple errors in the dictionary fixed.
+- Removed Notifications screen
+
 #### V - 1.6.7+31 (08 Feb, 2020) 
 - Quran Occurrence
 - Remvoved Ads
 - Incorrect numbering of root (Thanks Faisal)
 
-#### V - 1.6.6+30 (07 Feb, 2020) 
+#### V - 1.6.6+30 (07 Feb, 2020)
 - Quran Occurrence
 
 #### V - 1.6.5+29 (07 Feb, 2020) 

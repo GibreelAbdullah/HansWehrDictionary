@@ -1,14 +1,14 @@
 import 'dart:async';
 
 import 'package:provider/provider.dart';
-import 'package:search/classes/appTheme.dart';
-import 'package:search/classes/themeModel.dart';
-import 'package:search/widgets/drawer.dart';
-import 'package:search/constants/appConstants.dart';
+import '../classes/appTheme.dart';
+import '../classes/themeModel.dart';
+import '../widgets/drawer.dart';
+import '../constants/appConstants.dart';
 
 import 'package:flutter/material.dart';
-import 'package:search/serviceLocator.dart';
-import 'package:search/services/LocalStorageService.dart';
+import '../serviceLocator.dart';
+import '../services/LocalStorageService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
@@ -27,18 +27,29 @@ class _SettingsState extends State<Settings> {
         toolbarHeight: 56,
         title: Text(
           SETTINGS_SCREEN_TITLE,
+          style: TextStyle(
+              color: locator<LocalStorageService>().darkTheme
+                  ? Colors.white
+                  : Colors.black),
         ),
         backgroundColor: Theme.of(context).appBarTheme.color,
         iconTheme: Theme.of(context).iconTheme,
       ),
       drawer: CommonDrawer(currentScreen: SETTINGS_SCREEN_TITLE),
       body: Container(
-        padding: EdgeInsets.all(8),
         child: Column(
           children: [
+            FontSizeModifier(),
             ThemeIcon(),
             ExpansionTile(
-              title: Text('Advanced Theming Options'),
+              tilePadding: EdgeInsets.fromLTRB(16, 0, 28, 0),
+              title: Text(
+                'Advanced Theming Options',
+                style: TextStyle(
+                  fontSize:
+                      Theme.of(context).primaryTextTheme.bodyText1.fontSize,
+                ),
+              ),
               children: [
                 ColorMod(
                   title: "Highlight Text Color",
@@ -53,6 +64,82 @@ class _SettingsState extends State<Settings> {
                   title: "Search Bar Color",
                 ),
               ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class FontSizeModifier extends StatefulWidget {
+  @override
+  _FontSizeModifierState createState() => _FontSizeModifierState();
+}
+
+class _FontSizeModifierState extends State<FontSizeModifier> {
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(
+        'Font Size',
+        style: TextStyle(
+          fontSize: Theme.of(context).primaryTextTheme.bodyText1.fontSize,
+        ),
+      ),
+      trailing: Container(
+        width: MediaQuery.of(context).size.width * .3,
+        child: Row(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width * .1,
+              child: Center(
+                child: IconButton(
+                  icon: Icon(Icons.remove),
+                  onPressed: () {
+                    setState(
+                      () {
+                        if (locator<LocalStorageService>().fontSizeDelta > -9) {
+                          locator<LocalStorageService>().fontSizeDelta--;
+                          Provider.of<ThemeModel>(context, listen: false)
+                              .refreshTheme();
+                        }
+                      },
+                    );
+                  },
+                ),
+              ),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * .1,
+              child: Center(
+                child: Text(
+                  '${locator<LocalStorageService>().fontSizeDelta + 10}',
+                  style: TextStyle(
+                    fontSize:
+                        Theme.of(context).primaryTextTheme.bodyText1.fontSize,
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * .1,
+              child: Center(
+                child: IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+                    setState(
+                      () {
+                        if (locator<LocalStorageService>().fontSizeDelta < 15) {
+                          locator<LocalStorageService>().fontSizeDelta++;
+                          Provider.of<ThemeModel>(context, listen: false)
+                              .refreshTheme();
+                        }
+                      },
+                    );
+                  },
+                ),
+              ),
             ),
           ],
         ),
@@ -109,7 +196,12 @@ class _ColorModState extends State<ColorMod> {
     }
 
     return ListTile(
-      title: Text(widget.title),
+      title: Text(
+        widget.title,
+        style: TextStyle(
+          fontSize: Theme.of(context).primaryTextTheme.bodyText1.fontSize,
+        ),
+      ),
       trailing: Container(
         width: 84,
         child: Row(
@@ -149,7 +241,7 @@ class _ColorModState extends State<ColorMod> {
                         default:
                       }
                       Provider.of<ThemeModel>(context, listen: false)
-                          .refreshColors();
+                          .refreshTheme();
                       setState(
                         () {
                           property = null;
@@ -175,11 +267,27 @@ class _ColorModState extends State<ColorMod> {
                       ),
                       actions: [
                         FlatButton(
-                          child: Text('CANCEL'),
+                          child: Text(
+                            'CANCEL',
+                            style: TextStyle(
+                              fontSize: Theme.of(context)
+                                  .primaryTextTheme
+                                  .bodyText1
+                                  .fontSize,
+                            ),
+                          ),
                           onPressed: Navigator.of(context).pop,
                         ),
                         FlatButton(
-                          child: Text('OK'),
+                          child: Text(
+                            'OK',
+                            style: TextStyle(
+                              fontSize: Theme.of(context)
+                                  .primaryTextTheme
+                                  .bodyText1
+                                  .fontSize,
+                            ),
+                          ),
                           onPressed: () {
                             Navigator.of(context).pop();
                             switch (widget.title) {
@@ -207,7 +315,7 @@ class _ColorModState extends State<ColorMod> {
                               () {
                                 property = _tempColor;
                                 Provider.of<ThemeModel>(context, listen: false)
-                                    .refreshColors();
+                                    .refreshTheme();
                               },
                             );
                           },
@@ -250,7 +358,12 @@ class _ThemeIconState extends State<ThemeIcon> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text("Theme"),
+      title: Text(
+        "Theme",
+        style: TextStyle(
+          fontSize: Theme.of(context).primaryTextTheme.bodyText1.fontSize,
+        ),
+      ),
       trailing: IconButton(
         icon: Icon(
           themeIcon,
@@ -274,7 +387,7 @@ class _ThemeIconState extends State<ThemeIcon> {
                     Colors.grey[900].value.toString();
                 themeIcon = Icons.wb_sunny;
               }
-              Provider.of<ThemeModel>(context, listen: false).refreshColors();
+              Provider.of<ThemeModel>(context, listen: false).refreshTheme();
             },
           );
         },

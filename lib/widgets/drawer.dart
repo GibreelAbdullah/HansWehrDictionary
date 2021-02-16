@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:search/constants/appConstants.dart';
+import '../constants/appConstants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share/share.dart';
 
@@ -53,12 +53,12 @@ class CommonDrawer extends StatelessWidget {
                       title: ABOUT_APP_SCREEN_TITLE,
                       route: '/aboutus',
                       icon: Icons.people),
-                  DrawerItem(
-                    currentScreen: currentScreen,
-                    title: NOTIFICATION_SCREEN_TITLE,
-                    route: '/notifications',
-                    icon: Icons.notifications,
-                  ),
+                  // DrawerItem(
+                  //   currentScreen: currentScreen,
+                  //   title: NOTIFICATION_SCREEN_TITLE,
+                  //   route: '/notifications',
+                  //   icon: Icons.notifications,
+                  // ),
                   RateUs(),
                 ],
               ),
@@ -86,7 +86,13 @@ class RateUs extends StatelessWidget {
                 SizedBox(
                   width: 10,
                 ),
-                Text("Rate Us"),
+                Text(
+                  "Rate Us",
+                  style: TextStyle(
+                    fontSize:
+                        Theme.of(context).primaryTextTheme.bodyText1.fontSize,
+                  ),
+                ),
               ],
             ),
             onPressed: () {
@@ -133,7 +139,12 @@ class DrawerItem extends StatelessWidget {
           SizedBox(
             width: 10,
           ),
-          Text(title)
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: Theme.of(context).primaryTextTheme.bodyText1.fontSize,
+            ),
+          )
         ],
       ),
     );
@@ -150,7 +161,14 @@ class VerbForms extends StatelessWidget {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Center(child: Text('VERB FORMS')),
+              title: Center(
+                  child: Text(
+                'VERB FORMS',
+                style: TextStyle(
+                  fontSize:
+                      Theme.of(context).primaryTextTheme.bodyText1.fontSize,
+                ),
+              )),
               titlePadding: const EdgeInsets.all(8.0),
               contentPadding: const EdgeInsets.all(0.0),
               content: Container(
@@ -161,18 +179,38 @@ class VerbForms extends StatelessWidget {
                   itemBuilder: (_, i) {
                     return ExpansionTile(
                       childrenPadding: EdgeInsets.fromLTRB(30, 0, 16, 0),
-                      title: Text(VERB_FORMS[i]),
+                      title: Text(
+                        VERB_FORMS[i],
+                        style: TextStyle(
+                          fontSize: Theme.of(context)
+                              .primaryTextTheme
+                              .bodyText1
+                              .fontSize,
+                        ),
+                      ),
                       expandedCrossAxisAlignment: CrossAxisAlignment.start,
                       expandedAlignment: Alignment.topLeft,
                       children: [
                         Container(
                           child: Text(
                             'Pattern Meaning : ' + VERB_FORM_DESCRIPTIONS[i],
+                            style: TextStyle(
+                              fontSize: Theme.of(context)
+                                  .primaryTextTheme
+                                  .bodyText1
+                                  .fontSize,
+                            ),
                           ),
                         ),
                         Container(
                           child: Text(
                             'Eg. : ' + VERB_FORM_EXAMPLES[i],
+                            style: TextStyle(
+                              fontSize: Theme.of(context)
+                                  .primaryTextTheme
+                                  .bodyText1
+                                  .fontSize,
+                            ),
                           ),
                         )
                       ],
@@ -182,7 +220,13 @@ class VerbForms extends StatelessWidget {
               ),
               actions: [
                 FlatButton(
-                  child: Text('DISMISS'),
+                  child: Text(
+                    'DISMISS',
+                    style: TextStyle(
+                      fontSize:
+                          Theme.of(context).primaryTextTheme.bodyText1.fontSize,
+                    ),
+                  ),
                   onPressed: Navigator.of(context).pop,
                 ),
               ],
@@ -196,7 +240,12 @@ class VerbForms extends StatelessWidget {
           SizedBox(
             width: 10,
           ),
-          Text('Verb Forms')
+          Text(
+            'Verb Forms',
+            style: TextStyle(
+              fontSize: Theme.of(context).primaryTextTheme.bodyText1.fontSize,
+            ),
+          )
         ],
       ),
     );

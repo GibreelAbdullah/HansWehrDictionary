@@ -1,5 +1,5 @@
 // import 'package:flutter/material.dart';
-import 'package:search/classes/definitionClass.dart';
+import '../classes/definitionClass.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'dart:io';

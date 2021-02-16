@@ -1,5 +1,5 @@
-// import 'package:search/serviceLocator.dart';
-// import 'package:search/services/LocalStorageService.dart';
+// import '../serviceLocator.dart';
+// import '../services/LocalStorageService.dart';
 // import 'package:in_app_review/in_app_review.dart';
 
 // void appReview() async {
