@@ -22,6 +22,9 @@ class ThemeModel extends ChangeNotifier {
                   hexToColor(locator<LocalStorageService>().searchBarColor) ??
                       Colors.grey[850],
             ),
+            textTheme: ThemeData.dark().textTheme.apply(
+                  fontFamily: locator<LocalStorageService>().font,
+                ),
             primaryColor:
                 hexToColor(locator<LocalStorageService>().highlightTextColor),
             accentColor:
@@ -36,6 +39,9 @@ class ThemeModel extends ChangeNotifier {
             ),
           )
         : lightTheme.copyWith(
+            textTheme: ThemeData.light().textTheme.apply(
+                  fontFamily: locator<LocalStorageService>().font,
+                ),
             canvasColor:
                 hexToColor(locator<LocalStorageService>().backgroundColor),
             scaffoldBackgroundColor:

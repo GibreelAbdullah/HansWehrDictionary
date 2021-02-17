@@ -39,6 +39,7 @@ class _SettingsState extends State<Settings> {
       body: Container(
         child: Column(
           children: [
+            FontSelector(),
             FontSizeModifier(),
             ThemeIcon(),
             ExpansionTile(
@@ -67,6 +68,49 @@ class _SettingsState extends State<Settings> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class FontSelector extends StatefulWidget {
+  @override
+  _FontSelectorState createState() => _FontSelectorState();
+}
+
+class _FontSelectorState extends State<FontSelector> {
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(
+        'Font',
+        style: TextStyle(
+          fontSize: Theme.of(context).primaryTextTheme.bodyText1.fontSize,
+        ),
+      ),
+      trailing: DropdownButton(
+        value: locator<LocalStorageService>().font,
+        icon: Icon(Icons.keyboard_arrow_down),
+        iconSize: 24,
+        elevation: 16,
+        // style: TextStyle(color: Colors.deepPurple),
+        underline: Container(
+          height: 2,
+          // color: Colors.deepPurpleAccent,
+        ),
+        onChanged: (String newValue) {
+          setState(() {
+            locator<LocalStorageService>().font = newValue;
+          });
+          Provider.of<ThemeModel>(context, listen: false).refreshTheme();
+        },
+        items:
+            ['Amiri', 'Roboto'].map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }).toList(),
       ),
     );
   }

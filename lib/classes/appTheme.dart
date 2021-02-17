@@ -4,23 +4,15 @@ import '../services/LocalStorageService.dart';
 
 ThemeData lightTheme = ThemeData.light().copyWith(
   textTheme: ThemeData.light().textTheme.apply(
-        fontFamily: 'Scheherazade',
+        fontFamily: locator<LocalStorageService>().font,
       ),
-  primaryTextTheme: ThemeData.light()
-      .textTheme
-      .apply(
-        fontFamily: 'Scheherazade',
-      )
-      .copyWith(
+  primaryTextTheme: ThemeData.light().textTheme.copyWith(
         headline6: TextStyle(
           fontSize: 20 + locator<LocalStorageService>().fontSizeDelta,
         ),
         bodyText1: TextStyle(
           fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
         ),
-      ),
-  accentTextTheme: ThemeData.light().textTheme.apply(
-        fontFamily: 'Scheherazade',
       ),
   primaryColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
   accentColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
@@ -39,23 +31,15 @@ ThemeData lightTheme = ThemeData.light().copyWith(
 
 ThemeData darkTheme = ThemeData.dark().copyWith(
   textTheme: ThemeData.dark().textTheme.apply(
-        fontFamily: 'Scheherazade',
+        fontFamily: locator<LocalStorageService>().font,
       ),
-  primaryTextTheme: ThemeData.dark()
-      .textTheme
-      .apply(
-        fontFamily: 'Scheherazade',
-      )
-      .copyWith(
+  primaryTextTheme: ThemeData.dark().textTheme.copyWith(
         headline6: TextStyle(
           fontSize: 20 + locator<LocalStorageService>().fontSizeDelta,
         ),
         bodyText1: TextStyle(
           fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
         ),
-      ),
-  accentTextTheme: ThemeData.dark().textTheme.apply(
-        fontFamily: 'Scheherazade',
       ),
   primaryColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
   accentColor: hexToColor(locator<LocalStorageService>().highlightTextColor),

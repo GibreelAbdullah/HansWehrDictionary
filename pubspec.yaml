@@ -25,7 +25,8 @@ dependencies:
   share: ^0.6.5+4
   in_app_review: ^1.0.4
   flutter_colorpicker: ^0.3.5
-    
+  badges: ^1.1.6
+      
 dev_dependencies:
   flutter_launcher_icons: "^0.8.0"
   flutter_test:
@@ -48,7 +49,6 @@ flutter:
   assets:
     - assets/
   fonts:
-  - family: Scheherazade
+  - family: Amiri
     fonts:
-      # - asset: fonts/Scheherazade-Bold.ttf
       - asset: fonts/Amiri-Regular.ttf

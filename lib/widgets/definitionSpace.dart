@@ -8,6 +8,7 @@ import '../classes/definitionClass.dart';
 import '../constants/appConstants.dart';
 import '../serviceLocator.dart';
 import '../services/LocalStorageService.dart';
+import 'package:badges/badges.dart';
 
 class DefinitionSpace extends StatefulWidget {
   DefinitionSpace({
@@ -153,24 +154,33 @@ class DefinitionTile extends StatelessWidget {
         selected: definitionList.highlight[index - 1] == 1,
         selectedTileColor:
             hexToColor(locator<LocalStorageService>().highlightTileColor),
-        contentPadding: EdgeInsets.fromLTRB(16.0, 0, 16, 0),
+        contentPadding: EdgeInsets.fromLTRB(16.0, 0, 24, 0),
         title: HtmlWidget(
           definitionList.definition[index - 1],
           textStyle: TextStyle(
             fontSize: Theme.of(context).primaryTextTheme.bodyText1.fontSize,
           ),
         ),
-        subtitle: Row(
-          children: [
-            Icon(Icons.arrow_forward),
-            Text(
-              'In Qur\'an - ${definitionList.quranOccurance[index - 1]} times.',
-              style: TextStyle(
-                fontSize: Theme.of(context).primaryTextTheme.bodyText1.fontSize,
-              ),
-            ),
-          ],
+        subtitle: Center(
+          child: Badge(
+            padding: EdgeInsets.all(2),
+            badgeColor:
+                hexToColor(locator<LocalStorageService>().highlightTextColor),
+            badgeContent: Text('${definitionList.quranOccurance[index - 1]}'),
+            child: Icon(Icons.menu_book),
+          ),
         ),
+        // subtitle: Row(
+        //   children: [
+        //     Icon(Icons.arrow_forward),
+        //     Text(
+        //       'In Qur\'an - ${definitionList.quranOccurance[index - 1]} times.',
+        //       style: TextStyle(
+        //         fontSize: Theme.of(context).primaryTextTheme.bodyText1.fontSize,
+        //       ),
+        //     ),
+        //   ],
+        // ),
         onTap: () {
           showDialog(
             context: context,
@@ -202,36 +212,32 @@ class DefinitionTile extends StatelessWidget {
                                 String uriScheme =
                                     "quran://${snapshot.data[j]['SURAH']}/${snapshot.data[j]['AYAH']}/${snapshot.data[j]['POSITION']}";
 
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(48, 0, 48, 0),
-                                  child: ListTile(
-                                    onTap: () async {
-                                      if (await canLaunch(uriScheme)) {
-                                        await launch(uriScheme);
-                                      } else
-                                        launch(
-                                            "https://www.quran.com/${snapshot.data[j]['SURAH']}/${snapshot.data[j]['AYAH']}");
-                                    },
-                                    leading: Text(
-                                      '${j + 1} - ',
-                                      style: TextStyle(
+                                return ListTile(
+                                  onTap: () async {
+                                    if (await canLaunch(uriScheme)) {
+                                      await launch(uriScheme);
+                                    } else
+                                      await launch(
+                                          "https://www.quran.com/${snapshot.data[j]['SURAH']}/${snapshot.data[j]['AYAH']}");
+                                  },
+                                  leading: Text(
+                                    '${j + 1} - ',
+                                    style: TextStyle(
+                                      fontSize: Theme.of(context)
+                                          .primaryTextTheme
+                                          .bodyText1
+                                          .fontSize,
+                                    ),
+                                  ),
+                                  title: Text(
+                                    "Quran ${snapshot.data[j]['SURAH']}:${snapshot.data[j]['AYAH']}/${snapshot.data[j]['POSITION']}",
+                                    style: TextStyle(
                                         fontSize: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyText1
                                             .fontSize,
-                                      ),
-                                    ),
-                                    title: Text(
-                                      "Quran ${snapshot.data[j]['SURAH']}:${snapshot.data[j]['AYAH']}/${snapshot.data[j]['POSITION']}",
-                                      style: TextStyle(
-                                          fontSize: Theme.of(context)
-                                              .primaryTextTheme
-                                              .bodyText1
-                                              .fontSize,
-                                          decoration: TextDecoration.underline,
-                                          color: Theme.of(context).accentColor),
-                                    ),
+                                        decoration: TextDecoration.underline,
+                                        color: Theme.of(context).accentColor),
                                   ),
                                 );
                               });
