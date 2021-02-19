@@ -65,8 +65,6 @@ class ThemeModel extends ChangeNotifier {
                         locator<LocalStorageService>().highlightTextColor),
                   ),
                   subtitle1: TextStyle(
-                    fontFamily: locator<LocalStorageService>().font,
-                    fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
                     color: Colors.black,
                   ),
                   headline6: TextStyle(

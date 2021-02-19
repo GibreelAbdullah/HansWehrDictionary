@@ -55,8 +55,6 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
         ),
         //Used By Expansion Tile
         subtitle1: TextStyle(
-          fontFamily: locator<LocalStorageService>().font,
-          fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
           color: Colors.white,
         ),
         headline6: TextStyle(
