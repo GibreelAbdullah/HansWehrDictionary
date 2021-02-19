@@ -3,11 +3,8 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import '../classes/definitionClass.dart';
-import '../services/LocalStorageService.dart';
 import '../widgets/drawer.dart';
 import '../constants/appConstants.dart';
-
-import '../serviceLocator.dart';
 
 class Browse extends StatefulWidget {
   @override
@@ -22,11 +19,7 @@ class _BrowseState extends State<Browse> {
         toolbarHeight: 56,
         title: Text(
           BROWSE_SCREEN_TITLE,
-          style: TextStyle(
-            color: locator<LocalStorageService>().darkTheme
-                ? Colors.white
-                : Colors.black,
-          ),
+          style: Theme.of(context).textTheme.headline6,
         ),
         backgroundColor: Theme.of(context).appBarTheme.color,
         iconTheme: Theme.of(context).iconTheme,
@@ -45,7 +38,8 @@ class _BrowseState extends State<Browse> {
           title: Text(
             ALL_ALPHABETS[i],
             style: TextStyle(
-              fontSize: Theme.of(context).primaryTextTheme.bodyText1.fontSize,
+              fontFamily: Theme.of(context).textTheme.bodyText1.fontFamily,
+              fontSize: Theme.of(context).textTheme.bodyText1.fontSize,
             ),
           ),
           children: [buildSecondLevelAlphabets(i)],
@@ -62,9 +56,7 @@ class _BrowseState extends State<Browse> {
           return Center(
             child: Text(
               'Loading...',
-              style: TextStyle(
-                fontSize: Theme.of(context).primaryTextTheme.bodyText1.fontSize,
-              ),
+              style: Theme.of(context).textTheme.bodyText1,
             ),
           );
         } else {
@@ -78,8 +70,9 @@ class _BrowseState extends State<Browse> {
                   title: Text(
                     snapshot.data[j],
                     style: TextStyle(
-                      fontSize:
-                          Theme.of(context).primaryTextTheme.bodyText1.fontSize,
+                      fontFamily:
+                          Theme.of(context).textTheme.bodyText1.fontFamily,
+                      fontSize: Theme.of(context).textTheme.bodyText1.fontSize,
                     ),
                   ),
                   children: [buildRootWords(snapshot, j)],
@@ -107,12 +100,7 @@ class _BrowseState extends State<Browse> {
                       leading: Icon(Icons.label_important),
                       title: Text(
                         snapshot.data[j],
-                        style: TextStyle(
-                          fontSize: Theme.of(context)
-                              .primaryTextTheme
-                              .bodyText1
-                              .fontSize,
-                        ),
+                        style: Theme.of(context).textTheme.bodyText1,
                       ),
                       onTap: () {
                         buildDefinitionAlert(context, snapshot.data[j]);
@@ -137,9 +125,7 @@ class _BrowseState extends State<Browse> {
           contentPadding: EdgeInsets.all(0),
           title: Text(
             word,
-            style: TextStyle(
-              fontSize: Theme.of(context).primaryTextTheme.bodyText1.fontSize,
-            ),
+            style: Theme.of(context).textTheme.bodyText2,
           ),
           content: Container(
             height: MediaQuery.of(context).size.height * .7,
@@ -157,10 +143,7 @@ class _BrowseState extends State<Browse> {
                 } else if (snapshot.hasError) {
                   return Text(
                     "Error",
-                    style: TextStyle(
-                      fontSize:
-                          Theme.of(context).primaryTextTheme.bodyText1.fontSize,
-                    ),
+                    style: Theme.of(context).textTheme.bodyText1,
                   );
                 } else {
                   return ListView.builder(
@@ -174,12 +157,7 @@ class _BrowseState extends State<Browse> {
                             0),
                         title: HtmlWidget(
                           snapshot.data.definition[index],
-                          textStyle: TextStyle(
-                            fontSize: Theme.of(context)
-                                .primaryTextTheme
-                                .bodyText1
-                                .fontSize,
-                          ),
+                          textStyle: Theme.of(context).textTheme.bodyText1,
                         ),
                       );
                     },
@@ -192,10 +170,7 @@ class _BrowseState extends State<Browse> {
             TextButton(
               child: Text(
                 'DISMISS',
-                style: TextStyle(
-                  fontSize:
-                      Theme.of(context).primaryTextTheme.bodyText1.fontSize,
-                ),
+                style: Theme.of(context).textTheme.bodyText2,
               ),
               onPressed: () {
                 Navigator.of(context).pop();

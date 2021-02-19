@@ -200,12 +200,7 @@ class _SearchState extends State<Search> {
                     children: [
                       Text(
                         word,
-                        style: TextStyle(
-                          fontSize: Theme.of(context)
-                              .primaryTextTheme
-                              .bodyText1
-                              .fontSize,
-                        ),
+                        style: Theme.of(context).textTheme.bodyText1,
                       ),
                     ],
                   ),

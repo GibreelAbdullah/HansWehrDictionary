@@ -2,13 +2,11 @@ import 'dart:math';
 
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter/material.dart';
-import '../services/LocalStorageService.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/drawer.dart';
 import '../constants/appConstants.dart';
 
-import '../serviceLocator.dart';
 
 class AboutApp extends StatefulWidget {
   @override
@@ -23,11 +21,7 @@ class _AboutAppState extends State<AboutApp> {
         toolbarHeight: 56,
         title: Text(
           ABOUT_APP_SCREEN_TITLE,
-          style: TextStyle(
-            color: locator<LocalStorageService>().darkTheme
-                ? Colors.white
-                : Colors.black,
-          ),
+          style: Theme.of(context).textTheme.headline6,
         ),
         backgroundColor: Theme.of(context).appBarTheme.color,
         iconTheme: Theme.of(context).iconTheme,
@@ -45,10 +39,7 @@ class _AboutAppState extends State<AboutApp> {
                 ),
                 HtmlWidget(
                   ABOUT_APP,
-                  textStyle: TextStyle(
-                    fontSize:
-                        Theme.of(context).primaryTextTheme.bodyText1.fontSize,
-                  ),
+                  textStyle: Theme.of(context).textTheme.bodyText1,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -56,10 +47,7 @@ class _AboutAppState extends State<AboutApp> {
                 ),
                 HtmlWidget(
                   WHATS_NEW,
-                  textStyle: TextStyle(
-                    fontSize:
-                        Theme.of(context).primaryTextTheme.bodyText1.fontSize,
-                  ),
+                  textStyle: Theme.of(context).textTheme.bodyText1,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -70,12 +58,7 @@ class _AboutAppState extends State<AboutApp> {
                   children: [
                     HtmlWidget(
                       COMMUNITY_INVITE,
-                      textStyle: TextStyle(
-                        fontSize: Theme.of(context)
-                            .primaryTextTheme
-                            .bodyText1
-                            .fontSize,
-                      ),
+                      textStyle: Theme.of(context).textTheme.bodyText1,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -112,10 +95,7 @@ class _AboutAppState extends State<AboutApp> {
                 ),
                 HtmlWidget(
                   DISCLAIMER,
-                  textStyle: TextStyle(
-                    fontSize:
-                        Theme.of(context).primaryTextTheme.bodyText1.fontSize,
-                  ),
+                  textStyle: Theme.of(context).textTheme.bodyText1,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),

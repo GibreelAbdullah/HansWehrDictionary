@@ -88,10 +88,7 @@ class RateUs extends StatelessWidget {
                 ),
                 Text(
                   "Rate Us",
-                  style: TextStyle(
-                    fontSize:
-                        Theme.of(context).primaryTextTheme.bodyText1.fontSize,
-                  ),
+                  style: Theme.of(context).textTheme.bodyText1,
                 ),
               ],
             ),
@@ -141,9 +138,7 @@ class DrawerItem extends StatelessWidget {
           ),
           Text(
             title,
-            style: TextStyle(
-              fontSize: Theme.of(context).primaryTextTheme.bodyText1.fontSize,
-            ),
+            style: Theme.of(context).textTheme.bodyText1,
           )
         ],
       ),
@@ -164,10 +159,7 @@ class VerbForms extends StatelessWidget {
               title: Center(
                   child: Text(
                 'VERB FORMS',
-                style: TextStyle(
-                  fontSize:
-                      Theme.of(context).primaryTextTheme.bodyText1.fontSize,
-                ),
+                style: Theme.of(context).textTheme.bodyText1,
               )),
               titlePadding: const EdgeInsets.all(8.0),
               contentPadding: const EdgeInsets.all(0.0),
@@ -182,10 +174,10 @@ class VerbForms extends StatelessWidget {
                       title: Text(
                         VERB_FORMS[i],
                         style: TextStyle(
-                          fontSize: Theme.of(context)
-                              .primaryTextTheme
-                              .bodyText1
-                              .fontSize,
+                          fontFamily:
+                              Theme.of(context).textTheme.bodyText1.fontFamily,
+                          fontSize:
+                              Theme.of(context).textTheme.bodyText1.fontSize,
                         ),
                       ),
                       expandedCrossAxisAlignment: CrossAxisAlignment.start,
@@ -194,23 +186,13 @@ class VerbForms extends StatelessWidget {
                         Container(
                           child: Text(
                             'Pattern Meaning : ' + VERB_FORM_DESCRIPTIONS[i],
-                            style: TextStyle(
-                              fontSize: Theme.of(context)
-                                  .primaryTextTheme
-                                  .bodyText1
-                                  .fontSize,
-                            ),
+                            style: Theme.of(context).textTheme.bodyText1,
                           ),
                         ),
                         Container(
                           child: Text(
                             'Eg. : ' + VERB_FORM_EXAMPLES[i],
-                            style: TextStyle(
-                              fontSize: Theme.of(context)
-                                  .primaryTextTheme
-                                  .bodyText1
-                                  .fontSize,
-                            ),
+                            style: Theme.of(context).textTheme.bodyText1,
                           ),
                         )
                       ],
@@ -222,10 +204,7 @@ class VerbForms extends StatelessWidget {
                 FlatButton(
                   child: Text(
                     'DISMISS',
-                    style: TextStyle(
-                      fontSize:
-                          Theme.of(context).primaryTextTheme.bodyText1.fontSize,
-                    ),
+                    style: Theme.of(context).textTheme.bodyText2,
                   ),
                   onPressed: Navigator.of(context).pop,
                 ),
@@ -242,9 +221,7 @@ class VerbForms extends StatelessWidget {
           ),
           Text(
             'Verb Forms',
-            style: TextStyle(
-              fontSize: Theme.of(context).primaryTextTheme.bodyText1.fontSize,
-            ),
+            style: Theme.of(context).textTheme.bodyText1,
           )
         ],
       ),

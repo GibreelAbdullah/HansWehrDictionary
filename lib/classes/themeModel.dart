@@ -10,62 +10,89 @@ class ThemeModel extends ChangeNotifier {
   refreshTheme() {
     currentTheme = locator<LocalStorageService>().darkTheme
         ? darkTheme.copyWith(
+            textTheme: ThemeData.dark().textTheme.copyWith(
+                  bodyText1: TextStyle(
+                    fontFamily: locator<LocalStorageService>().font,
+                    fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
+                    color: Colors.white,
+                  ),
+                  bodyText2: TextStyle(
+                    fontFamily: locator<LocalStorageService>().font,
+                    fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
+                    color: hexToColor(
+                        locator<LocalStorageService>().highlightTextColor),
+                  ),
+                  subtitle1: TextStyle(
+                    fontFamily: locator<LocalStorageService>().font,
+                    fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
+                    color: Colors.white,
+                  ),
+                  headline6: TextStyle(
+                    fontFamily: locator<LocalStorageService>().font,
+                    fontSize: 20 + locator<LocalStorageService>().fontSizeDelta,
+                    color: Colors.white,
+                  ),
+                ),
+            primaryColor:
+                hexToColor(locator<LocalStorageService>().highlightTextColor),
+            accentColor:
+                hexToColor(locator<LocalStorageService>().highlightTextColor),
             canvasColor:
                 hexToColor(locator<LocalStorageService>().backgroundColor),
             scaffoldBackgroundColor:
                 hexToColor(locator<LocalStorageService>().backgroundColor) ??
                     Colors.grey[900],
-            cardColor:
-                hexToColor(locator<LocalStorageService>().searchBarColor),
             appBarTheme: AppBarTheme(
               color:
                   hexToColor(locator<LocalStorageService>().searchBarColor) ??
                       Colors.grey[850],
+              brightness: Brightness.dark,
             ),
-            textTheme: ThemeData.dark().textTheme.apply(
-                  fontFamily: locator<LocalStorageService>().font,
+            cardColor:
+                hexToColor(locator<LocalStorageService>().searchBarColor),
+          )
+        : lightTheme.copyWith(
+            textTheme: ThemeData.light().textTheme.copyWith(
+                  bodyText1: TextStyle(
+                    fontFamily: locator<LocalStorageService>().font,
+                    fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
+                    color: Colors.black,
+                  ),
+                  bodyText2: TextStyle(
+                    fontFamily: locator<LocalStorageService>().font,
+                    fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
+                    color: hexToColor(
+                        locator<LocalStorageService>().highlightTextColor),
+                  ),
+                  subtitle1: TextStyle(
+                    fontFamily: locator<LocalStorageService>().font,
+                    fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
+                    color: Colors.black,
+                  ),
+                  headline6: TextStyle(
+                    fontFamily: locator<LocalStorageService>().font,
+                    fontSize: 20 + locator<LocalStorageService>().fontSizeDelta,
+                    color: Colors.black,
+                  ),
                 ),
             primaryColor:
                 hexToColor(locator<LocalStorageService>().highlightTextColor),
             accentColor:
                 hexToColor(locator<LocalStorageService>().highlightTextColor),
-            primaryTextTheme: TextTheme(
-              bodyText1: TextStyle(
-                fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
-              ),
-              headline6: TextStyle(
-                fontSize: 20 + locator<LocalStorageService>().fontSizeDelta,
-              ),
-            ),
-          )
-        : lightTheme.copyWith(
-            textTheme: ThemeData.light().textTheme.apply(
-                  fontFamily: locator<LocalStorageService>().font,
-                ),
             canvasColor:
                 hexToColor(locator<LocalStorageService>().backgroundColor),
             scaffoldBackgroundColor:
                 hexToColor(locator<LocalStorageService>().backgroundColor) ??
                     Colors.white,
-            cardColor:
-                hexToColor(locator<LocalStorageService>().searchBarColor),
             appBarTheme: AppBarTheme(
               color:
                   hexToColor(locator<LocalStorageService>().searchBarColor) ??
                       Colors.grey[100],
+              brightness: Brightness.light,
             ),
-            primaryColor:
-                hexToColor(locator<LocalStorageService>().highlightTextColor),
-            accentColor:
-                hexToColor(locator<LocalStorageService>().highlightTextColor),
-            primaryTextTheme: TextTheme(
-              bodyText1: TextStyle(
-                fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
-              ),
-              headline6: TextStyle(
-                fontSize: 20 + locator<LocalStorageService>().fontSizeDelta,
-              ),
-            ),
+            brightness: Brightness.light,
+            cardColor:
+                hexToColor(locator<LocalStorageService>().searchBarColor),
           );
     return notifyListeners();
   }

@@ -27,10 +27,7 @@ class _SettingsState extends State<Settings> {
         toolbarHeight: 56,
         title: Text(
           SETTINGS_SCREEN_TITLE,
-          style: TextStyle(
-              color: locator<LocalStorageService>().darkTheme
-                  ? Colors.white
-                  : Colors.black),
+          style: Theme.of(context).textTheme.headline6,
         ),
         backgroundColor: Theme.of(context).appBarTheme.color,
         iconTheme: Theme.of(context).iconTheme,
@@ -47,10 +44,11 @@ class _SettingsState extends State<Settings> {
               title: Text(
                 'Advanced Theming Options',
                 style: TextStyle(
-                  fontSize:
-                      Theme.of(context).primaryTextTheme.bodyText1.fontSize,
+                  fontFamily: Theme.of(context).textTheme.bodyText1.fontFamily,
+                  fontSize: Theme.of(context).textTheme.bodyText1.fontSize,
                 ),
               ),
+              childrenPadding: EdgeInsets.symmetric(horizontal: 16),
               children: [
                 ColorMod(
                   title: "Highlight Text Color",
@@ -84,10 +82,9 @@ class _FontSelectorState extends State<FontSelector> {
     return ListTile(
       title: Text(
         'Font',
-        style: TextStyle(
-          fontSize: Theme.of(context).primaryTextTheme.bodyText1.fontSize,
-        ),
+        style: Theme.of(context).textTheme.bodyText1,
       ),
+      contentPadding: EdgeInsets.fromLTRB(16, 0, 28, 0),
       trailing: DropdownButton(
         value: locator<LocalStorageService>().font,
         icon: Icon(Icons.keyboard_arrow_down),
@@ -127,9 +124,7 @@ class _FontSizeModifierState extends State<FontSizeModifier> {
     return ListTile(
       title: Text(
         'Font Size',
-        style: TextStyle(
-          fontSize: Theme.of(context).primaryTextTheme.bodyText1.fontSize,
-        ),
+        style: Theme.of(context).textTheme.bodyText1,
       ),
       trailing: Container(
         width: MediaQuery.of(context).size.width * .3,
@@ -159,10 +154,7 @@ class _FontSizeModifierState extends State<FontSizeModifier> {
               child: Center(
                 child: Text(
                   '${locator<LocalStorageService>().fontSizeDelta + 10}',
-                  style: TextStyle(
-                    fontSize:
-                        Theme.of(context).primaryTextTheme.bodyText1.fontSize,
-                  ),
+                  style: Theme.of(context).textTheme.bodyText1,
                 ),
               ),
             ),
@@ -242,9 +234,7 @@ class _ColorModState extends State<ColorMod> {
     return ListTile(
       title: Text(
         widget.title,
-        style: TextStyle(
-          fontSize: Theme.of(context).primaryTextTheme.bodyText1.fontSize,
-        ),
+        style: Theme.of(context).textTheme.bodyText1,
       ),
       trailing: Container(
         width: 84,
@@ -313,24 +303,14 @@ class _ColorModState extends State<ColorMod> {
                         FlatButton(
                           child: Text(
                             'CANCEL',
-                            style: TextStyle(
-                              fontSize: Theme.of(context)
-                                  .primaryTextTheme
-                                  .bodyText1
-                                  .fontSize,
-                            ),
+                            style: Theme.of(context).textTheme.bodyText1,
                           ),
                           onPressed: Navigator.of(context).pop,
                         ),
                         FlatButton(
                           child: Text(
                             'OK',
-                            style: TextStyle(
-                              fontSize: Theme.of(context)
-                                  .primaryTextTheme
-                                  .bodyText1
-                                  .fontSize,
-                            ),
+                            style: Theme.of(context).textTheme.bodyText1,
                           ),
                           onPressed: () {
                             Navigator.of(context).pop();
@@ -404,9 +384,7 @@ class _ThemeIconState extends State<ThemeIcon> {
     return ListTile(
       title: Text(
         "Theme",
-        style: TextStyle(
-          fontSize: Theme.of(context).primaryTextTheme.bodyText1.fontSize,
-        ),
+        style: Theme.of(context).textTheme.bodyText1,
       ),
       trailing: IconButton(
         icon: Icon(

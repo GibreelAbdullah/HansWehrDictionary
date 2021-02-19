@@ -7,7 +7,6 @@ const String SETTINGS_SCREEN_TITLE = 'Settings';
 const String ABOUT_APP_SCREEN_TITLE = 'About App';
 const String ABBREVIATIONS_SCREEN_TITLE = 'Abbreviations';
 const String SEARCH_SCREEN_TITLE = 'Search';
-const String REVERSE_SEARCH_SCREEN_TITLE = 'Search in English';
 const String BROWSE_SCREEN_TITLE = 'Browse';
 const String NOTIFICATION_SCREEN_TITLE = 'Notifications';
 
@@ -19,10 +18,7 @@ const String ABOUT_APP = '''
 const String WHATS_NEW =
     '''<p style="text-align:center"><b> What's New :</b> </p>
     <p style="text-align:left">
-    - More Color Customizations (Thanks Suleman) <br>
-    - Change font size (Thanks Suleman) <br>
-    - Multiple errors in the dictionary fixed. <br>
-    - Removed Notifications screen
+    - Font Options <br>
     </p> <p style="text-align:center"> <a href = "https://github.com/MuslimTechNet/HansWehrDictionary/blob/master/README.md">Source Code, Full Release Notes and Future Work</a></p><br>''';
 const String COMMUNITY_INVITE =
     '''<p style="text-align:center">If you are a Muslim tech professional or aspiring to be one join the <br>

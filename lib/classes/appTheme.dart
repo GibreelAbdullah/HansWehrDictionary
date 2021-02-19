@@ -3,15 +3,26 @@ import '../serviceLocator.dart';
 import '../services/LocalStorageService.dart';
 
 ThemeData lightTheme = ThemeData.light().copyWith(
-  textTheme: ThemeData.light().textTheme.apply(
-        fontFamily: locator<LocalStorageService>().font,
-      ),
-  primaryTextTheme: ThemeData.light().textTheme.copyWith(
-        headline6: TextStyle(
-          fontSize: 20 + locator<LocalStorageService>().fontSizeDelta,
-        ),
+  textTheme: ThemeData.dark().textTheme.copyWith(
         bodyText1: TextStyle(
+          fontFamily: locator<LocalStorageService>().font,
           fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
+          color: Colors.black,
+        ),
+        bodyText2: TextStyle(
+          fontFamily: locator<LocalStorageService>().font,
+          fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
+          color: hexToColor(locator<LocalStorageService>().highlightTextColor),
+        ),
+        subtitle1: TextStyle(
+          fontFamily: locator<LocalStorageService>().font,
+          fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
+          color: Colors.black,
+        ),
+        headline6: TextStyle(
+          fontFamily: locator<LocalStorageService>().font,
+          fontSize: 20 + locator<LocalStorageService>().fontSizeDelta,
+          color: Colors.black,
         ),
       ),
   primaryColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
@@ -25,20 +36,33 @@ ThemeData lightTheme = ThemeData.light().copyWith(
         Colors.grey[100],
     brightness: Brightness.light,
   ),
+  brightness: Brightness.light,
   cardColor: hexToColor(locator<LocalStorageService>().searchBarColor),
   iconTheme: IconThemeData(color: Colors.black),
 );
 
 ThemeData darkTheme = ThemeData.dark().copyWith(
-  textTheme: ThemeData.dark().textTheme.apply(
-        fontFamily: locator<LocalStorageService>().font,
-      ),
-  primaryTextTheme: ThemeData.dark().textTheme.copyWith(
-        headline6: TextStyle(
-          fontSize: 20 + locator<LocalStorageService>().fontSizeDelta,
-        ),
+  textTheme: ThemeData.dark().textTheme.copyWith(
         bodyText1: TextStyle(
+          fontFamily: locator<LocalStorageService>().font,
           fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
+          color: Colors.white,
+        ),
+        bodyText2: TextStyle(
+          fontFamily: locator<LocalStorageService>().font,
+          fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
+          color: hexToColor(locator<LocalStorageService>().highlightTextColor),
+        ),
+        //Used By Expansion Tile
+        subtitle1: TextStyle(
+          fontFamily: locator<LocalStorageService>().font,
+          fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
+          color: Colors.white,
+        ),
+        headline6: TextStyle(
+          fontFamily: locator<LocalStorageService>().font,
+          fontSize: 20 + locator<LocalStorageService>().fontSizeDelta,
+          color: Colors.white,
         ),
       ),
   primaryColor: hexToColor(locator<LocalStorageService>().highlightTextColor),

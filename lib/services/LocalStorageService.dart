@@ -77,7 +77,7 @@ class LocalStorageService {
   double get fontSizeDelta => _getFromDisk(FontSizeKey) ?? 0.0;
   set fontSizeDelta(double value) => _saveToDisk(FontSizeKey, value);
 
-  String get font => _getFromDisk(FontKey) ?? null;
+  String get font => _getFromDisk(FontKey) ?? 'Amiri';
   set font(String value) => _saveToDisk(FontKey, value);
 
   void _saveToDisk<T>(String key, T content) {
