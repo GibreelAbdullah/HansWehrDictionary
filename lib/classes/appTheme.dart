@@ -1,27 +1,81 @@
 import 'package:flutter/material.dart';
+import '../serviceLocator.dart';
+import '../services/LocalStorageService.dart';
 
 ThemeData lightTheme = ThemeData.light().copyWith(
-  colorScheme: ColorScheme(primary: null, primaryVariant: null, secondary: null, secondaryVariant: null, surface: null, background: null, error: null, onPrimary: null, onSecondary: null, onSurface: null, onBackground: null, onError: null, brightness: null),
+  textTheme: ThemeData.dark().textTheme.copyWith(
+        bodyText1: TextStyle(
+          fontFamily: locator<LocalStorageService>().font,
+          fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
+          color: Colors.black,
+        ),
+        bodyText2: TextStyle(
+          fontFamily: locator<LocalStorageService>().font,
+          fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
+          color: hexToColor(locator<LocalStorageService>().highlightTextColor),
+        ),
+        subtitle1: TextStyle(
+          fontFamily: locator<LocalStorageService>().font,
+          fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
+          color: Colors.black,
+        ),
+        headline6: TextStyle(
+          fontFamily: locator<LocalStorageService>().font,
+          fontSize: 20 + locator<LocalStorageService>().fontSizeDelta,
+          color: Colors.black,
+        ),
+      ),
+  primaryColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
+  accentColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
+  canvasColor: hexToColor(locator<LocalStorageService>().backgroundColor),
+  scaffoldBackgroundColor:
+      hexToColor(locator<LocalStorageService>().backgroundColor) ??
+          Colors.white,
   appBarTheme: AppBarTheme(
-    color: Colors.grey[100],
+    color: hexToColor(locator<LocalStorageService>().searchBarColor) ??
+        Colors.grey[100],
     brightness: Brightness.light,
   ),
-  primaryTextTheme: TextTheme(
-    headline6: TextStyle(color: Colors.black),
-  ),
-  scaffoldBackgroundColor: Colors.white,
+  brightness: Brightness.light,
+  cardColor: hexToColor(locator<LocalStorageService>().searchBarColor),
   iconTheme: IconThemeData(color: Colors.black),
 );
 
 ThemeData darkTheme = ThemeData.dark().copyWith(
+  textTheme: ThemeData.dark().textTheme.copyWith(
+        bodyText1: TextStyle(
+          fontFamily: locator<LocalStorageService>().font,
+          fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
+          color: Colors.white,
+        ),
+        bodyText2: TextStyle(
+          fontFamily: locator<LocalStorageService>().font,
+          fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
+          color: hexToColor(locator<LocalStorageService>().highlightTextColor),
+        ),
+        //Used By Expansion Tile
+        subtitle1: TextStyle(
+          color: Colors.white,
+        ),
+        headline6: TextStyle(
+          fontFamily: locator<LocalStorageService>().font,
+          fontSize: 20 + locator<LocalStorageService>().fontSizeDelta,
+          color: Colors.white,
+        ),
+      ),
+  primaryColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
+  accentColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
+  canvasColor: hexToColor(locator<LocalStorageService>().backgroundColor),
+  scaffoldBackgroundColor:
+      hexToColor(locator<LocalStorageService>().backgroundColor) ??
+          Colors.grey[900],
   appBarTheme: AppBarTheme(
-    color: Colors.grey[850],
+    color: hexToColor(locator<LocalStorageService>().searchBarColor) ??
+        Colors.grey[850],
     brightness: Brightness.dark,
   ),
-  primaryTextTheme: TextTheme(
-    headline6: TextStyle(color: Colors.white),
-  ),
-  scaffoldBackgroundColor: Colors.grey[900],
+  cardColor: hexToColor(locator<LocalStorageService>().searchBarColor),
+  brightness: Brightness.dark,
   iconTheme: IconThemeData(color: Colors.white),
 );
 

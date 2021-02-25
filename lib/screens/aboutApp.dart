@@ -4,8 +4,9 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:search/widgets/drawer.dart';
-import 'package:search/constants/appConstants.dart';
+import '../widgets/drawer.dart';
+import '../constants/appConstants.dart';
+
 
 class AboutApp extends StatefulWidget {
   @override
@@ -20,6 +21,7 @@ class _AboutAppState extends State<AboutApp> {
         toolbarHeight: 56,
         title: Text(
           ABOUT_APP_SCREEN_TITLE,
+          style: Theme.of(context).textTheme.headline6,
         ),
         backgroundColor: Theme.of(context).appBarTheme.color,
         iconTheme: Theme.of(context).iconTheme,
@@ -35,12 +37,18 @@ class _AboutAppState extends State<AboutApp> {
                   padding: const EdgeInsets.all(16.0),
                   child: Divider(),
                 ),
-                HtmlWidget(ABOUT_APP),
+                HtmlWidget(
+                  ABOUT_APP,
+                  textStyle: Theme.of(context).textTheme.bodyText1,
+                ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Divider(),
                 ),
-                HtmlWidget(WHATS_NEW),
+                HtmlWidget(
+                  WHATS_NEW,
+                  textStyle: Theme.of(context).textTheme.bodyText1,
+                ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Divider(),
@@ -48,7 +56,10 @@ class _AboutAppState extends State<AboutApp> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    HtmlWidget(COMMUNITY_INVITE),
+                    HtmlWidget(
+                      COMMUNITY_INVITE,
+                      textStyle: Theme.of(context).textTheme.bodyText1,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -82,7 +93,10 @@ class _AboutAppState extends State<AboutApp> {
                   padding: const EdgeInsets.all(16.0),
                   child: Divider(),
                 ),
-                HtmlWidget(DISCLAIMER),
+                HtmlWidget(
+                  DISCLAIMER,
+                  textStyle: Theme.of(context).textTheme.bodyText1,
+                ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Divider(),

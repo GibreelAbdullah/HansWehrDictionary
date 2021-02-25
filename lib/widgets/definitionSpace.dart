@@ -3,11 +3,12 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:search/classes/appTheme.dart';
-import 'package:search/classes/definitionClass.dart';
-import 'package:search/constants/appConstants.dart';
-import 'package:search/serviceLocator.dart';
-import 'package:search/services/LocalStorageService.dart';
+import '../classes/appTheme.dart';
+import '../classes/definitionClass.dart';
+import '../constants/appConstants.dart';
+import '../serviceLocator.dart';
+import '../services/LocalStorageService.dart';
+import 'package:badges/badges.dart';
 
 class DefinitionSpace extends StatefulWidget {
   DefinitionSpace({
@@ -35,10 +36,18 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
             if (index == 0) {
               if (definitionList.searchType == 'RootSearch') {
                 return ListTile(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(300)),
+                  ),
                   leading: Icon(Icons.info),
-                  title: Text(definitionList.searchWord),
+                  title: Text(
+                    definitionList.searchWord,
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
                   subtitle: Text(
-                      'Tap for full text search. Tip : To directly do a full text search press the Enter key instead of selecting from the dropdown'),
+                    'Tap for full text search. Tip : To directly do a full text search press the Enter key instead of selecting from the dropdown',
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
                   onTap: () async {
                     definitionList.searchType = 'FullTextSearch';
                     DefinitionClass value = await databaseObject.definition(
@@ -58,7 +67,9 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
                     child: FlatButton.icon(
                       icon: Icon(Icons.info),
                       label: Text(
-                          'Showing First 50 results for ${definitionList.searchWord}'),
+                        'Showing First 50 results for ${definitionList.searchWord}',
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
                       onPressed: () {},
                     ),
                   );
@@ -66,9 +77,12 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
                 return Container(
                   child: FlatButton.icon(
                     icon: Icon(Icons.info),
-                    label: Text(definitionList.searchWord == null
-                        ? "Search In Arabic or English"
-                        : definitionList.searchWord),
+                    label: Text(
+                      definitionList.searchWord == null
+                          ? "Search In Arabic or English"
+                          : definitionList.searchWord,
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
                     onPressed: () {},
                   ),
                 );
@@ -76,6 +90,9 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
             }
             return Container(
               child: ListTileTheme(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(300)),
+                ),
                 selectedColor: hexToColor(
                     locator<LocalStorageService>().highlightTextColor),
                 child: DefinitionTile(
@@ -109,24 +126,39 @@ class DefinitionTile extends StatelessWidget {
             definitionList.isRoot[index - 1] == 1 ? 16.0 : 50, 0, 16, 0),
         title: HtmlWidget(
           definitionList.definition[index - 1],
+          textStyle: TextStyle(
+            fontFamily: Theme.of(context).textTheme.bodyText1.fontFamily,
+            fontSize: Theme.of(context).textTheme.bodyText1.fontSize,
+          ),
         ),
         onTap: () {},
       );
     } else {
       return ListTile(
+        isThreeLine: true,
         selected: definitionList.highlight[index - 1] == 1,
         selectedTileColor:
             hexToColor(locator<LocalStorageService>().highlightTileColor),
-        contentPadding: EdgeInsets.fromLTRB(16.0, 0, 16, 0),
+        contentPadding: EdgeInsets.fromLTRB(16.0, 0, 24, 0),
         title: HtmlWidget(
           definitionList.definition[index - 1],
+          textStyle: TextStyle(
+            fontFamily: Theme.of(context).textTheme.bodyText1.fontFamily,
+            fontSize: Theme.of(context).textTheme.bodyText1.fontSize,
+          ),
         ),
-        subtitle: Row(
-          children: [
-            Icon(Icons.arrow_forward),
-            Text(
-                'Appears ${definitionList.quranOccurance[index - 1]} times in the Qur\'an. Tap for details'),
-          ],
+        subtitle: Center(
+          child: Badge(
+            toAnimate: false,
+            padding: EdgeInsets.all(2),
+            badgeColor:
+                hexToColor(locator<LocalStorageService>().highlightTextColor),
+            badgeContent: Text(
+              '${definitionList.quranOccurance[index - 1]}',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+            child: Icon(Icons.menu_book),
+          ),
         ),
         onTap: () {
           showDialog(
@@ -134,8 +166,11 @@ class DefinitionTile extends StatelessWidget {
             builder: (BuildContext context) {
               return AlertDialog(
                 title: Center(
-                    child: Text(
-                        '${definitionList.quranOccurance[index - 1]} Occurances in the Qur\'an')),
+                  child: Text(
+                    '${definitionList.quranOccurance[index - 1]} Occurances in the Qur\'an',
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                ),
                 titlePadding: const EdgeInsets.all(8.0),
                 contentPadding: const EdgeInsets.all(0.0),
                 content: Container(
@@ -153,24 +188,28 @@ class DefinitionTile extends StatelessWidget {
                                 String uriScheme =
                                     "quran://${snapshot.data[j]['SURAH']}/${snapshot.data[j]['AYAH']}/${snapshot.data[j]['POSITION']}";
 
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(48, 0, 48, 0),
-                                  child: ListTile(
-                                    onTap: () async {
-                                      if (await canLaunch(uriScheme)) {
-                                        await launch(uriScheme);
-                                      } else
-                                        launch(
-                                            "https://www.quran.com/${snapshot.data[j]['SURAH']}/${snapshot.data[j]['AYAH']}");
-                                    },
-                                    leading: Text('${j + 1} - '),
-                                    title: Text(
-                                      "Quran ${snapshot.data[j]['SURAH']}:${snapshot.data[j]['AYAH']}/${snapshot.data[j]['POSITION']}",
-                                      style: TextStyle(
+                                return ListTile(
+                                  onTap: () async {
+                                    if (await canLaunch(uriScheme)) {
+                                      await launch(uriScheme);
+                                    } else
+                                      await launch(
+                                          "https://www.quran.com/${snapshot.data[j]['SURAH']}/${snapshot.data[j]['AYAH']}");
+                                  },
+                                  leading: Text(
+                                    '${j + 1} - ',
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
+                                  ),
+                                  title: Text(
+                                    "Quran ${snapshot.data[j]['SURAH']}:${snapshot.data[j]['AYAH']}/${snapshot.data[j]['POSITION']}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        .copyWith(
                                           decoration: TextDecoration.underline,
-                                          color: Theme.of(context).accentColor),
-                                    ),
+                                          color: Theme.of(context).accentColor,
+                                        ),
                                   ),
                                 );
                               });
@@ -183,7 +222,10 @@ class DefinitionTile extends StatelessWidget {
                 ),
                 actions: [
                   FlatButton(
-                    child: Text('DISMISS'),
+                    child: Text(
+                      'DISMISS',
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
                     onPressed: Navigator.of(context).pop,
                   ),
                 ],

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:search/services/LocalStorageService.dart';
+import '../services/LocalStorageService.dart';
 import '../constants/appConstants.dart';
 import '../serviceLocator.dart';
 

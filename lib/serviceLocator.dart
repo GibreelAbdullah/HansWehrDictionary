@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:search/services/LocalStorageService.dart';
+import './services/LocalStorageService.dart';
 
 GetIt locator = GetIt.instance;
 

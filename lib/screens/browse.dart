@@ -2,9 +2,9 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:search/classes/definitionClass.dart';
-import 'package:search/widgets/drawer.dart';
-import 'package:search/constants/appConstants.dart';
+import '../classes/definitionClass.dart';
+import '../widgets/drawer.dart';
+import '../constants/appConstants.dart';
 
 class Browse extends StatefulWidget {
   @override
@@ -19,6 +19,7 @@ class _BrowseState extends State<Browse> {
         toolbarHeight: 56,
         title: Text(
           BROWSE_SCREEN_TITLE,
+          style: Theme.of(context).textTheme.headline6,
         ),
         backgroundColor: Theme.of(context).appBarTheme.color,
         iconTheme: Theme.of(context).iconTheme,
@@ -34,7 +35,13 @@ class _BrowseState extends State<Browse> {
       itemCount: ALL_ALPHABETS.length,
       itemBuilder: (context, i) {
         return ExpansionTile(
-          title: Text(ALL_ALPHABETS[i]),
+          title: Text(
+            ALL_ALPHABETS[i],
+            style: TextStyle(
+              fontFamily: Theme.of(context).textTheme.bodyText1.fontFamily,
+              fontSize: Theme.of(context).textTheme.bodyText1.fontSize,
+            ),
+          ),
           children: [buildSecondLevelAlphabets(i)],
         );
       },
@@ -46,8 +53,11 @@ class _BrowseState extends State<Browse> {
       future: databaseObject.allXLevelWords(ALL_ALPHABETS[i], 2),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return const Center(
-            child: const Text('Loading...'),
+          return Center(
+            child: Text(
+              'Loading...',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
           );
         } else {
           return ListView.builder(
@@ -57,7 +67,14 @@ class _BrowseState extends State<Browse> {
               itemBuilder: (context, j) {
                 return ExpansionTile(
                   tilePadding: EdgeInsets.fromLTRB(40, 0, 40, 0),
-                  title: Text(snapshot.data[j]),
+                  title: Text(
+                    snapshot.data[j],
+                    style: TextStyle(
+                      fontFamily:
+                          Theme.of(context).textTheme.bodyText1.fontFamily,
+                      fontSize: Theme.of(context).textTheme.bodyText1.fontSize,
+                    ),
+                  ),
                   children: [buildRootWords(snapshot, j)],
                 );
               });
@@ -81,7 +98,10 @@ class _BrowseState extends State<Browse> {
                     padding: const EdgeInsets.fromLTRB(48, 0, 48, 0),
                     child: ListTile(
                       leading: Icon(Icons.label_important),
-                      title: Text(snapshot.data[j]),
+                      title: Text(
+                        snapshot.data[j],
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
                       onTap: () {
                         buildDefinitionAlert(context, snapshot.data[j]);
                       },
@@ -103,7 +123,10 @@ class _BrowseState extends State<Browse> {
         return AlertDialog(
           insetPadding: EdgeInsets.all(0),
           contentPadding: EdgeInsets.all(0),
-          title: Text(word),
+          title: Text(
+            word,
+            style: Theme.of(context).textTheme.bodyText2,
+          ),
           content: Container(
             height: MediaQuery.of(context).size.height * .7,
             width: MediaQuery.of(context).size.width * .9,
@@ -118,18 +141,25 @@ class _BrowseState extends State<Browse> {
                         child: CircularProgressIndicator()),
                   );
                 } else if (snapshot.hasError) {
-                  return Text("Error");
+                  return Text(
+                    "Error",
+                    style: Theme.of(context).textTheme.bodyText1,
+                  );
                 } else {
                   return ListView.builder(
                     itemCount: snapshot.data.definition.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                          contentPadding: EdgeInsets.fromLTRB(
-                              snapshot.data.isRoot[index] == 1 ? 16.0 : 50.0,
-                              0,
-                              16,
-                              0),
-                          title: HtmlWidget(snapshot.data.definition[index]));
+                        contentPadding: EdgeInsets.fromLTRB(
+                            snapshot.data.isRoot[index] == 1 ? 16.0 : 50.0,
+                            0,
+                            16,
+                            0),
+                        title: HtmlWidget(
+                          snapshot.data.definition[index],
+                          textStyle: Theme.of(context).textTheme.bodyText1,
+                        ),
+                      );
                     },
                   );
                 }
@@ -138,7 +168,10 @@ class _BrowseState extends State<Browse> {
           ),
           actions: [
             TextButton(
-              child: Text('DISMISS'),
+              child: Text(
+                'DISMISS',
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },

@@ -10,6 +10,10 @@ class LocalStorageService {
   static const String AppUsageKey = 'appUsage';
   static const String HighLightTextKey = 'highlightText';
   static const String HighLightTileKey = 'highlightTile';
+  static const String BackgroundKey = 'background';
+  static const String SearchBarKey = 'searchBar';
+  static const String FontSizeKey = 'fontSize';
+  static const String FontKey = 'font';
 
   static LocalStorageService _instance;
   static SharedPreferences _preferences;
@@ -27,7 +31,7 @@ class LocalStorageService {
     var userPreferencesJson = _getFromDisk(UserPreferencesKey);
     if (userPreferencesJson == null) {
       return UserPreferences.fromJson(json.decode(
-          '{"darkTheme":false,"history":"","appUsage":1,"highlightText":null,"highlightTile":null}'));
+          '{"darkTheme":false,"history":"","appUsage":1,"highlightText":null,"highlightTile":null,"background":null,"searchBar":null,"fontSize":0.0,"font":"Amiri"}'));
     }
     return UserPreferences.fromJson(json.decode(userPreferencesJson));
   }
@@ -64,6 +68,18 @@ class LocalStorageService {
   String get highlightTileColor => _getFromDisk(HighLightTileKey) ?? null;
   set highlightTileColor(String value) => _saveToDisk(HighLightTileKey, value);
 
+  String get backgroundColor => _getFromDisk(BackgroundKey) ?? null;
+  set backgroundColor(String value) => _saveToDisk(BackgroundKey, value);
+
+  String get searchBarColor => _getFromDisk(SearchBarKey) ?? null;
+  set searchBarColor(String value) => _saveToDisk(SearchBarKey, value);
+
+  double get fontSizeDelta => _getFromDisk(FontSizeKey) ?? 0.0;
+  set fontSizeDelta(double value) => _saveToDisk(FontSizeKey, value);
+
+  String get font => _getFromDisk(FontKey) ?? 'Amiri';
+  set font(String value) => _saveToDisk(FontKey, value);
+
   void _saveToDisk<T>(String key, T content) {
     print(
         '(TRACE) LocalStorageService:_saveStringToDisk. key: $key value: $content');
@@ -87,21 +103,45 @@ class LocalStorageService {
 
 class UserPreferences {
   final bool darkTheme;
-  final String highlightColor;
+  final String highlightText;
+  final String highlightTile;
   final String history;
+  final String background;
+  final String searchBar;
+  final int fontSize;
+  final String font;
 
-  UserPreferences({this.darkTheme, this.highlightColor, this.history});
+  UserPreferences({
+    this.darkTheme,
+    this.highlightText,
+    this.highlightTile,
+    this.history,
+    this.background,
+    this.searchBar,
+    this.fontSize,
+    this.font,
+  });
 
   UserPreferences.fromJson(Map<String, dynamic> json)
       : darkTheme = json['darkTheme'],
-        highlightColor = json['highlightColor'],
-        history = json['history'];
+        highlightText = json['highlightText'],
+        highlightTile = json['highlightTile'],
+        history = json['history'],
+        background = json['background'],
+        searchBar = json['searchBar'],
+        fontSize = json['fontSize'],
+        font = json['font'];
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['darkTheme'] = this.darkTheme;
-    data['highlightColor'] = this.highlightColor;
+    data['highlightText'] = this.highlightText;
+    data['highlightTile'] = this.highlightTile;
     data['history'] = this.history;
+    data['background'] = this.background;
+    data['searchBar'] = this.searchBar;
+    data['fontSize'] = this.fontSize;
+    data['font'] = this.font;
     return data;
   }
 }

@@ -1,16 +1,16 @@
 import 'package:flutter/widgets.dart';
-import 'package:search/screens/notifications.dart';
-import 'package:search/screens/abbreviations.dart';
-import 'package:search/screens/aboutApp.dart';
-import 'package:search/screens/browse.dart';
-import 'package:search/screens/search.dart';
-import 'package:search/screens/settings.dart';
+// import './screens/notifications.dart';
+import './screens/abbreviations.dart';
+import './screens/aboutApp.dart';
+import './screens/browse.dart';
+import './screens/search.dart';
+import './screens/settings.dart';
 
 Map<String, WidgetBuilder> routes = {
   '/search': (context) => Search(),
   '/aboutus': (context) => AboutApp(),
   '/browse': (context) => Browse(),
   '/abbreviations': (context) => Abbreviations(),
-  '/notifications': (context) => Notifications(),
+  // '/notifications': (context) => Notifications(),
   '/settings': (context) => Settings(),
 };

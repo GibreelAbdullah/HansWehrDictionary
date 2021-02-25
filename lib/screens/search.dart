@@ -7,12 +7,13 @@ import 'package:implicitly_animated_reorderable_list/transitions.dart';
 import 'package:provider/provider.dart';
 
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
-import 'package:search/classes/definitionClass.dart';
+// import 'package:search/classes/themeModel.dart';
+import '../classes/definitionClass.dart';
 
-import 'package:search/classes/searchModel.dart';
-import 'package:search/widgets/definitionSpace.dart';
-import 'package:search/widgets/drawer.dart';
-import 'package:search/constants/appConstants.dart';
+import '../classes/searchModel.dart';
+import '../widgets/definitionSpace.dart';
+import '../widgets/drawer.dart';
+import '../constants/appConstants.dart';
 
 class Search extends StatefulWidget {
   const Search({Key key}) : super(key: key);
@@ -36,6 +37,8 @@ class _SearchState extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
+    // Provider.of<ThemeModel>(context, listen: false).refreshTheme();
+
     return ChangeNotifierProvider<SearchModel>(
       create: (_) => SearchModel(),
       child: ChangeNotifierProvider<DefinitionClass>(
@@ -197,6 +200,7 @@ class _SearchState extends State<Search> {
                     children: [
                       Text(
                         word,
+                        style: Theme.of(context).textTheme.bodyText1,
                       ),
                     ],
                   ),

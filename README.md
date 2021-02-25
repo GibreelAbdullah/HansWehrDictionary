@@ -5,17 +5,24 @@ Dictionary of Modern Written Arabic by Hans Wehr
 Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechnet.hanswehr
 
 ## Future Work
-- Merge Browse Screen and Search Screen
-- R
+- Justify Text Option
 
 ## Release Notes
+
+#### V - 1.7.2+34 (19 Feb, 2020) 
+- Font Options
+- Bug Fixes
+- Code Refactoring
+
+#### V - 1.7.1+33 (17 Feb, 2020) Beta - Not released to production
+- Font Options
 
 #### V - 1.6.7+31 (08 Feb, 2020) 
 - Quran Occurrence
 - Remvoved Ads
 - Incorrect numbering of root (Thanks Faisal)
 
-#### V - 1.6.6+30 (07 Feb, 2020) 
+#### V - 1.6.6+30 (07 Feb, 2020)
 - Quran Occurrence
 
 #### V - 1.6.5+29 (07 Feb, 2020) 
