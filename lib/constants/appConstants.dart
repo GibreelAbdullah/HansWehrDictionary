@@ -18,7 +18,8 @@ const String ABOUT_APP = '''
 const String WHATS_NEW =
     '''<p style="text-align:center"><b> What's New :</b> </p>
     <p style="text-align:left">
-    - Font Options <br>
+    - Donate Option <br>
+    - Dictionary Updates including mistake pointed by Jeremy (Thanks) <br>
     </p> <p style="text-align:center"> <a href = "https://github.com/MuslimTechNet/HansWehrDictionary/blob/master/README.md">Source Code, Full Release Notes and Future Work</a></p><br>''';
 const String COMMUNITY_INVITE =
     '''<p style="text-align:center">If you are a Muslim tech professional or aspiring to be one join the <br>
@@ -30,13 +31,15 @@ const String DISCLAIMER =
     which was converted to an XML and parsed which isn't a foolproof method.
     A lot of manual correction was needed and might still have a few errors. 
     Do let me know if you find any - <a href = "mailto: gibreel.khan@gmail.com">gibreel.khan@gmail.com</a><br>
-    Mail me if you have a job offer.</p><br>''';
+    (Mail me if you have a job offer.)</p><br>''';
 final DatabaseAccess databaseObject = new DatabaseAccess();
 final Future<Database> databaseConnection =
     DatabaseAccess().openDatabaseConnection();
 
 const String PLAY_STORE_LINK =
     'https://play.google.com/store/apps/details?id=com.muslimtechnet.hanswehr';
+
+const String PAYPAL_LINK = 'https://www.paypal.me/gibreelabdullah';
 
 const List<String> VERB_FORMS = [
   'I - فَعَل/فَعُل/فَعِل',

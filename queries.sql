@@ -16,4 +16,9 @@ and c.word not like ('%آ%')
 and c.word not like ('%ؤ%')
 and c.word not like ('%ئ%')
 and c.word not like ('%ي%')
-and c.word not like ('%ة')
+and c.word not like ('%ة');
+
+UPDATE DICTIONARY  SET PARENT_ID = (select ID from 
+(select MIN(ID) ID, ROOT root_word FROM DICTIONARY GROUP BY ROOT)
+where root = root_word);
+

@@ -9,6 +9,10 @@ Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechne
 
 ## Release Notes
 
+#### V - 1.8.0+35 (01 March, 2020) 
+- Donate Option
+- Dictionary Updates including mistake pointed by Jeremy (Thanks)
+
 #### V - 1.7.2+34 (19 Feb, 2020) 
 - Font Options
 - Bug Fixes
