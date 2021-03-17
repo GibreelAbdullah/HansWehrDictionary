@@ -26,7 +26,8 @@ dependencies:
   in_app_review: ^1.0.4
   flutter_colorpicker: ^0.3.5
   badges: ^1.1.6
-      
+  carousel_slider: ^3.0.0
+  
 dev_dependencies:
   flutter_launcher_icons: "^0.8.0"
   flutter_test:

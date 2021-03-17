@@ -9,6 +9,7 @@ const String ABBREVIATIONS_SCREEN_TITLE = 'Abbreviations';
 const String SEARCH_SCREEN_TITLE = 'Search';
 const String BROWSE_SCREEN_TITLE = 'Browse';
 const String NOTIFICATION_SCREEN_TITLE = 'Notifications';
+const String DONATE_SCREEN_TITLE = 'Donate';
 
 const String ABOUT_APP = '''
     <br>
@@ -26,6 +27,7 @@ const String COMMUNITY_INVITE =
     <b>Muslim Tech Network</b></p><br>''';
 const String DISCORD_INVITE_LINK = 'https://discord.gg/QFKwtFC';
 const String REDDIT_INVITE_LINK = 'https://www.reddit.com/r/muslimtechnet/';
+const String DONATE_LINK = 'https://www.islamic-relief.org/';
 const String DISCLAIMER =
     '''<p style="text-align:center"><b>DISCLAIMER</b></br>The original source was a PDF file,
     which was converted to an XML and parsed which isn't a foolproof method.

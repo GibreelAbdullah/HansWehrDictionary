@@ -44,7 +44,11 @@ class CommonDrawer extends StatelessWidget {
               Column(
                 children: [
                   Divider(),
-                  Donate(),
+                  DrawerItem(
+                      currentScreen: currentScreen,
+                      title: DONATE_SCREEN_TITLE,
+                      route: '/donate',
+                      icon: Icons.payment),
                   DrawerItem(
                       currentScreen: currentScreen,
                       title: SETTINGS_SCREEN_TITLE,
@@ -72,80 +76,52 @@ class CommonDrawer extends StatelessWidget {
   }
 }
 
-class Donate extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return FlatButton(
-      onPressed: () {
-        Navigator.pop(context);
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Center(
-                  child: Text(
-                'DONATE',
-                style: Theme.of(context).textTheme.bodyText1,
-              )),
-              titlePadding: const EdgeInsets.all(8.0),
-              contentPadding: const EdgeInsets.all(0.0),
-              content: Container(
-                child: FlatButton(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.payment,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            child: Image(
-                              image: AssetImage('assets/paypal.png'),
-                            ),
-                            height: 80,
-                          ),
-                        ],
-                      ),
-                      CopyIcon()
-                    ],
-                  ),
-                  onPressed: () {
-                    launch(PAYPAL_LINK);
-                  },
-                ),
-              ),
-              actions: [
-                FlatButton(
-                  child: Text(
-                    'DISMISS',
-                    style: Theme.of(context).textTheme.bodyText2,
-                  ),
-                  onPressed: Navigator.of(context).pop,
-                ),
-              ],
-            );
-          },
-        );
-      },
-      child: Row(
-        children: [
-          Icon(Icons.payment),
-          SizedBox(
-            width: 10,
-          ),
-          Text(
-            'Donate',
-            style: Theme.of(context).textTheme.bodyText1,
-          )
-        ],
-      ),
-    );
-  }
-}
+// class Donate extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return FlatButton(
+//       onPressed: () {
+//         Navigator.pop(context);
+//         showDialog(
+//           context: context,
+//           builder: (BuildContext context) {
+//             return AlertDialog(
+//               title: Center(
+//                   child: Text(
+//                 'DONATE',
+//                 style: Theme.of(context).textTheme.bodyText1,
+//               )),
+//               titlePadding: const EdgeInsets.all(8.0),
+//               contentPadding: const EdgeInsets.all(0.0),
+//               content: Container(child: Text('Thanks for considering to donate to me, however there are millions who need this money more than me')),
+//               actions: [
+//                 FlatButton(
+//                   child: Text(
+//                     'DISMISS',
+//                     style: Theme.of(context).textTheme.bodyText2,
+//                   ),
+//                   onPressed: Navigator.of(context).pop,
+//                 ),
+//               ],
+//             );
+//           },
+//         );
+//       },
+//       child: Row(
+//         children: [
+//           Icon(Icons.payment),
+//           SizedBox(
+//             width: 10,
+//           ),
+//           Text(
+//             'Donate',
+//             style: Theme.of(context).textTheme.bodyText1,
+//           )
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 class CopyIcon extends StatefulWidget {
   @override
