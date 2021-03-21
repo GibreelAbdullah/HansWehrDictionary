@@ -10,22 +10,20 @@ import '../constants/appConstants.dart';
 class DatabaseAccess {
   Future<Database> openDatabaseConnection() async {
     // Sqflite.devSetDebugModeOn(true);
-    var path = join(await getDatabasesPath(), "hanswehrV6.db");
+    var path = join(await getDatabasesPath(), "hanswehrV7.db");
     var exists = await databaseExists(path);
 
     if (!exists) {
-      print("HansWehr DB V5 doesn't exist");
       try {
         await Directory(dirname(path)).create(recursive: true);
       } catch (_) {}
-      ByteData data = await rootBundle.load(join("assets", "hanswehrV6.db"));
+      ByteData data = await rootBundle.load(join("assets", "hanswehrV7.db"));
       List<int> bytes =
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       await File(path).writeAsBytes(bytes, flush: true);
-      var oldPath = join(await getDatabasesPath(), "hanswehrV5.db");
+      var oldPath = join(await getDatabasesPath(), "hanswehrV6.db");
       exists = await databaseExists(oldPath);
       if (exists) {
-        print("HansWehr DB V5 exist");
         databaseFactory.deleteDatabase(oldPath);
       }
     }
