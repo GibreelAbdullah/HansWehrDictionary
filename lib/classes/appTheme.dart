@@ -33,6 +33,9 @@ ThemeData lightTheme = ThemeData.light().copyWith(
   scaffoldBackgroundColor:
       hexToColor(locator<LocalStorageService>().backgroundColor) ??
           Colors.white,
+  dialogBackgroundColor:
+      hexToColor(locator<LocalStorageService>().backgroundColor) ??
+          Colors.white,
   appBarTheme: AppBarTheme(
     color: hexToColor(locator<LocalStorageService>().searchBarColor) ??
         Colors.grey[100],
@@ -70,6 +73,9 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
   primaryColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
   accentColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
   canvasColor: hexToColor(locator<LocalStorageService>().backgroundColor),
+  dialogBackgroundColor:
+      hexToColor(locator<LocalStorageService>().backgroundColor) ??
+          Colors.grey[900],
   scaffoldBackgroundColor:
       hexToColor(locator<LocalStorageService>().backgroundColor) ??
           Colors.grey[900],
