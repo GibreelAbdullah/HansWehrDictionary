@@ -9,6 +9,9 @@ const String ABBREVIATIONS_SCREEN_TITLE = 'Abbreviations';
 const String SEARCH_SCREEN_TITLE = 'Search';
 const String BROWSE_SCREEN_TITLE = 'Browse';
 const String NOTIFICATION_SCREEN_TITLE = 'Notifications';
+const String DONATE_SCREEN_TITLE = 'Donate';
+const String MORE_APPS = 'More Apps';
+const String ALL_MY_APPS = 'All Apps By Me';
 
 const String ABOUT_APP = '''
     <br>
@@ -18,24 +21,29 @@ const String ABOUT_APP = '''
 const String WHATS_NEW =
     '''<p style="text-align:center"><b> What's New :</b> </p>
     <p style="text-align:left">
-    - Font Options <br>
+    - Donate Option <br>
+    - Dictionary Updates including mistake pointed by Jeremy (Thanks) <br>
     </p> <p style="text-align:center"> <a href = "https://github.com/MuslimTechNet/HansWehrDictionary/blob/master/README.md">Source Code, Full Release Notes and Future Work</a></p><br>''';
 const String COMMUNITY_INVITE =
     '''<p style="text-align:center">If you are a Muslim tech professional or aspiring to be one join the <br>
     <b>Muslim Tech Network</b></p><br>''';
 const String DISCORD_INVITE_LINK = 'https://discord.gg/QFKwtFC';
 const String REDDIT_INVITE_LINK = 'https://www.reddit.com/r/muslimtechnet/';
+const String DONATE_LINK = 'https://www.islamic-relief.org/';
 const String DISCLAIMER =
     '''<p style="text-align:center"><b>DISCLAIMER</b></br>The original source was a PDF file,
     which was converted to an XML and parsed which isn't a foolproof method.
     A lot of manual correction was needed and might still have a few errors. 
     Do let me know if you find any - <a href = "mailto: gibreel.khan@gmail.com">gibreel.khan@gmail.com</a><br>
-    Mail me if you have a job offer.</p><br>''';
+    (Mail me if you have a job offer.)</p><br>''';
 final DatabaseAccess databaseObject = new DatabaseAccess();
 final Future<Database> databaseConnection =
     DatabaseAccess().openDatabaseConnection();
 
-const String PLAY_STORE_LINK =
+const String LANE_LEXICON_ANDROID_LINK =
+    'https://play.google.com/store/apps/details?id=com.muslimtechnet.lanelexicon';
+
+const String HANS_WEHR_ANDROID_LINK =
     'https://play.google.com/store/apps/details?id=com.muslimtechnet.hanswehr';
 
 const List<String> VERB_FORMS = [

@@ -45,6 +45,16 @@ class CommonDrawer extends StatelessWidget {
                   Divider(),
                   DrawerItem(
                       currentScreen: currentScreen,
+                      title: MORE_APPS,
+                      route: '/moreapps',
+                      icon: Icons.more_horiz),
+                  DrawerItem(
+                      currentScreen: currentScreen,
+                      title: DONATE_SCREEN_TITLE,
+                      route: '/donate',
+                      icon: Icons.payment),
+                  DrawerItem(
+                      currentScreen: currentScreen,
                       title: SETTINGS_SCREEN_TITLE,
                       route: '/settings',
                       icon: Icons.settings),
@@ -53,12 +63,6 @@ class CommonDrawer extends StatelessWidget {
                       title: ABOUT_APP_SCREEN_TITLE,
                       route: '/aboutus',
                       icon: Icons.people),
-                  // DrawerItem(
-                  //   currentScreen: currentScreen,
-                  //   title: NOTIFICATION_SCREEN_TITLE,
-                  //   route: '/notifications',
-                  //   icon: Icons.notifications,
-                  // ),
                   RateUs(),
                 ],
               ),
@@ -93,15 +97,15 @@ class RateUs extends StatelessWidget {
               ],
             ),
             onPressed: () {
-              launch(PLAY_STORE_LINK);
+              launch(HANS_WEHR_ANDROID_LINK);
             },
           ),
         ),
         FlatButton(
           child: Icon(Icons.share),
           onPressed: () {
-            Share.share(
-                'Check out this Hans Wehr Dictionary App : ' + PLAY_STORE_LINK);
+            Share.share('Check out this Hans Wehr Dictionary App : ' +
+                HANS_WEHR_ANDROID_LINK);
           },
         ),
       ],

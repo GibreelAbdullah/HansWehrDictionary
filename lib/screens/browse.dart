@@ -123,9 +123,11 @@ class _BrowseState extends State<Browse> {
         return AlertDialog(
           insetPadding: EdgeInsets.all(0),
           contentPadding: EdgeInsets.all(0),
-          title: Text(
-            word,
-            style: Theme.of(context).textTheme.bodyText2,
+          title: Center(
+            child: Text(
+              word,
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
           ),
           content: Container(
             height: MediaQuery.of(context).size.height * .7,

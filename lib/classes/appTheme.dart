@@ -12,7 +12,9 @@ ThemeData lightTheme = ThemeData.light().copyWith(
         bodyText2: TextStyle(
           fontFamily: locator<LocalStorageService>().font,
           fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
-          color: hexToColor(locator<LocalStorageService>().highlightTextColor),
+          color:
+              hexToColor(locator<LocalStorageService>().highlightTextColor) ??
+                  Colors.black,
         ),
         subtitle1: TextStyle(
           fontFamily: locator<LocalStorageService>().font,
@@ -29,6 +31,9 @@ ThemeData lightTheme = ThemeData.light().copyWith(
   accentColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
   canvasColor: hexToColor(locator<LocalStorageService>().backgroundColor),
   scaffoldBackgroundColor:
+      hexToColor(locator<LocalStorageService>().backgroundColor) ??
+          Colors.white,
+  dialogBackgroundColor:
       hexToColor(locator<LocalStorageService>().backgroundColor) ??
           Colors.white,
   appBarTheme: AppBarTheme(
@@ -51,7 +56,9 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
         bodyText2: TextStyle(
           fontFamily: locator<LocalStorageService>().font,
           fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
-          color: hexToColor(locator<LocalStorageService>().highlightTextColor),
+          color:
+              hexToColor(locator<LocalStorageService>().highlightTextColor) ??
+                  Colors.white,
         ),
         //Used By Expansion Tile
         subtitle1: TextStyle(
@@ -66,6 +73,9 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
   primaryColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
   accentColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
   canvasColor: hexToColor(locator<LocalStorageService>().backgroundColor),
+  dialogBackgroundColor:
+      hexToColor(locator<LocalStorageService>().backgroundColor) ??
+          Colors.grey[900],
   scaffoldBackgroundColor:
       hexToColor(locator<LocalStorageService>().backgroundColor) ??
           Colors.grey[900],

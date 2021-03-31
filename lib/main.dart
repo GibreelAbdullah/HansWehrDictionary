@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './classes/themeModel.dart';
 import './serviceLocator.dart';
-// import '../services/appReview.dart';
+import './services/appReview.dart';
 // import './services/checkDatabaseUpdates.dart';
 import './routes.dart';
 
@@ -27,7 +27,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    // appReview();
+    appReview();
     // checkDatabaseUpdates();
   }
 
