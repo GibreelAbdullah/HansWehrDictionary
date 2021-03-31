@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-// import './screens/notifications.dart';
+import './screens/moreApps.dart';
 import './screens/abbreviations.dart';
 import './screens/aboutApp.dart';
 import './screens/browse.dart';
@@ -12,6 +12,7 @@ Map<String, WidgetBuilder> routes = {
   '/aboutus': (context) => AboutApp(),
   '/browse': (context) => Browse(),
   '/abbreviations': (context) => Abbreviations(),
+  '/moreapps': (context) => MoreApps(),
   '/donate': (context) => Donate(),
   '/settings': (context) => Settings(),
 };

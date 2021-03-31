@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '../constants/appConstants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share/share.dart';
@@ -46,6 +45,11 @@ class CommonDrawer extends StatelessWidget {
                   Divider(),
                   DrawerItem(
                       currentScreen: currentScreen,
+                      title: MORE_APPS,
+                      route: '/moreapps',
+                      icon: Icons.more_horiz),
+                  DrawerItem(
+                      currentScreen: currentScreen,
                       title: DONATE_SCREEN_TITLE,
                       route: '/donate',
                       icon: Icons.payment),
@@ -59,12 +63,6 @@ class CommonDrawer extends StatelessWidget {
                       title: ABOUT_APP_SCREEN_TITLE,
                       route: '/aboutus',
                       icon: Icons.people),
-                  // DrawerItem(
-                  //   currentScreen: currentScreen,
-                  //   title: NOTIFICATION_SCREEN_TITLE,
-                  //   route: '/notifications',
-                  //   icon: Icons.notifications,
-                  // ),
                   RateUs(),
                 ],
               ),
@@ -72,76 +70,6 @@ class CommonDrawer extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-// class Donate extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return FlatButton(
-//       onPressed: () {
-//         Navigator.pop(context);
-//         showDialog(
-//           context: context,
-//           builder: (BuildContext context) {
-//             return AlertDialog(
-//               title: Center(
-//                   child: Text(
-//                 'DONATE',
-//                 style: Theme.of(context).textTheme.bodyText1,
-//               )),
-//               titlePadding: const EdgeInsets.all(8.0),
-//               contentPadding: const EdgeInsets.all(0.0),
-//               content: Container(child: Text('Thanks for considering to donate to me, however there are millions who need this money more than me')),
-//               actions: [
-//                 FlatButton(
-//                   child: Text(
-//                     'DISMISS',
-//                     style: Theme.of(context).textTheme.bodyText2,
-//                   ),
-//                   onPressed: Navigator.of(context).pop,
-//                 ),
-//               ],
-//             );
-//           },
-//         );
-//       },
-//       child: Row(
-//         children: [
-//           Icon(Icons.payment),
-//           SizedBox(
-//             width: 10,
-//           ),
-//           Text(
-//             'Donate',
-//             style: Theme.of(context).textTheme.bodyText1,
-//           )
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-class CopyIcon extends StatefulWidget {
-  @override
-  _CopyIconState createState() => _CopyIconState();
-}
-
-class _CopyIconState extends State<CopyIcon> {
-  IconData isCopied = Icons.copy;
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      icon: Icon(isCopied),
-      onPressed: () {
-        Clipboard.setData(
-          new ClipboardData(text: PAYPAL_LINK),
-        );
-        setState(() {
-          isCopied = Icons.check;
-        });
-      },
     );
   }
 }
@@ -169,15 +97,15 @@ class RateUs extends StatelessWidget {
               ],
             ),
             onPressed: () {
-              launch(PLAY_STORE_LINK);
+              launch(HANS_WEHR_ANDROID_LINK);
             },
           ),
         ),
         FlatButton(
           child: Icon(Icons.share),
           onPressed: () {
-            Share.share(
-                'Check out this Hans Wehr Dictionary App : ' + PLAY_STORE_LINK);
+            Share.share('Check out this Hans Wehr Dictionary App : ' +
+                HANS_WEHR_ANDROID_LINK);
           },
         ),
       ],

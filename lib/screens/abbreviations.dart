@@ -17,12 +17,12 @@ class Abbreviations extends StatelessWidget {
       ),
       drawer: CommonDrawer(currentScreen: ABBREVIATIONS_SCREEN_TITLE),
       body: ListView.builder(
-        padding: EdgeInsets.fromLTRB(8, 8, 8, 100),
-        itemCount: 196,
+        padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
+        itemCount: ABBREVIATIONS.length,
         itemBuilder: (context, index) {
           if (FULL_FORM[index] == "") {
             return Container(
-              alignment: AlignmentDirectional.bottomStart,
+              // alignment: AlignmentDirectional.bottomStart,
               child: Text(
                 ABBREVIATIONS[index],
                 textScaleFactor: 2,
@@ -38,7 +38,7 @@ class Abbreviations extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    width: 100,
+                    width: MediaQuery.of(context).size.width * .25,
                     child: Text(ABBREVIATIONS[index],
                         style: Theme.of(context).textTheme.bodyText1),
                   ),
@@ -46,7 +46,7 @@ class Abbreviations extends StatelessWidget {
                     width: 10,
                   ),
                   Container(
-                    width: 200,
+                    width: MediaQuery.of(context).size.width * .6,
                     child: Text(FULL_FORM[index],
                         style: Theme.of(context).textTheme.bodyText1),
                   ),
