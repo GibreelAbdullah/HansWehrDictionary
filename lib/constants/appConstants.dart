@@ -21,8 +21,7 @@ const String ABOUT_APP = '''
 const String WHATS_NEW =
     '''<p style="text-align:center"><b> What's New :</b> </p>
     <p style="text-align:left">
-    - Donate Option <br>
-    - Dictionary Updates including mistake pointed by Jeremy (Thanks) <br>
+    - Copy Option (Long press to copy) (Thanks Abu Lubaabah Saheed) <br>
     </p> <p style="text-align:center"> <a href = "https://github.com/MuslimTechNet/HansWehrDictionary/blob/master/README.md">Source Code, Full Release Notes and Future Work</a></p><br>''';
 const String COMMUNITY_INVITE =
     '''<p style="text-align:center">If you are a Muslim tech professional or aspiring to be one join the <br>
