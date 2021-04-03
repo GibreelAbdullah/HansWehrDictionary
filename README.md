@@ -9,6 +9,9 @@ Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechne
 
 ## Release Notes
 
+#### V - 1.9.1+42 (03 April, 2021) 
+- Bug Fix (n to /n)
+
 #### V - 1.9.0+41 (02 April, 2021) 
 - Copy Option (Long press to copy)
 

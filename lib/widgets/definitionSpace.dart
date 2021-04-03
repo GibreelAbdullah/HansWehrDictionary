@@ -295,7 +295,7 @@ class DefinitionTile extends StatelessWidget {
                             if (definitionList.isRoot[i] == 1) break;
                             text = text +
                                 definitionList.definition[i] +
-                                '\n-*-*-*-*-*-*-*-*-*-n';
+                                '\n-*-*-*-*-*-*-*-*-*-\n';
                           }
                           print(text);
 
