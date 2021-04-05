@@ -6,7 +6,7 @@ import 'package:share/share.dart';
 class CommonDrawer extends StatelessWidget {
   final String currentScreen;
 
-  const CommonDrawer({this.currentScreen});
+  const CommonDrawer({required this.currentScreen});
 
   @override
   Drawer build(BuildContext context) {
@@ -81,11 +81,12 @@ class RateUs extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
-          child: FlatButton(
+          child: TextButton(
             child: Row(
               children: [
                 Icon(
                   Icons.star,
+                  color: Theme.of(context).iconTheme.color,
                 ),
                 SizedBox(
                   width: 10,
@@ -101,8 +102,11 @@ class RateUs extends StatelessWidget {
             },
           ),
         ),
-        FlatButton(
-          child: Icon(Icons.share),
+        TextButton(
+          child: Icon(
+            Icons.share,
+            color: Theme.of(context).iconTheme.color,
+          ),
           onPressed: () {
             Share.share('Check out this Hans Wehr Dictionary App : ' +
                 HANS_WEHR_ANDROID_LINK);
@@ -118,11 +122,16 @@ class DrawerItem extends StatelessWidget {
   final String title;
   final String route;
   final IconData icon;
-  DrawerItem({this.currentScreen, this.title, this.route, this.icon});
+  DrawerItem({
+    required this.currentScreen,
+    required this.title,
+    required this.route,
+    required this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       onPressed: () {
         if (currentScreen != title) {
           if (currentScreen == SEARCH_SCREEN_TITLE) {
@@ -136,7 +145,10 @@ class DrawerItem extends StatelessWidget {
       },
       child: Row(
         children: [
-          Icon(icon),
+          Icon(
+            icon,
+            color: Theme.of(context).iconTheme.color,
+          ),
           SizedBox(
             width: 10,
           ),
@@ -153,7 +165,7 @@ class DrawerItem extends StatelessWidget {
 class VerbForms extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       onPressed: () {
         Navigator.pop(context);
         showDialog(
@@ -179,9 +191,9 @@ class VerbForms extends StatelessWidget {
                         VERB_FORMS[i],
                         style: TextStyle(
                           fontFamily:
-                              Theme.of(context).textTheme.bodyText1.fontFamily,
+                              Theme.of(context).textTheme.bodyText1!.fontFamily,
                           fontSize:
-                              Theme.of(context).textTheme.bodyText1.fontSize,
+                              Theme.of(context).textTheme.bodyText1!.fontSize,
                         ),
                       ),
                       expandedCrossAxisAlignment: CrossAxisAlignment.start,
@@ -205,7 +217,7 @@ class VerbForms extends StatelessWidget {
                 ),
               ),
               actions: [
-                FlatButton(
+                TextButton(
                   child: Text(
                     'DISMISS',
                     style: Theme.of(context).textTheme.bodyText2,
@@ -219,7 +231,10 @@ class VerbForms extends StatelessWidget {
       },
       child: Row(
         children: [
-          Icon(Icons.info),
+          Icon(
+            Icons.info,
+            color: Theme.of(context).iconTheme.color,
+          ),
           SizedBox(
             width: 10,
           ),

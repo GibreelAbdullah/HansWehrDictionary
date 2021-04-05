@@ -39,7 +39,7 @@ class _AboutAppState extends State<AboutApp> {
                 ),
                 HtmlWidget(
                   ABOUT_APP,
-                  textStyle: Theme.of(context).textTheme.bodyText1,
+                  textStyle: Theme.of(context).textTheme.bodyText1!,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -47,7 +47,7 @@ class _AboutAppState extends State<AboutApp> {
                 ),
                 HtmlWidget(
                   WHATS_NEW,
-                  textStyle: Theme.of(context).textTheme.bodyText1,
+                  textStyle: Theme.of(context).textTheme.bodyText1!,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -58,7 +58,7 @@ class _AboutAppState extends State<AboutApp> {
                   children: [
                     HtmlWidget(
                       COMMUNITY_INVITE,
-                      textStyle: Theme.of(context).textTheme.bodyText1,
+                      textStyle: Theme.of(context).textTheme.bodyText1!,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -95,7 +95,7 @@ class _AboutAppState extends State<AboutApp> {
                 ),
                 HtmlWidget(
                   DISCLAIMER,
-                  textStyle: Theme.of(context).textTheme.bodyText1,
+                  textStyle: Theme.of(context).textTheme.bodyText1!,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),

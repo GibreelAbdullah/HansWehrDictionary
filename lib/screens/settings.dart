@@ -44,8 +44,8 @@ class _SettingsState extends State<Settings> {
               title: Text(
                 'Advanced Theming Options',
                 style: TextStyle(
-                  fontFamily: Theme.of(context).textTheme.bodyText1.fontFamily,
-                  fontSize: Theme.of(context).textTheme.bodyText1.fontSize,
+                  fontFamily: Theme.of(context).textTheme.bodyText1!.fontFamily,
+                  fontSize: Theme.of(context).textTheme.bodyText1!.fontSize,
                 ),
               ),
               childrenPadding: EdgeInsets.symmetric(horizontal: 16),
@@ -95,7 +95,7 @@ class _FontSelectorState extends State<FontSelector> {
           height: 2,
           // color: Colors.deepPurpleAccent,
         ),
-        onChanged: (String newValue) {
+        onChanged: (String? newValue) {
           setState(() {
             locator<LocalStorageService>().font = newValue;
           });
@@ -185,10 +185,10 @@ class _FontSizeModifierState extends State<FontSizeModifier> {
 }
 
 class ColorMod extends StatefulWidget {
-  final String title;
+  final String? title;
 
   const ColorMod({
-    Key key,
+    Key? key,
     this.title,
   }) : super(key: key);
   @override
@@ -200,7 +200,7 @@ class _ColorModState extends State<ColorMod> {
 
   @override
   Widget build(BuildContext context) {
-    Color property;
+    Color? property;
     switch (widget.title) {
       case 'Highlight Text Color':
         property =
@@ -233,7 +233,7 @@ class _ColorModState extends State<ColorMod> {
 
     return ListTile(
       title: Text(
-        widget.title,
+        widget.title!,
         style: Theme.of(context).textTheme.bodyText1,
       ),
       trailing: Container(
@@ -250,27 +250,27 @@ class _ColorModState extends State<ColorMod> {
                         case 'Highlight Text Color':
                           locator<LocalStorageService>().highlightTextColor =
                               locator<LocalStorageService>().darkTheme
-                                  ? Colors.tealAccent[200].value.toString()
+                                  ? Colors.tealAccent[200]!.value.toString()
                                   : lightTheme.accentColor.value.toString();
                           break;
                         case 'Highlight Tile Color':
                           locator<LocalStorageService>().highlightTileColor =
                               locator<LocalStorageService>().darkTheme
-                                  ? Colors.grey[900].value.toString()
+                                  ? Colors.grey[900]!.value.toString()
                                   : Colors.white.value.toString();
                           break;
                         case 'Background Color':
                           locator<LocalStorageService>().backgroundColor =
                               locator<LocalStorageService>().darkTheme
-                                  ? Colors.grey[900].value.toString()
+                                  ? Colors.grey[900]!.value.toString()
                                   : Colors.white.value.toString();
 
                           break;
                         case 'Search Bar Color':
                           locator<LocalStorageService>().searchBarColor =
                               locator<LocalStorageService>().darkTheme
-                                  ? Colors.grey[850].value.toString()
-                                  : Colors.grey[100].value.toString();
+                                  ? Colors.grey[850]!.value.toString()
+                                  : Colors.grey[100]!.value.toString();
                           break;
                         default:
                       }
@@ -300,14 +300,14 @@ class _ColorModState extends State<ColorMod> {
                         ),
                       ),
                       actions: [
-                        FlatButton(
+                        TextButton(
                           child: Text(
                             'CANCEL',
                             style: Theme.of(context).textTheme.bodyText1,
                           ),
                           onPressed: Navigator.of(context).pop,
                         ),
-                        FlatButton(
+                        TextButton(
                           child: Text(
                             'OK',
                             style: Theme.of(context).textTheme.bodyText1,
@@ -404,9 +404,9 @@ class _ThemeIconState extends State<ThemeIcon> {
               } else {
                 locator<LocalStorageService>().darkTheme = true;
                 locator<LocalStorageService>().backgroundColor =
-                    Colors.grey[900].value.toString();
+                    Colors.grey[900]!.value.toString();
                 locator<LocalStorageService>().searchBarColor =
-                    Colors.grey[900].value.toString();
+                    Colors.grey[900]!.value.toString();
                 themeIcon = Icons.wb_sunny;
               }
               Provider.of<ThemeModel>(context, listen: false).refreshTheme();

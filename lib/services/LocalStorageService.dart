@@ -15,9 +15,9 @@ class LocalStorageService {
   static const String FontSizeKey = 'fontSize';
   static const String FontKey = 'font';
 
-  static LocalStorageService _instance;
-  static SharedPreferences _preferences;
-  static Future<LocalStorageService> getInstance() async {
+  static LocalStorageService? _instance;
+  static SharedPreferences? _preferences;
+  static Future<LocalStorageService?> getInstance() async {
     if (_instance == null) {
       _instance = LocalStorageService();
     }
@@ -42,7 +42,7 @@ class LocalStorageService {
   }
 
   dynamic _getFromDisk(String key) {
-    var value = _preferences.get(key);
+    var value = _preferences!.get(key);
     print('(TRACE) LocalStorageService:_getFromDisk. key: $key value: $value');
     return value;
   }
@@ -50,7 +50,7 @@ class LocalStorageService {
   void saveStringToDisk(String key, String content) {
     print(
         '(TRACE) LocalStorageService:_saveStringToDisk. key: $key value: $content');
-    _preferences.setString(UserPreferencesKey, content);
+    _preferences!.setString(UserPreferencesKey, content);
   }
 
   bool get darkTheme => _getFromDisk(DarkThemeKey) ?? false;
@@ -62,54 +62,54 @@ class LocalStorageService {
   int get appUsage => _getFromDisk(AppUsageKey) ?? 1;
   set appUsage(int value) => _saveToDisk(AppUsageKey, value);
 
-  String get highlightTextColor => _getFromDisk(HighLightTextKey) ?? null;
-  set highlightTextColor(String value) => _saveToDisk(HighLightTextKey, value);
+  String? get highlightTextColor => _getFromDisk(HighLightTextKey) ?? null;
+  set highlightTextColor(String? value) => _saveToDisk(HighLightTextKey, value);
 
-  String get highlightTileColor => _getFromDisk(HighLightTileKey) ?? null;
-  set highlightTileColor(String value) => _saveToDisk(HighLightTileKey, value);
+  String? get highlightTileColor => _getFromDisk(HighLightTileKey) ?? null;
+  set highlightTileColor(String? value) => _saveToDisk(HighLightTileKey, value);
 
-  String get backgroundColor => _getFromDisk(BackgroundKey) ?? null;
-  set backgroundColor(String value) => _saveToDisk(BackgroundKey, value);
+  String? get backgroundColor => _getFromDisk(BackgroundKey) ?? null;
+  set backgroundColor(String? value) => _saveToDisk(BackgroundKey, value);
 
-  String get searchBarColor => _getFromDisk(SearchBarKey) ?? null;
-  set searchBarColor(String value) => _saveToDisk(SearchBarKey, value);
+  String? get searchBarColor => _getFromDisk(SearchBarKey) ?? null;
+  set searchBarColor(String? value) => _saveToDisk(SearchBarKey, value);
 
   double get fontSizeDelta => _getFromDisk(FontSizeKey) ?? 0.0;
   set fontSizeDelta(double value) => _saveToDisk(FontSizeKey, value);
 
   String get font => _getFromDisk(FontKey) ?? 'Amiri';
-  set font(String value) => _saveToDisk(FontKey, value);
+  set font(String? value) => _saveToDisk(FontKey, value);
 
   void _saveToDisk<T>(String key, T content) {
     print(
         '(TRACE) LocalStorageService:_saveStringToDisk. key: $key value: $content');
     if (content is String) {
-      _preferences.setString(key, content);
+      _preferences!.setString(key, content);
     }
     if (content is bool) {
-      _preferences.setBool(key, content);
+      _preferences!.setBool(key, content);
     }
     if (content is int) {
-      _preferences.setInt(key, content);
+      _preferences!.setInt(key, content);
     }
     if (content is double) {
-      _preferences.setDouble(key, content);
+      _preferences!.setDouble(key, content);
     }
     if (content is List<String>) {
-      _preferences.setStringList(key, content);
+      _preferences!.setStringList(key, content);
     }
   }
 }
 
 class UserPreferences {
-  final bool darkTheme;
-  final String highlightText;
-  final String highlightTile;
-  final String history;
-  final String background;
-  final String searchBar;
-  final int fontSize;
-  final String font;
+  final bool? darkTheme;
+  final String? highlightText;
+  final String? highlightTile;
+  final String? history;
+  final String? background;
+  final String? searchBar;
+  final int? fontSize;
+  final String? font;
 
   UserPreferences({
     this.darkTheme,

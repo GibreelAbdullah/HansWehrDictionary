@@ -7,7 +7,6 @@ import 'package:implicitly_animated_reorderable_list/transitions.dart';
 import 'package:provider/provider.dart';
 
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
-// import 'package:search/classes/themeModel.dart';
 import '../classes/definitionClass.dart';
 
 import '../classes/searchModel.dart';
@@ -16,7 +15,7 @@ import '../widgets/drawer.dart';
 import '../constants/appConstants.dart';
 
 class Search extends StatefulWidget {
-  const Search({Key key}) : super(key: key);
+  const Search({Key? key}) : super(key: key);
 
   @override
   _SearchState createState() => _SearchState();
@@ -79,7 +78,7 @@ class _SearchState extends State<Search> {
         physics: const BouncingScrollPhysics(),
         axisAlignment: isPortrait ? 0.0 : 0.0,
         openAxisAlignment: 0.0,
-        maxWidth: 1000,
+        // maxWidth: 1000,
         actions: actions,
         progress: model.isLoading,
         onSubmitted: (query) {
@@ -121,7 +120,7 @@ class _SearchState extends State<Search> {
     return Material(
       elevation: 4.0,
       borderRadius: BorderRadius.circular(8),
-      child: ImplicitlyAnimatedList<String>(
+      child: ImplicitlyAnimatedList<String?>(
         shrinkWrap: true,
         padding: EdgeInsets.zero,
         physics: const NeverScrollableScrollPhysics(),
@@ -130,13 +129,13 @@ class _SearchState extends State<Search> {
         itemBuilder: (context, animation, word, i) {
           return SizeFadeTransition(
             animation: animation,
-            child: buildItem(context, word),
+            child: buildItem(context, word!),
           );
         },
         updateItemBuilder: (context, animation, word) {
           return FadeTransition(
             opacity: animation,
-            child: buildItem(context, word),
+            child: buildItem(context, word!),
           );
         },
       ),
@@ -162,7 +161,7 @@ class _SearchState extends State<Search> {
               const Duration(milliseconds: 50000),
               () => model.clear(),
             );
-            FloatingSearchBar.of(context).close();
+            FloatingSearchBar.of(context)!.close();
             databaseObject
                 .definition(word, definitionList.searchType)
                 .then((value) => setState(() {

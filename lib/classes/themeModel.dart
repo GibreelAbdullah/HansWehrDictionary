@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:search/serviceLocator.dart';
-import 'package:search/services/LocalStorageService.dart';
+import '../serviceLocator.dart';
+import '../services/LocalStorageService.dart';
 import 'appTheme.dart';
 
 class ThemeModel extends ChangeNotifier {

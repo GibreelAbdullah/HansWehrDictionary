@@ -14,7 +14,7 @@ import 'package:html/parser.dart';
 
 class DefinitionSpace extends StatefulWidget {
   DefinitionSpace({
-    Key key,
+    Key? key,
   }) : super(key: key);
   @override
   _DefinitionSpaceState createState() => _DefinitionSpaceState();
@@ -40,7 +40,7 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
                 return ListTile(
                   leading: Icon(Icons.info),
                   title: Text(
-                    definitionList.searchWord,
+                    definitionList.searchWord!,
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
                   subtitle: Text(
@@ -63,8 +63,11 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
               } else {
                 if (definitionList.definition.length > 50) {
                   return Container(
-                    child: FlatButton.icon(
-                      icon: Icon(Icons.info),
+                    child: TextButton.icon(
+                      icon: Icon(
+                        Icons.info,
+                        color: Theme.of(context).iconTheme.color,
+                      ),
                       label: Text(
                         'Showing First 50 results for ${definitionList.searchWord}',
                         style: Theme.of(context).textTheme.bodyText1,
@@ -74,12 +77,15 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
                   );
                 }
                 return Container(
-                  child: FlatButton.icon(
-                    icon: Icon(Icons.info),
+                  child: TextButton.icon(
+                    icon: Icon(
+                      Icons.info,
+                      color: Theme.of(context).iconTheme.color,
+                    ),
                     label: Text(
                       definitionList.searchWord == null
                           ? "Search In Arabic or English"
-                          : definitionList.searchWord,
+                          : definitionList.searchWord!,
                       style: Theme.of(context).textTheme.bodyText1,
                     ),
                     onPressed: () {},
@@ -103,28 +109,28 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
 }
 
 class DefinitionTile extends StatelessWidget {
-  final DefinitionClass definitionList;
-  final int index;
+  final DefinitionClass? definitionList;
+  final int? index;
   const DefinitionTile({
-    Key key,
+    Key? key,
     this.definitionList,
     this.index,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (definitionList.quranOccurance[index - 1] == null) {
+    if (definitionList!.quranOccurance![index! - 1] == null) {
       return ListTile(
-        selected: definitionList.highlight[index - 1] == 1,
+        selected: definitionList!.highlight[index! - 1] == 1,
         selectedTileColor:
             hexToColor(locator<LocalStorageService>().highlightTileColor),
         contentPadding: EdgeInsets.fromLTRB(
-            definitionList.isRoot[index - 1] == 1 ? 16.0 : 50, 0, 16, 0),
+            definitionList!.isRoot[index! - 1] == 1 ? 16.0 : 50, 0, 16, 0),
         title: HtmlWidget(
-          definitionList.definition[index - 1],
+          definitionList!.definition[index! - 1]!,
           textStyle: TextStyle(
-            fontFamily: Theme.of(context).textTheme.bodyText1.fontFamily,
-            fontSize: Theme.of(context).textTheme.bodyText1.fontSize,
+            fontFamily: Theme.of(context).textTheme.bodyText1!.fontFamily,
+            fontSize: Theme.of(context).textTheme.bodyText1!.fontSize,
           ),
         ),
         onLongPress: () {
@@ -135,15 +141,15 @@ class DefinitionTile extends StatelessWidget {
     } else {
       return ListTile(
         isThreeLine: true,
-        selected: definitionList.highlight[index - 1] == 1,
+        selected: definitionList!.highlight[index! - 1] == 1,
         selectedTileColor:
             hexToColor(locator<LocalStorageService>().highlightTileColor),
         contentPadding: EdgeInsets.fromLTRB(16.0, 0, 24, 0),
         title: HtmlWidget(
-          definitionList.definition[index - 1],
+          definitionList!.definition[index! - 1]!,
           textStyle: TextStyle(
-            fontFamily: Theme.of(context).textTheme.bodyText1.fontFamily,
-            fontSize: Theme.of(context).textTheme.bodyText1.fontSize,
+            fontFamily: Theme.of(context).textTheme.bodyText1!.fontFamily,
+            fontSize: Theme.of(context).textTheme.bodyText1!.fontSize,
           ),
         ),
         subtitle: Center(
@@ -151,9 +157,10 @@ class DefinitionTile extends StatelessWidget {
             toAnimate: false,
             padding: EdgeInsets.all(2),
             badgeColor:
-                hexToColor(locator<LocalStorageService>().highlightTextColor),
+                hexToColor(locator<LocalStorageService>().highlightTextColor) ??
+                    Colors.red,
             badgeContent: Text(
-              '${definitionList.quranOccurance[index - 1]}',
+              '${definitionList!.quranOccurance![index! - 1]}',
               style: Theme.of(context).textTheme.bodyText1,
             ),
             child: Icon(Icons.menu_book),
@@ -166,7 +173,7 @@ class DefinitionTile extends StatelessWidget {
               return AlertDialog(
                 title: Center(
                   child: Text(
-                    '${definitionList.quranOccurance[index - 1]} Occurances in the Qur\'an',
+                    '${definitionList!.quranOccurance![index! - 1]} Occurances in the Qur\'an',
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
                 ),
@@ -177,15 +184,15 @@ class DefinitionTile extends StatelessWidget {
                   width: MediaQuery.of(context).size.width * .9,
                   child: FutureBuilder<List<Map<String, dynamic>>>(
                       future: databaseObject
-                          .quranicDetails(definitionList.word[index - 1]),
+                          .quranicDetails(definitionList!.word[index! - 1]),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           return ListView.builder(
                               shrinkWrap: true,
-                              itemCount: snapshot.data.length,
+                              itemCount: snapshot.data!.length,
                               itemBuilder: (context, j) {
                                 String uriScheme =
-                                    "quran://${snapshot.data[j]['SURAH']}/${snapshot.data[j]['AYAH']}/${snapshot.data[j]['POSITION']}";
+                                    "quran://${snapshot.data![j]['SURAH']}/${snapshot.data![j]['AYAH']}/${snapshot.data![j]['POSITION']}";
 
                                 return ListTile(
                                   onTap: () async {
@@ -193,7 +200,7 @@ class DefinitionTile extends StatelessWidget {
                                       await launch(uriScheme);
                                     } else
                                       await launch(
-                                          "https://www.quran.com/${snapshot.data[j]['SURAH']}/${snapshot.data[j]['AYAH']}");
+                                          "https://www.quran.com/${snapshot.data![j]['SURAH']}/${snapshot.data![j]['AYAH']}");
                                   },
                                   leading: Text(
                                     '${j + 1} - ',
@@ -201,10 +208,10 @@ class DefinitionTile extends StatelessWidget {
                                         Theme.of(context).textTheme.bodyText1,
                                   ),
                                   title: Text(
-                                    "Quran ${snapshot.data[j]['SURAH']}:${snapshot.data[j]['AYAH']}/${snapshot.data[j]['POSITION']}",
+                                    "Quran ${snapshot.data![j]['SURAH']}:${snapshot.data![j]['AYAH']}/${snapshot.data![j]['POSITION']}",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyText1
+                                        .bodyText1!
                                         .copyWith(
                                           decoration: TextDecoration.underline,
                                           color: Theme.of(context).accentColor,
@@ -220,7 +227,7 @@ class DefinitionTile extends StatelessWidget {
                       }),
                 ),
                 actions: [
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       'DISMISS',
                       style: Theme.of(context).textTheme.bodyText1,
@@ -255,77 +262,61 @@ class DefinitionTile extends StatelessWidget {
           content: Container(
             height: MediaQuery.of(context).size.height * .4,
             width: MediaQuery.of(context).size.width * .9,
-            child: Scaffold(
-              body: Builder(
-                builder: (context) {
-                  return Column(
-                    children: [
-                      ListTile(
-                        title: Text('Copy Selected Definition'),
-                        onTap: () {
-                          Clipboard.setData(ClipboardData(
-                            text: parse(
-                                    parse(definitionList.definition[index - 1])
-                                        .body
-                                        .text)
-                                .documentElement
-                                .text,
-                          ));
-                          Scaffold.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text("Copied"),
-                            ),
-                          );
-                        },
+            child: Column(
+              children: [
+                ListTile(
+                  title: Text('Copy Selected Definition'),
+                  onTap: () {
+                    Clipboard.setData(ClipboardData(
+                      text: parse(parse(definitionList!.definition[index! - 1])
+                              .body!
+                              .text)
+                          .documentElement!
+                          .text,
+                    ));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("Copied"),
                       ),
-                      ListTile(
-                        title: Text('Copy Root and Derivatives'),
-                        onTap: () {
-                          String text = '';
-                          for (var i = index - 1; i >= 0; i--) {
-                            text = definitionList.definition[i] +
-                                '\n-*-*-*-*-*-*-*-*-*-\n' +
-                                text;
-                            if (definitionList.isRoot[i] == 1) break;
-                          }
-                          print(text);
-                          for (var i = index;
-                              i < definitionList.definition.length;
-                              i++) {
-                            if (definitionList.isRoot[i] == 1) break;
-                            text = text +
-                                definitionList.definition[i] +
-                                '\n-*-*-*-*-*-*-*-*-*-\n';
-                          }
-                          print(text);
+                    );
+                  },
+                ),
+                ListTile(
+                  title: Text('Copy Root and Derivatives'),
+                  onTap: () {
+                    String text = '';
+                    for (var i = index! - 1; i >= 0; i--) {
+                      text = definitionList!.definition[i]! +
+                          '\n-*-*-*-*-*-*-*-*-*-\n' +
+                          text;
+                      if (definitionList!.isRoot[i] == 1) break;
+                    }
+                    print(text);
+                    for (var i = index!;
+                        i < definitionList!.definition.length;
+                        i++) {
+                      if (definitionList!.isRoot[i] == 1) break;
+                      text = text +
+                          definitionList!.definition[i]! +
+                          '\n-*-*-*-*-*-*-*-*-*-\n';
+                    }
+                    print(text);
 
-                          Clipboard.setData(ClipboardData(
-                            text: parse(parse(text).body.text)
-                                .documentElement
-                                .text,
-                          ));
-                          Scaffold.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text("Copied"),
-                            ),
-                          );
-
-                          // Clipboard.setData(ClipboardData(text: '123'));
-                          // Scaffold.of(context).showSnackBar(
-                          //   SnackBar(
-                          //     content: Text("Copied"),
-                          //   ),
-                          // );
-                        },
-                      )
-                    ],
-                  );
-                },
-              ),
+                    Clipboard.setData(ClipboardData(
+                      text: parse(parse(text).body!.text).documentElement!.text,
+                    ));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("Copied"),
+                      ),
+                    );
+                  },
+                )
+              ],
             ),
           ),
           actions: [
-            FlatButton(
+            TextButton(
               child: Text(
                 'DISMISS',
                 style: Theme.of(context).textTheme.bodyText1,
