@@ -9,6 +9,10 @@ Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechne
 
 ## Release Notes
 
+#### V - 1.9.1+42 (10 April, 2021) 
+- Qur'an occurence updated to include some missing words
+- Added courtsey section in About App screen
+
 #### V - 1.9.1+42 (03 April, 2021) 
 - Bug Fix (n to /n)
 

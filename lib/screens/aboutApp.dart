@@ -7,7 +7,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../widgets/drawer.dart';
 import '../constants/appConstants.dart';
 
-
 class AboutApp extends StatefulWidget {
   @override
   _AboutAppState createState() => _AboutAppState();
@@ -33,6 +32,14 @@ class _AboutAppState extends State<AboutApp> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Divider(),
+                ),
+                HtmlWidget(
+                  DISCLAIMER,
+                  textStyle: Theme.of(context).textTheme.bodyText1!,
+                ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Divider(),
@@ -94,7 +101,15 @@ class _AboutAppState extends State<AboutApp> {
                   child: Divider(),
                 ),
                 HtmlWidget(
-                  DISCLAIMER,
+                  COURTSEY,
+                  textStyle: Theme.of(context).textTheme.bodyText1!,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Divider(),
+                ),
+                HtmlWidget(
+                  CONTACT_ME,
                   textStyle: Theme.of(context).textTheme.bodyText1!,
                 ),
                 Padding(
