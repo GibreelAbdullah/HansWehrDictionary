@@ -1,35 +1,35 @@
-name: search
+name: hans_wehr_dictionary
 description: A new Flutter project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.8.4+39
+version: 1.10.0+44
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
-
+  sdk: '>=2.12.0 <3.0.0'
+  
 dependencies:
   flutter:
     sdk: flutter
-  sqflite: ^1.3.2+3
-  path: ^1.7.0
-  http: ^0.12.2
-  material_floating_search_bar: ^0.2.6
-  provider: ^4.3.3
-  implicitly_animated_reorderable_list: ^0.3.2
-  flutter_widget_from_html: ^0.5.1+5
-  url_launcher: ^5.7.10
-  cupertino_icons: ^1.0.0
-  shared_preferences: ^0.5.12+4
-  get_it: ^5.0.3
-  share: ^0.6.5+4
-  in_app_review: ^1.0.4
-  flutter_colorpicker: ^0.3.5
-  badges: ^1.1.6
-  carousel_slider: ^3.0.0
-  
+  sqflite: ^2.0.0+3
+  path: ^1.8.0
+  http: ^0.13.1
+  material_floating_search_bar: ^0.3.3
+  provider: ^5.0.0
+  implicitly_animated_reorderable_list: ^0.4.0-dev+4
+  flutter_widget_from_html: ^0.6.0-rc.2021031201
+  url_launcher: ^6.0.3
+  cupertino_icons: ^1.0.2
+  shared_preferences: ^2.0.5
+  get_it: ^6.0.0
+  share: ^2.0.1
+  in_app_review: ^2.0.1
+  flutter_colorpicker: ^0.4.0
+  badges: ^2.0.0-nullsafety.1
+
 dev_dependencies:
-  flutter_launcher_icons: "^0.8.0"
+  flutter_native_splash: ^1.1.7+1
+  flutter_launcher_icons: ^0.9.0
   flutter_test:
     sdk: flutter
 
@@ -53,3 +53,7 @@ flutter:
   - family: Amiri
     fonts:
       - asset: fonts/Amiri-Regular.ttf
+
+flutter_native_splash:
+  # color: "#42a5f5"
+  background_image: "assets/SplashScreen.png"

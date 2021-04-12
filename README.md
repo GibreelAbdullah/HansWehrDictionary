@@ -9,89 +9,105 @@ Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechne
 
 ## Release Notes
 
-#### V - 1.8.4+39 (31 March, 2020) 
+#### V - 1.10.0+44 (12 April, 2021) 
+- Splash Screen
+
+#### V - 1.9.2+43 (10 April, 2021) 
+- Qur'an occurence updated to include some missing words
+- Added courtsey section in About App screen
+
+#### V - 1.9.1+42 (03 April, 2021) 
+- Bug Fix (n to /n)
+
+#### V - 1.9.0+41 (02 April, 2021) 
+- Copy Option (Long press to copy)
+
+#### V - 1.8.5+40 (02 April, 2021) Beta - Not released to production
+- Removed pics from donate
+
+#### V - 1.8.4+39 (31 March, 2021) Beta - Not released to production
 - More Apps Section
 
-#### V - 1.8.3+38 (2X March, 2020) 
+#### V - 1.8.3+38 (2X March, 2021) 
 - Donate to charity
 
-#### V - 1.8.0+35 (01 March, 2020) 
+#### V - 1.8.0+35 (01 March, 2021) 
 - Donate Option
 - Dictionary Updates including mistake pointed by Jeremy (Thanks)
 
-#### V - 1.7.2+34 (19 Feb, 2020) 
+#### V - 1.7.2+34 (19 Feb, 2021) 
 - Font Options
 - Bug Fixes
 - Code Refactoring
 
-#### V - 1.7.1+33 (17 Feb, 2020) Beta - Not released to production
+#### V - 1.7.1+33 (17 Feb, 2021) Beta - Not released to production
 - Font Options
 
-#### V - 1.6.7+31 (08 Feb, 2020) 
+#### V - 1.6.7+31 (08 Feb, 2021) 
 - Quran Occurrence
 - Remvoved Ads
 - Incorrect numbering of root (Thanks Faisal)
 
-#### V - 1.6.6+30 (07 Feb, 2020)
+#### V - 1.6.6+30 (07 Feb, 2021)
 - Quran Occurrence
 
-#### V - 1.6.5+29 (07 Feb, 2020) 
+#### V - 1.6.5+29 (07 Feb, 2021) 
 - Verb Roots helper
 - Uncluttered Drawer
 - Code refactoring
 
-#### V - 1.6.4+28 (06 Feb, 2020) 
+#### V - 1.6.4+28 (06 Feb, 2021) 
 - Setup for Quran roots integration
 - Corrected lot of root words
 
-#### V - 1.6.2+26 (05 Feb, 2020) Beta - Not released to production
+#### V - 1.6.2+26 (05 Feb, 2021) Beta - Not released to production
 - Back to admob :(
 
-#### V - 1.6.0+23 (05 Feb, 2020) Beta - Not released to production
+#### V - 1.6.0+23 (05 Feb, 2021) Beta - Not released to production
 - Highlight Text and Tile customization. (Thanks Suleman Chaudhary)
 - Re-introduced settings screen.
 - Added missing words شرف and others (Thanks mspec786)
 
-#### V - 1.5.4+22 (02 Feb, 2020)
+#### V - 1.5.4+22 (02 Feb, 2021)
 - Highlight text instead of highlight tile.
 - Removed settings screen.
 - Bug Fix : Search word in first tile not getting updated.
 
-#### V - 1.5.1/2/3+19/20/21 (01 Feb, 2020) Beta - Not released to production
+#### V - 1.5.1/2/3+19/20/21 (01 Feb, 2021) Beta - Not released to production
 - Bug Fix in history of English words.
 
-#### V - 1.5.0+18 (31 Jan, 2020) Beta - Not released to production
+#### V - 1.5.0+18 (31 Jan, 2021) Beta - Not released to production
 - Full text search in English and Arabic
 - Enter/Submit to search.
 
-#### V - 1.4.7+17 (28 Jan, 2020)
+#### V - 1.4.7+17 (28 Jan, 2021)
 - Fixed incorrect app label.
 
-#### V - 1.4.6+16 (28 Jan, 2020)
+#### V - 1.4.6+16 (28 Jan, 2021)
 - Switched to mediation.
 
-#### V - 1.4.5+15 (25 Jan, 2020) Not released
+#### V - 1.4.5+15 (25 Jan, 2021) Not released
 - Changed admob banner ad
 
-#### V - 1.4.4+14 (24 Jan, 2020) Alpha release - reverted
+#### V - 1.4.4+14 (24 Jan, 2021) Alpha release - reverted
 - FAN
 
-#### V - 1.4.3+13 (21 Jan, 2020)
+#### V - 1.4.3+13 (21 Jan, 2021)
 Bug Fix - Clicking on search history gives no result. (Thanks Mohammed Irfan).
 Bug Fix in Notification screen. 
 
-#### V - 1.4.2+12 (21 Jan, 2020)
+#### V - 1.4.2+12 (21 Jan, 2021)
 Bug Fix - Browse Screen now also highlights roman numbers denoting verb forms
 
-#### V - 1.4.1+11 (20 Jan, 2020)
+#### V - 1.4.1+11 (20 Jan, 2021)
 - Bug Fixes and Improvements in Notification and About App screen.
 
-#### V - 1.4.0+10 (18 Jan, 2020)
+#### V - 1.4.0+10 (18 Jan, 2021)
 - Highlighted roman numerals depicting verb forms (Thanks Mohammed Irfan)
 - Future database updates will now be pushed directly without the need to update the app.
 - Introduced notification screen which will notify about the updated database
 
-#### V - 1.3.0+9 (13 Jan, 2020)
+#### V - 1.3.0+9 (13 Jan, 2021)
 - History of 5 recent searches (Thanks Mohammed Irfan)
 - Corrected typo in definition of دخل (Thanks Yusuf)
 - Corrected the root of كشف 

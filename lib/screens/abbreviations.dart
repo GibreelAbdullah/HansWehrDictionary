@@ -27,7 +27,7 @@ class Abbreviations extends StatelessWidget {
                 ABBREVIATIONS[index],
                 textScaleFactor: 2,
                 textAlign: TextAlign.left,
-                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                style: Theme.of(context).textTheme.bodyText1!.copyWith(
                       color: Colors.grey,
                     ),
               ),

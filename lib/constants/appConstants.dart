@@ -17,13 +17,11 @@ const String ABOUT_APP = '''
     <br>
     <p style="text-align:center">The <i><b>Dictionary of Modern Written Arabic</b></i> is an Arabic-English dictionary compiled by 
     <a href="https://en.wikipedia.org/wiki/Hans_Wehr" title="Hans Wehr">Hans Wehr</a> and edited by 
-    <a href="https://en.wikipedia.org/wiki/J_Milton_Cowan" title="J Milton Cowan">J Milton Cowan</a>.<br>''';
+    <a href="https://en.wikipedia.org/wiki/J_Milton_Cowan" title="J Milton Cowan">J Milton Cowan</a>.''';
 const String WHATS_NEW =
-    '''<p style="text-align:center"><b> What's New :</b> </p>
-    <p style="text-align:left">
-    - Donate Option <br>
-    - Dictionary Updates including mistake pointed by Jeremy (Thanks) <br>
-    </p> <p style="text-align:center"> <a href = "https://github.com/MuslimTechNet/HansWehrDictionary/blob/master/README.md">Source Code, Full Release Notes and Future Work</a></p><br>''';
+    '''<p style="text-align:center"><b> What's New :</b><br>
+    - Splash Screen <br>
+    <a href = "https://github.com/MuslimTechNet/HansWehrDictionary/blob/master/README.md">Source Code, Full Release Notes and Future Work</a></p><br>''';
 const String COMMUNITY_INVITE =
     '''<p style="text-align:center">If you are a Muslim tech professional or aspiring to be one join the <br>
     <b>Muslim Tech Network</b></p><br>''';
@@ -31,11 +29,18 @@ const String DISCORD_INVITE_LINK = 'https://discord.gg/QFKwtFC';
 const String REDDIT_INVITE_LINK = 'https://www.reddit.com/r/muslimtechnet/';
 const String DONATE_LINK = 'https://www.islamic-relief.org/';
 const String DISCLAIMER =
-    '''<p style="text-align:center"><b>DISCLAIMER</b></br>The original source was a PDF file,
-    which was converted to an XML and parsed which isn't a foolproof method.
-    A lot of manual correction was needed and might still have a few errors. 
-    Do let me know if you find any - <a href = "mailto: gibreel.khan@gmail.com">gibreel.khan@gmail.com</a><br>
-    (Mail me if you have a job offer.)</p><br>''';
+    '''<p style="text-align:center"><b>DISCLAIMER - Not 100% Accurate.</b></br>
+    Text was extracted from scanned pages and may have errors.</p>''';
+
+const String CONTACT_ME = '''<p style="text-align:center"><b>CONTACT ME</b></br>
+    If you have an idea for an app or have a job offer <br><a href = "mailto: gibreel.khan@gmail.com">gibreel.khan@gmail.com</a><br></p><br>''';
+
+const String COURTSEY = '''<p style="text-align:center"><b>COURTSEY</b>
+    <ul>
+      <li><a href="https://github.com/jamalosman/hanswehr-app">Jamal Osman and Muhammad Abdurrahman</a> for the digitisation of the dictionary.
+      <li><a href="https://corpus.quran.com/">Quran.com</a> for their word-by-word breakdown of Quranic text</li>
+    </ul>
+    </p><br>''';
 final DatabaseAccess databaseObject = new DatabaseAccess();
 final Future<Database> databaseConnection =
     DatabaseAccess().openDatabaseConnection();

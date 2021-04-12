@@ -5,5 +5,5 @@ GetIt locator = GetIt.instance;
 
 Future setupLocator() async {
   var instance = await LocalStorageService.getInstance();
-  locator.registerSingleton<LocalStorageService>(instance);
+  locator.registerSingleton<LocalStorageService>(instance!);
 }

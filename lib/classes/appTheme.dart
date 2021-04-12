@@ -89,6 +89,6 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
   iconTheme: IconThemeData(color: Colors.white),
 );
 
-Color hexToColor(String code) {
+Color? hexToColor(String? code) {
   return code == null ? null : Color(int.parse(code));
 }

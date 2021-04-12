@@ -38,8 +38,8 @@ class _BrowseState extends State<Browse> {
           title: Text(
             ALL_ALPHABETS[i],
             style: TextStyle(
-              fontFamily: Theme.of(context).textTheme.bodyText1.fontFamily,
-              fontSize: Theme.of(context).textTheme.bodyText1.fontSize,
+              fontFamily: Theme.of(context).textTheme.bodyText1!.fontFamily,
+              fontSize: Theme.of(context).textTheme.bodyText1!.fontSize,
             ),
           ),
           children: [buildSecondLevelAlphabets(i)],
@@ -48,8 +48,8 @@ class _BrowseState extends State<Browse> {
     );
   }
 
-  FutureBuilder<List<String>> buildSecondLevelAlphabets(int i) {
-    return FutureBuilder<List<String>>(
+  FutureBuilder<List<String?>> buildSecondLevelAlphabets(int i) {
+    return FutureBuilder<List<String?>>(
       future: databaseObject.allXLevelWords(ALL_ALPHABETS[i], 2),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
@@ -63,16 +63,16 @@ class _BrowseState extends State<Browse> {
           return ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: snapshot.data.length,
+              itemCount: snapshot.data!.length,
               itemBuilder: (context, j) {
                 return ExpansionTile(
                   tilePadding: EdgeInsets.fromLTRB(40, 0, 40, 0),
                   title: Text(
-                    snapshot.data[j],
+                    snapshot.data![j]!,
                     style: TextStyle(
                       fontFamily:
-                          Theme.of(context).textTheme.bodyText1.fontFamily,
-                      fontSize: Theme.of(context).textTheme.bodyText1.fontSize,
+                          Theme.of(context).textTheme.bodyText1!.fontFamily,
+                      fontSize: Theme.of(context).textTheme.bodyText1!.fontSize,
                     ),
                   ),
                   children: [buildRootWords(snapshot, j)],
@@ -83,27 +83,30 @@ class _BrowseState extends State<Browse> {
     );
   }
 
-  FutureBuilder<List<String>> buildRootWords(
-      AsyncSnapshot<List<String>> snapshot, int j) {
-    return FutureBuilder<List<String>>(
-        future: databaseObject.allXLevelWords(snapshot.data[j], 3),
+  FutureBuilder<List<String?>> buildRootWords(
+      AsyncSnapshot<List<String?>> snapshot, int j) {
+    return FutureBuilder<List<String?>>(
+        future: databaseObject.allXLevelWords(snapshot.data![j], 3),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: snapshot.data.length,
+                itemCount: snapshot.data!.length,
                 itemBuilder: (context, j) {
                   return Padding(
                     padding: const EdgeInsets.fromLTRB(48, 0, 48, 0),
                     child: ListTile(
-                      leading: Icon(Icons.label_important),
+                      leading: Icon(
+                        Icons.label_important,
+                        color: Theme.of(context).iconTheme.color,
+                      ),
                       title: Text(
-                        snapshot.data[j],
+                        snapshot.data![j]!,
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
                       onTap: () {
-                        buildDefinitionAlert(context, snapshot.data[j]);
+                        buildDefinitionAlert(context, snapshot.data![j]);
                       },
                     ),
                   );
@@ -116,7 +119,7 @@ class _BrowseState extends State<Browse> {
         });
   }
 
-  Future buildDefinitionAlert(BuildContext context, String word) {
+  Future buildDefinitionAlert(BuildContext context, String? word) {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -125,7 +128,7 @@ class _BrowseState extends State<Browse> {
           contentPadding: EdgeInsets.all(0),
           title: Center(
             child: Text(
-              word,
+              word!,
               style: Theme.of(context).textTheme.bodyText1,
             ),
           ),
@@ -149,17 +152,17 @@ class _BrowseState extends State<Browse> {
                   );
                 } else {
                   return ListView.builder(
-                    itemCount: snapshot.data.definition.length,
+                    itemCount: snapshot.data!.definition.length,
                     itemBuilder: (context, index) {
                       return ListTile(
                         contentPadding: EdgeInsets.fromLTRB(
-                            snapshot.data.isRoot[index] == 1 ? 16.0 : 50.0,
+                            snapshot.data!.isRoot[index] == 1 ? 16.0 : 50.0,
                             0,
                             16,
                             0),
                         title: HtmlWidget(
-                          snapshot.data.definition[index],
-                          textStyle: Theme.of(context).textTheme.bodyText1,
+                          snapshot.data!.definition[index]!,
+                          textStyle: Theme.of(context).textTheme.bodyText1!,
                         ),
                       );
                     },

@@ -7,7 +7,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../widgets/drawer.dart';
 import '../constants/appConstants.dart';
 
-
 class AboutApp extends StatefulWidget {
   @override
   _AboutAppState createState() => _AboutAppState();
@@ -38,8 +37,16 @@ class _AboutAppState extends State<AboutApp> {
                   child: Divider(),
                 ),
                 HtmlWidget(
+                  DISCLAIMER,
+                  textStyle: Theme.of(context).textTheme.bodyText1!,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Divider(),
+                ),
+                HtmlWidget(
                   ABOUT_APP,
-                  textStyle: Theme.of(context).textTheme.bodyText1,
+                  textStyle: Theme.of(context).textTheme.bodyText1!,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -47,7 +54,7 @@ class _AboutAppState extends State<AboutApp> {
                 ),
                 HtmlWidget(
                   WHATS_NEW,
-                  textStyle: Theme.of(context).textTheme.bodyText1,
+                  textStyle: Theme.of(context).textTheme.bodyText1!,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -58,7 +65,7 @@ class _AboutAppState extends State<AboutApp> {
                   children: [
                     HtmlWidget(
                       COMMUNITY_INVITE,
-                      textStyle: Theme.of(context).textTheme.bodyText1,
+                      textStyle: Theme.of(context).textTheme.bodyText1!,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -94,8 +101,16 @@ class _AboutAppState extends State<AboutApp> {
                   child: Divider(),
                 ),
                 HtmlWidget(
-                  DISCLAIMER,
-                  textStyle: Theme.of(context).textTheme.bodyText1,
+                  COURTSEY,
+                  textStyle: Theme.of(context).textTheme.bodyText1!,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Divider(),
+                ),
+                HtmlWidget(
+                  CONTACT_ME,
+                  textStyle: Theme.of(context).textTheme.bodyText1!,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
