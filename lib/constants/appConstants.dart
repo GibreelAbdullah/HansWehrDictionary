@@ -20,7 +20,7 @@ const String ABOUT_APP = '''
     <a href="https://en.wikipedia.org/wiki/J_Milton_Cowan" title="J Milton Cowan">J Milton Cowan</a>.''';
 const String WHATS_NEW =
     '''<p style="text-align:center"><b> What's New :</b><br>
-    - Copy Option (Long press to copy) (Thanks Abu Lubaabah Saheed)
+    - Splash Screen <br>
     <a href = "https://github.com/MuslimTechNet/HansWehrDictionary/blob/master/README.md">Source Code, Full Release Notes and Future Work</a></p><br>''';
 const String COMMUNITY_INVITE =
     '''<p style="text-align:center">If you are a Muslim tech professional or aspiring to be one join the <br>
