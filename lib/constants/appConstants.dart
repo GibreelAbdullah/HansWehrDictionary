@@ -10,6 +10,7 @@ const String SEARCH_SCREEN_TITLE = 'Search';
 const String BROWSE_SCREEN_TITLE = 'Browse';
 const String NOTIFICATION_SCREEN_TITLE = 'Notifications';
 const String DONATE_SCREEN_TITLE = 'Donate';
+const String FAVORITES_SCREEN_TITLE = 'Favorites';
 const String MORE_APPS = 'More Apps';
 const String ALL_MY_APPS = 'All Apps By Me';
 
