@@ -42,11 +42,13 @@ class _SearchState extends State<Search> {
       create: (_) => SearchModel(),
       child: ChangeNotifierProvider<DefinitionClass>(
         create: (_) => DefinitionClass(
+          id: [],
           word: [],
           definition: [],
           isRoot: [],
           highlight: [],
           quranOccurance: [],
+          favoriteFlag: [],
         ),
         child: Scaffold(
           resizeToAvoidBottomInset: false,
@@ -69,6 +71,14 @@ class _SearchState extends State<Search> {
 
     return Consumer<SearchModel>(
       builder: (context, model, _) => FloatingSearchBar(
+        leadingActions: [
+          IconButton(
+            icon: Icon(Icons.home),
+            onPressed: () {
+              home(context);
+            },
+          ),
+        ],
         automaticallyImplyBackButton: false,
         controller: controller,
         clearQueryOnClose: false,
@@ -106,14 +116,18 @@ class _SearchState extends State<Search> {
     definitionList.searchType = 'FullTextSearch';
     DefinitionClass value =
         await databaseObject.definition(searchWord, definitionList.searchType);
-    setState(() {
-      definitionList.searchWord = searchWord;
-      definitionList.word = value.word;
-      definitionList.definition = value.definition;
-      definitionList.isRoot = value.isRoot;
-      definitionList.highlight = value.highlight;
-      definitionList.quranOccurance = value.quranOccurance;
-    });
+    setState(
+      () {
+        definitionList.id = value.id;
+        definitionList.searchWord = searchWord;
+        definitionList.word = value.word;
+        definitionList.definition = value.definition;
+        definitionList.isRoot = value.isRoot;
+        definitionList.highlight = value.highlight;
+        definitionList.quranOccurance = value.quranOccurance;
+        definitionList.favoriteFlag = value.favoriteFlag;
+      },
+    );
   }
 
   Widget buildExpandableBody(SearchModel model) {
@@ -162,15 +176,19 @@ class _SearchState extends State<Search> {
               () => model.clear(),
             );
             FloatingSearchBar.of(context)!.close();
-            databaseObject
-                .definition(word, definitionList.searchType)
-                .then((value) => setState(() {
+            databaseObject.definition(word, definitionList.searchType).then(
+                  (value) => setState(
+                    () {
+                      definitionList.id = value.id;
                       definitionList.word = value.word;
                       definitionList.definition = value.definition;
                       definitionList.isRoot = value.isRoot;
                       definitionList.highlight = value.highlight;
                       definitionList.quranOccurance = value.quranOccurance;
-                    }));
+                      definitionList.favoriteFlag = value.favoriteFlag;
+                    },
+                  ),
+                );
           },
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -232,6 +250,22 @@ class _SearchState extends State<Search> {
           ),
         ),
       ],
+    );
+  }
+
+  void home(BuildContext context) {
+    final definitionList = Provider.of<DefinitionClass>(context, listen: false);
+
+    setState(
+      () {
+        definitionList.searchType = null;
+        definitionList.searchWord = null;
+        definitionList.word = [];
+        definitionList.definition = [];
+        definitionList.isRoot = [];
+        definitionList.highlight = [];
+        definitionList.quranOccurance = [];
+      },
     );
   }
 }
