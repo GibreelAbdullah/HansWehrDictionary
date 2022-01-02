@@ -9,6 +9,13 @@ Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechne
 
 ## Release Notes
 
+#### V - 1.11.0+45 (12 April, 2021) 
+- Favorites Section
+- #UnfreezeAfghanistan
+- Amiri font improvements (Thanks podev)
+- Preface and Introduction Screen (Thanks Ejaz Shaikh)
+- Removed Splash Screen due to crashes on Samsung Devices
+
 #### V - 1.10.0+44 (12 April, 2021) 
 - Splash Screen
 

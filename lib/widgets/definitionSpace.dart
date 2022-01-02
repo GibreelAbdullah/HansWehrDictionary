@@ -4,13 +4,13 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:badges/badges.dart';
+import 'package:html/parser.dart';
 import '../classes/appTheme.dart';
 import '../classes/definitionClass.dart';
 import '../constants/appConstants.dart';
 import '../serviceLocator.dart';
 import '../services/LocalStorageService.dart';
-import 'package:badges/badges.dart';
-import 'package:html/parser.dart';
 
 class DefinitionSpace extends StatefulWidget {
   DefinitionSpace({
@@ -91,7 +91,7 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
                         color: Theme.of(context).iconTheme.color,
                       ),
                       label: Text(
-                        definitionList.searchWord!,
+                        definitionList.searchWord ?? "assdsdsdsd",
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
                       onPressed: () {},
@@ -138,13 +138,18 @@ class HomeScreen extends StatelessWidget {
               route: "/favorites",
             ),
             HomePageCards(
-              icon: Icon(
-                Icons.history,
-                color: Colors.red,
-              ),
-              title: "History",
-              route: "/history",
+              title: "#UnfreezeAfghanistan",
+              subtitle: "Millions are facing starvation.\nDONATE NOW",
+              route: "/donate",
             ),
+            // HomePageCards(
+            //   icon: Icon(
+            //     Icons.history,
+            //     color: Colors.red,
+            //   ),
+            //   title: "History",
+            //   route: "/history",
+            // ),
           ],
         );
       },
@@ -156,11 +161,13 @@ class HomePageCards extends StatelessWidget {
   const HomePageCards({
     Key? key,
     required this.title,
-    required this.icon,
+    this.icon,
+    this.subtitle,
     required this.route,
   }) : super(key: key);
   final String title;
-  final Icon icon;
+  final Icon? icon;
+  final String? subtitle;
   final String route;
   @override
   Widget build(BuildContext context) {
@@ -177,7 +184,12 @@ class HomePageCards extends StatelessWidget {
               style: Theme.of(context).textTheme.headline6,
             ),
             Center(
-              child: icon,
+              child: icon ??
+                  Text(
+                    subtitle!,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.red),
+                  ),
             ),
           ],
         ),
@@ -303,7 +315,7 @@ class DefinitionTile extends StatelessWidget {
                                             decoration:
                                                 TextDecoration.underline,
                                             color:
-                                                Theme.of(context).accentColor,
+                                                Theme.of(context).primaryColor,
                                           ),
                                     ),
                                   );
@@ -338,6 +350,58 @@ class DefinitionTile extends StatelessWidget {
   }
 
   contextMenu(BuildContext context, Offset tapPosition) async {
+    List<PopupMenuEntry<int>> contextMenuItems = [
+      PopupMenuItem<int>(
+        value: 0,
+        child: Row(
+          children: [
+            Icon(Icons.copy),
+            SizedBox(
+              width: 8,
+            ),
+            Text('Copy Selected Definition'),
+          ],
+        ),
+      ),
+      PopupMenuItem<int>(
+        value: 1,
+        child: Row(
+          children: [
+            Icon(Icons.copy),
+            SizedBox(
+              width: 8,
+            ),
+            Text('Copy Root and Derivatives'),
+          ],
+        ),
+      ),
+    ];
+
+    if (definitionList!.isRoot[index! - 1] == 1)
+      contextMenuItems.add(
+        PopupMenuItem<int>(
+          value: 2,
+          child: definitionList!.favoriteFlag[index! - 1] == 1
+              ? Row(
+                  children: [
+                    Icon(Icons.favorite_border),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text('Remove from Favorites')
+                  ],
+                )
+              : Row(
+                  children: [
+                    Icon(Icons.favorite),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text('Add to Favorites'),
+                  ],
+                ),
+        ),
+      );
     int? choice = await showMenu(
       position: RelativeRect.fromRect(
           tapPosition & const Size(40, 40), // smaller rect, the touch area
@@ -347,46 +411,7 @@ class DefinitionTile extends StatelessWidget {
                   .findRenderObject()!
                   .semanticBounds
                   .size),
-      items: [
-        PopupMenuItem<int>(
-          value: 0,
-          child: Row(
-            children: [
-              Icon(Icons.copy),
-              SizedBox(
-                width: 8,
-              ),
-              Text('Copy Selected Definition'),
-            ],
-          ),
-        ),
-        PopupMenuItem<int>(
-          value: 1,
-          child: Row(
-            children: [
-              Icon(Icons.copy),
-              SizedBox(
-                width: 8,
-              ),
-              Text('Copy Root and Derivatives'),
-            ],
-          ),
-        ),
-        PopupMenuItem<int>(
-          value: 2,
-          child: Row(
-            children: [
-              Icon(Icons.favorite),
-              SizedBox(
-                width: 8,
-              ),
-              definitionList!.favoriteFlag[index! - 1] == 1
-                  ? Text('Remove from Favorites')
-                  : Text('Add to Favorites'),
-            ],
-          ),
-        ),
-      ],
+      items: contextMenuItems,
       context: context,
     );
     switch (choice) {
@@ -429,7 +454,14 @@ class DefinitionTile extends StatelessWidget {
             definitionList!.favoriteFlag[index! - 1] == 1 ? 0 : 1;
         definitionList!.favoriteFlag[index! - 1] = toggleFavoriteFlag;
         databaseObject.toggleFavorites(
-            definitionList!.id[index! - 1], toggleFavoriteFlag);
+            definitionList!.id[index! - 1]!, toggleFavoriteFlag);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: definitionList!.favoriteFlag[index! - 1] == 1
+                ? Text("Added")
+                : Text("Removed"),
+          ),
+        );
         break;
       default:
     }

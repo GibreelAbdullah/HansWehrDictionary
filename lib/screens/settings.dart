@@ -29,7 +29,7 @@ class _SettingsState extends State<Settings> {
           SETTINGS_SCREEN_TITLE,
           style: Theme.of(context).textTheme.headline6,
         ),
-        backgroundColor: Theme.of(context).appBarTheme.color,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         iconTheme: Theme.of(context).iconTheme,
       ),
       drawer: CommonDrawer(currentScreen: SETTINGS_SCREEN_TITLE),
@@ -207,7 +207,7 @@ class _ColorModState extends State<ColorMod> {
             hexToColor(locator<LocalStorageService>().highlightTextColor);
         property ??= locator<LocalStorageService>().darkTheme
             ? Colors.tealAccent[200]
-            : lightTheme.accentColor;
+            : lightTheme.primaryColor;
         break;
       case 'Highlight Tile Color':
         property =
@@ -251,7 +251,7 @@ class _ColorModState extends State<ColorMod> {
                           locator<LocalStorageService>().highlightTextColor =
                               locator<LocalStorageService>().darkTheme
                                   ? Colors.tealAccent[200]!.value.toString()
-                                  : lightTheme.accentColor.value.toString();
+                                  : lightTheme.primaryColor.value.toString();
                           break;
                         case 'Highlight Tile Color':
                           locator<LocalStorageService>().highlightTileColor =

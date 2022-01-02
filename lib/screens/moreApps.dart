@@ -13,7 +13,7 @@ class MoreApps extends StatelessWidget {
           ALL_MY_APPS,
           style: Theme.of(context).textTheme.headline6,
         ),
-        backgroundColor: Theme.of(context).appBarTheme.color,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         iconTheme: Theme.of(context).iconTheme,
       ),
       drawer: CommonDrawer(currentScreen: ALL_MY_APPS),

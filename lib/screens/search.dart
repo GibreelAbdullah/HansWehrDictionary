@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:implicitly_animated_reorderable_list/transitions.dart';
@@ -32,12 +31,9 @@ class _SearchState extends State<Search> {
     setState(() {});
   }
 
-  // String searchType = '';
 
   @override
   Widget build(BuildContext context) {
-    // Provider.of<ThemeModel>(context, listen: false).refreshTheme();
-
     return ChangeNotifierProvider<SearchModel>(
       create: (_) => SearchModel(),
       child: ChangeNotifierProvider<DefinitionClass>(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../serviceLocator.dart';
 import '../services/LocalStorageService.dart';
 import 'appTheme.dart';
@@ -35,8 +36,8 @@ class ThemeModel extends ChangeNotifier {
                 ),
             primaryColor:
                 hexToColor(locator<LocalStorageService>().highlightTextColor),
-            accentColor:
-                hexToColor(locator<LocalStorageService>().highlightTextColor),
+            // accentColor:
+            //     hexToColor(locator<LocalStorageService>().highlightTextColor),
             canvasColor:
                 hexToColor(locator<LocalStorageService>().backgroundColor),
             scaffoldBackgroundColor:
@@ -46,7 +47,8 @@ class ThemeModel extends ChangeNotifier {
               color:
                   hexToColor(locator<LocalStorageService>().searchBarColor) ??
                       Colors.grey[850],
-              brightness: Brightness.dark,
+
+              systemOverlayStyle: SystemUiOverlayStyle.dark,
             ),
             dialogBackgroundColor:
                 hexToColor(locator<LocalStorageService>().backgroundColor),
@@ -75,8 +77,8 @@ class ThemeModel extends ChangeNotifier {
                 ),
             primaryColor:
                 hexToColor(locator<LocalStorageService>().highlightTextColor),
-            accentColor:
-                hexToColor(locator<LocalStorageService>().highlightTextColor),
+            // accentColor:
+            //     hexToColor(locator<LocalStorageService>().highlightTextColor),
             canvasColor:
                 hexToColor(locator<LocalStorageService>().backgroundColor),
             scaffoldBackgroundColor:
@@ -86,7 +88,7 @@ class ThemeModel extends ChangeNotifier {
               color:
                   hexToColor(locator<LocalStorageService>().searchBarColor) ??
                       Colors.grey[100],
-              brightness: Brightness.light,
+                            systemOverlayStyle: SystemUiOverlayStyle.light,
             ),
             brightness: Brightness.light,
             dialogBackgroundColor:
