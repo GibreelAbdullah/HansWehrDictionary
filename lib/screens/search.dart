@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:implicitly_animated_reorderable_list/transitions.dart';
@@ -32,21 +31,20 @@ class _SearchState extends State<Search> {
     setState(() {});
   }
 
-  // String searchType = '';
 
   @override
   Widget build(BuildContext context) {
-    // Provider.of<ThemeModel>(context, listen: false).refreshTheme();
-
     return ChangeNotifierProvider<SearchModel>(
       create: (_) => SearchModel(),
       child: ChangeNotifierProvider<DefinitionClass>(
         create: (_) => DefinitionClass(
+          id: [],
           word: [],
           definition: [],
           isRoot: [],
           highlight: [],
           quranOccurance: [],
+          favoriteFlag: [],
         ),
         child: Scaffold(
           resizeToAvoidBottomInset: false,
@@ -69,6 +67,14 @@ class _SearchState extends State<Search> {
 
     return Consumer<SearchModel>(
       builder: (context, model, _) => FloatingSearchBar(
+        leadingActions: [
+          IconButton(
+            icon: Icon(Icons.home),
+            onPressed: () {
+              home(context);
+            },
+          ),
+        ],
         automaticallyImplyBackButton: false,
         controller: controller,
         clearQueryOnClose: false,
@@ -106,14 +112,18 @@ class _SearchState extends State<Search> {
     definitionList.searchType = 'FullTextSearch';
     DefinitionClass value =
         await databaseObject.definition(searchWord, definitionList.searchType);
-    setState(() {
-      definitionList.searchWord = searchWord;
-      definitionList.word = value.word;
-      definitionList.definition = value.definition;
-      definitionList.isRoot = value.isRoot;
-      definitionList.highlight = value.highlight;
-      definitionList.quranOccurance = value.quranOccurance;
-    });
+    setState(
+      () {
+        definitionList.id = value.id;
+        definitionList.searchWord = searchWord;
+        definitionList.word = value.word;
+        definitionList.definition = value.definition;
+        definitionList.isRoot = value.isRoot;
+        definitionList.highlight = value.highlight;
+        definitionList.quranOccurance = value.quranOccurance;
+        definitionList.favoriteFlag = value.favoriteFlag;
+      },
+    );
   }
 
   Widget buildExpandableBody(SearchModel model) {
@@ -162,15 +172,19 @@ class _SearchState extends State<Search> {
               () => model.clear(),
             );
             FloatingSearchBar.of(context)!.close();
-            databaseObject
-                .definition(word, definitionList.searchType)
-                .then((value) => setState(() {
+            databaseObject.definition(word, definitionList.searchType).then(
+                  (value) => setState(
+                    () {
+                      definitionList.id = value.id;
                       definitionList.word = value.word;
                       definitionList.definition = value.definition;
                       definitionList.isRoot = value.isRoot;
                       definitionList.highlight = value.highlight;
                       definitionList.quranOccurance = value.quranOccurance;
-                    }));
+                      definitionList.favoriteFlag = value.favoriteFlag;
+                    },
+                  ),
+                );
           },
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -232,6 +246,22 @@ class _SearchState extends State<Search> {
           ),
         ),
       ],
+    );
+  }
+
+  void home(BuildContext context) {
+    final definitionList = Provider.of<DefinitionClass>(context, listen: false);
+
+    setState(
+      () {
+        definitionList.searchType = null;
+        definitionList.searchWord = null;
+        definitionList.word = [];
+        definitionList.definition = [];
+        definitionList.isRoot = [];
+        definitionList.highlight = [];
+        definitionList.quranOccurance = [];
+      },
     );
   }
 }

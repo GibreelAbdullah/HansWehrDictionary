@@ -22,3 +22,4 @@ UPDATE DICTIONARY  SET PARENT_ID = (select ID from
 (select MIN(ID) ID, ROOT root_word FROM DICTIONARY GROUP BY ROOT)
 where root = root_word);
 
+SELECT  * from DICTIONARY d where definition like '%<b>%' and is_root = 0

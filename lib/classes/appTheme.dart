@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../serviceLocator.dart';
 import '../services/LocalStorageService.dart';
 
@@ -28,7 +29,7 @@ ThemeData lightTheme = ThemeData.light().copyWith(
         ),
       ),
   primaryColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
-  accentColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
+  // accentColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
   canvasColor: hexToColor(locator<LocalStorageService>().backgroundColor),
   scaffoldBackgroundColor:
       hexToColor(locator<LocalStorageService>().backgroundColor) ??
@@ -39,7 +40,7 @@ ThemeData lightTheme = ThemeData.light().copyWith(
   appBarTheme: AppBarTheme(
     color: hexToColor(locator<LocalStorageService>().searchBarColor) ??
         Colors.grey[100],
-    brightness: Brightness.light,
+    systemOverlayStyle: SystemUiOverlayStyle.light,
   ),
   brightness: Brightness.light,
   cardColor: hexToColor(locator<LocalStorageService>().searchBarColor),
@@ -71,7 +72,7 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
         ),
       ),
   primaryColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
-  accentColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
+  // accentColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
   canvasColor: hexToColor(locator<LocalStorageService>().backgroundColor),
   dialogBackgroundColor:
       hexToColor(locator<LocalStorageService>().backgroundColor) ??
@@ -82,7 +83,7 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
   appBarTheme: AppBarTheme(
     color: hexToColor(locator<LocalStorageService>().searchBarColor) ??
         Colors.grey[850],
-    brightness: Brightness.dark,
+    systemOverlayStyle: SystemUiOverlayStyle.dark,
   ),
   cardColor: hexToColor(locator<LocalStorageService>().searchBarColor),
   brightness: Brightness.dark,

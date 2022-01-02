@@ -12,7 +12,7 @@ class Abbreviations extends StatelessWidget {
           ABBREVIATIONS_SCREEN_TITLE,
           style: Theme.of(context).textTheme.headline6,
         ),
-        backgroundColor: Theme.of(context).appBarTheme.color,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         iconTheme: Theme.of(context).iconTheme,
       ),
       drawer: CommonDrawer(currentScreen: ABBREVIATIONS_SCREEN_TITLE),

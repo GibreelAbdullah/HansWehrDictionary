@@ -21,7 +21,7 @@ class _BrowseState extends State<Browse> {
           BROWSE_SCREEN_TITLE,
           style: Theme.of(context).textTheme.headline6,
         ),
-        backgroundColor: Theme.of(context).appBarTheme.color,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         iconTheme: Theme.of(context).iconTheme,
       ),
       drawer: CommonDrawer(currentScreen: BROWSE_SCREEN_TITLE),
@@ -118,7 +118,7 @@ class _BrowseState extends State<Browse> {
           }
         });
   }
-
+}
   Future buildDefinitionAlert(BuildContext context, String? word) {
     return showDialog(
       context: context,
@@ -186,4 +186,3 @@ class _BrowseState extends State<Browse> {
       },
     );
   }
-}
