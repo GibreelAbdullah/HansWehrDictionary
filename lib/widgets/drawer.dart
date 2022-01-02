@@ -43,27 +43,27 @@ class CommonDrawer extends StatelessWidget {
               Column(
                 children: [
                   Divider(),
-                  DrawerItem(
-                      currentScreen: currentScreen,
-                      title: MORE_APPS,
-                      route: '/moreapps',
-                      icon: Icons.more_horiz),
-                  DrawerItem(
-                      currentScreen: currentScreen,
-                      title: DONATE_SCREEN_TITLE,
-                      route: '/donate',
-                      icon: Icons.payment),
+                  // DrawerItem(
+                  //     currentScreen: currentScreen,
+                  //     title: MORE_APPS,
+                  //     route: '/moreapps',
+                  //     icon: Icons.more_horiz),
+                  // DrawerItem(
+                  //     currentScreen: currentScreen,
+                  //     title: DONATE_SCREEN_TITLE,
+                  //     route: '/donate',
+                  //     icon: Icons.payment),
                   DrawerItem(
                       currentScreen: currentScreen,
                       title: SETTINGS_SCREEN_TITLE,
                       route: '/settings',
                       icon: Icons.settings),
-                  DrawerItem(
-                      currentScreen: currentScreen,
-                      title: ABOUT_APP_SCREEN_TITLE,
-                      route: '/aboutus',
-                      icon: Icons.people),
-                  RateUs(),
+                  // DrawerItem(
+                  //     currentScreen: currentScreen,
+                  //     title: ABOUT_APP_SCREEN_TITLE,
+                  //     route: '/aboutus',
+                  //     icon: Icons.people),
+                  // RateUs(),
                 ],
               ),
             ],
