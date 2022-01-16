@@ -8,8 +8,21 @@ Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechne
 - Justify Text Option
 
 ## Release Notes
+1.11.5+50
+#### V - 1.11.5+50 (16 Jan, 2022) 
+- Some aesthtic changes
 
-#### V - 1.11.0+45 (12 April, 2021) 
+#### V - 1.11.4+49 (9 Jan, 2022) 
+- Quick Fix
+
+#### V - 1.11.3+48 (8 Jan, 2021) 
+- Bug Fix (Links not working)
+- Favorites, Donate now within main screen.
+
+#### V - 1.11.1+46 (20 Dec, 2021) 
+- Quick Fix (DB Version Change)
+
+#### V - 1.11.0+45 (19 Dec, 2021) 
 - Favorites Section
 - #UnfreezeAfghanistan
 - Amiri font improvements (Thanks podev)
