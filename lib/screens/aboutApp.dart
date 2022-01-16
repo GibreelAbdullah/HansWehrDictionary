@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:hans_wehr_dictionary/services/launchURL.dart';
 
 import '../widgets/drawer.dart';
 import '../constants/appConstants.dart';
@@ -79,7 +79,7 @@ class _AboutAppState extends State<AboutApp> {
                                   MediaQuery.of(context).size.width * 0.105,
                                   70),
                               fit: BoxFit.cover),
-                          onTap: () => _launchURL(DISCORD_INVITE_LINK),
+                          onTap: () => launchURL(DISCORD_INVITE_LINK),
                         ),
                         InkWell(
                           child: Image.asset("assets/reddit.png",
@@ -90,7 +90,7 @@ class _AboutAppState extends State<AboutApp> {
                                   MediaQuery.of(context).size.width * 0.105,
                                   70),
                               fit: BoxFit.cover),
-                          onTap: () => _launchURL(REDDIT_INVITE_LINK),
+                          onTap: () => launchURL(REDDIT_INVITE_LINK),
                         ),
                       ],
                     ),
@@ -120,13 +120,5 @@ class _AboutAppState extends State<AboutApp> {
         ),
       ),
     );
-  }
-}
-
-_launchURL(String url) async {
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
   }
 }

@@ -4,7 +4,7 @@ import '../serviceLocator.dart';
 import '../services/LocalStorageService.dart';
 
 ThemeData lightTheme = ThemeData.light().copyWith(
-  textTheme: ThemeData.dark().textTheme.copyWith(
+  textTheme: ThemeData.light().textTheme.copyWith(
         bodyText1: TextStyle(
           fontFamily: locator<LocalStorageService>().font,
           fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
@@ -21,6 +21,11 @@ ThemeData lightTheme = ThemeData.light().copyWith(
           fontFamily: locator<LocalStorageService>().font,
           fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
           color: Colors.black,
+        ),
+        subtitle2: TextStyle(
+          fontFamily: locator<LocalStorageService>().font,
+          fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
+          color: Colors.white,
         ),
         headline6: TextStyle(
           fontFamily: locator<LocalStorageService>().font,
@@ -61,9 +66,15 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
               hexToColor(locator<LocalStorageService>().highlightTextColor) ??
                   Colors.white,
         ),
-        //Used By Expansion Tile
         subtitle1: TextStyle(
+          fontFamily: locator<LocalStorageService>().font,
+          fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
           color: Colors.white,
+        ),
+        subtitle2: TextStyle(
+          fontFamily: locator<LocalStorageService>().font,
+          fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
+          color: Colors.black,
         ),
         headline6: TextStyle(
           fontFamily: locator<LocalStorageService>().font,

@@ -8,18 +8,18 @@ import '../constants/appConstants.dart';
 class DatabaseAccess {
   Future<Database> openDatabaseConnection() async {
     // Sqflite.devSetDebugModeOn(true);
-    var path = join(await getDatabasesPath(), "hanswehrV10.db");
+    var path = join(await getDatabasesPath(), "hanswehrV11.db");
     var exists = await databaseExists(path);
 
     if (!exists) {
       try {
         await Directory(dirname(path)).create(recursive: true);
       } catch (_) {}
-      ByteData data = await rootBundle.load(join("assets", "hanswehrV10.db"));
+      ByteData data = await rootBundle.load(join("assets", "hanswehrV11.db"));
       List<int> bytes =
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       await File(path).writeAsBytes(bytes, flush: true);
-      var oldPath = join(await getDatabasesPath(), "hanswehrV9.db");
+      var oldPath = join(await getDatabasesPath(), "hanswehrV10.db");
       exists = await databaseExists(oldPath);
       if (exists) {
         databaseFactory.deleteDatabase(oldPath);
@@ -76,7 +76,7 @@ class DatabaseAccess {
       definition: [],
       isRoot: [],
       highlight: [],
-      quranOccurance: [],
+      quranOccurrence: [],
       favoriteFlag: [],
     );
 
@@ -93,7 +93,7 @@ class DatabaseAccess {
         } else if (key == 'highlight') {
           allDefinitions.highlight.add(value);
         } else if (key == 'quran_occurance') {
-          allDefinitions.quranOccurance!.add(value);
+          allDefinitions.quranOccurrence!.add(value);
         } else if (key == 'favorite_flag') {
           allDefinitions.favoriteFlag.add(value);
         }

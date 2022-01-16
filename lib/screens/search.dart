@@ -31,7 +31,6 @@ class _SearchState extends State<Search> {
     setState(() {});
   }
 
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<SearchModel>(
@@ -43,7 +42,7 @@ class _SearchState extends State<Search> {
           definition: [],
           isRoot: [],
           highlight: [],
-          quranOccurance: [],
+          quranOccurrence: [],
           favoriteFlag: [],
         ),
         child: Scaffold(
@@ -120,7 +119,7 @@ class _SearchState extends State<Search> {
         definitionList.definition = value.definition;
         definitionList.isRoot = value.isRoot;
         definitionList.highlight = value.highlight;
-        definitionList.quranOccurance = value.quranOccurance;
+        definitionList.quranOccurrence = value.quranOccurrence;
         definitionList.favoriteFlag = value.favoriteFlag;
       },
     );
@@ -180,7 +179,7 @@ class _SearchState extends State<Search> {
                       definitionList.definition = value.definition;
                       definitionList.isRoot = value.isRoot;
                       definitionList.highlight = value.highlight;
-                      definitionList.quranOccurance = value.quranOccurance;
+                      definitionList.quranOccurrence = value.quranOccurrence;
                       definitionList.favoriteFlag = value.favoriteFlag;
                     },
                   ),
@@ -260,7 +259,7 @@ class _SearchState extends State<Search> {
         definitionList.definition = [];
         definitionList.isRoot = [];
         definitionList.highlight = [];
-        definitionList.quranOccurance = [];
+        definitionList.quranOccurrence = [];
       },
     );
   }

@@ -55,11 +55,6 @@ class CommonDrawer extends StatelessWidget {
                       icon: Icons.more_horiz),
                   DrawerItem(
                       currentScreen: currentScreen,
-                      title: DONATE_SCREEN_TITLE,
-                      route: '/donate',
-                      icon: Icons.payment),
-                  DrawerItem(
-                      currentScreen: currentScreen,
                       title: SETTINGS_SCREEN_TITLE,
                       route: '/settings',
                       icon: Icons.settings),
@@ -191,6 +186,8 @@ class VerbForms extends StatelessWidget {
                   itemCount: VERB_FORMS.length,
                   itemBuilder: (_, i) {
                     return ExpansionTile(
+                      iconColor: Theme.of(context).textTheme.bodyText2!.color,
+                      textColor: Theme.of(context).textTheme.bodyText2!.color,
                       childrenPadding: EdgeInsets.fromLTRB(30, 0, 16, 0),
                       title: Text(
                         VERB_FORMS[i],

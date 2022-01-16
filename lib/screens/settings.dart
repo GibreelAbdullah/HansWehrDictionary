@@ -40,6 +40,8 @@ class _SettingsState extends State<Settings> {
             FontSizeModifier(),
             ThemeIcon(),
             ExpansionTile(
+              iconColor: Theme.of(context).textTheme.bodyText2!.color,
+              textColor: Theme.of(context).textTheme.bodyText2!.color,
               tilePadding: EdgeInsets.fromLTRB(16, 0, 28, 0),
               title: Text(
                 'Advanced Theming Options',

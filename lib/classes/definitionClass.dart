@@ -9,7 +9,7 @@ class DefinitionClass with ChangeNotifier {
     required this.highlight,
     this.searchWord,
     this.searchType,
-    this.quranOccurance,
+    this.quranOccurrence,
     required this.favoriteFlag,
   });
 
@@ -20,6 +20,11 @@ class DefinitionClass with ChangeNotifier {
   List<String?> definition;
   List<int?> isRoot;
   List<int?> highlight;
-  List<int?>? quranOccurance;
+  List<int?>? quranOccurrence;
   List<int?> favoriteFlag;
+
+  void updateSerachType(String newSearchType) {
+    this.searchType = newSearchType;
+    notifyListeners();
+  }
 }

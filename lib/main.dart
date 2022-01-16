@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import './classes/themeModel.dart';
 import './serviceLocator.dart';
 import './services/appReview.dart';
-// import './services/checkDatabaseUpdates.dart';
 import './routes.dart';
 
 void main() async {
