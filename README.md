@@ -5,12 +5,15 @@ Dictionary of Modern Written Arabic by Hans Wehr
 Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechnet.hanswehr
 
 ## Future Work
-- Justify Text Option
 
 ## Release Notes
-1.11.5+50
+
+#### V - 1.12.0+51 (26 May, 2022) 
+- Design Changes
+- Quranle integration
+
 #### V - 1.11.5+50 (16 Jan, 2022) 
-- Some aesthtic changes
+- Some aesthetic changes
 
 #### V - 1.11.4+49 (9 Jan, 2022) 
 - Quick Fix

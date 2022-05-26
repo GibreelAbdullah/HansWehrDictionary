@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:hans_wehr_dictionary/screens/history.dart';
+import '../screens/history.dart';
 import './screens/favorites.dart';
 import './screens/moreApps.dart';
 import './screens/abbreviations.dart';

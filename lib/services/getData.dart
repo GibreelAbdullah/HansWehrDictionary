@@ -102,13 +102,13 @@ class DatabaseAccess {
     return allDefinitions;
   }
 
-  Future<List<String?>> topFiveWords(String word) async {
+  Future<List<String>> topFiveWords(String word) async {
     Database db = await databaseConnection;
 
     String query =
         "SELECT DISTINCT WORD FROM DICTIONARY WHERE WORD like '$word%' ORDER BY LENGTH(WORD), WORD LIMIT 6";
     List<Map<String, dynamic>> definition = await db.rawQuery(query);
-    List<String?> allWords = [];
+    List<String> allWords = [];
 
     definition.forEach((element) {
       element.forEach((key, value) {
@@ -118,7 +118,7 @@ class DatabaseAccess {
     return allWords;
   }
 
-  Future<List<String?>> allXLevelWords(String? word, int length) async {
+  Future<List<String>> allXLevelWords(String? word, int length) async {
     Database db = await databaseConnection;
 
     String query = length == 2
@@ -127,7 +127,7 @@ class DatabaseAccess {
             ? "SELECT DISTINCT WORD FROM DICTIONARY WHERE WORD = '$word' AND IS_ROOT = 1"
             : "SELECT DISTINCT WORD FROM DICTIONARY WHERE WORD like '$word%' AND IS_ROOT = 1");
     List<Map<String, dynamic>> definition = await db.rawQuery(query);
-    List<String?> allWords = [];
+    List<String> allWords = [];
 
     definition.forEach((element) {
       element.forEach((key, value) {

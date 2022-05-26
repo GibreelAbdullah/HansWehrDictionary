@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:hans_wehr_dictionary/screens/donate.dart';
-import 'package:hans_wehr_dictionary/screens/favorites.dart';
+import '../screens/donate.dart';
+import '../screens/favorites.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:html/parser.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import '../classes/appTheme.dart';
 import '../classes/definitionClass.dart';
 import '../constants/appConstants.dart';
@@ -31,11 +30,11 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
       transitionDuration: const Duration(milliseconds: 800),
       body: Consumer<DefinitionClass>(
         builder: (_, definitionList, __) {
-          if (definitionList.searchType == null) {
+          if (DefinitionClass.searchType == null) {
             return HomeScreen();
-          } else if (definitionList.searchType == '/favorites') {
+          } else if (DefinitionClass.searchType == '/favorites') {
             return Favorites();
-          } else if (definitionList.searchType == '/donate') {
+          } else if (DefinitionClass.searchType == '/donate') {
             return Donate();
           }
           return ListView.separated(
@@ -48,21 +47,27 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
             },
             itemBuilder: (context, index) {
               if (index == 0) {
-                if (definitionList.searchType == 'RootSearch') {
+                if (DefinitionClass.searchType == 'RootSearch') {
                   return ListTile(
-                    leading: Icon(Icons.info),
                     title: Text(
                       definitionList.searchWord!,
+                      textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyText1,
                     ),
-                    subtitle: Text(
-                      'Tap for full text search. Tip : To directly do a full text search press the Enter key instead of selecting from the dropdown',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
+                    subtitle: definitionList.definition.length == 0
+                        ? Text(
+                            'No results found.\nTap here for full text search.',
+                            textAlign: TextAlign.center,
+                          )
+                        : Text(
+                            'Tap here for full text search.\nTo directly do a full text search press the Enter key instead of selecting from the dropdown.',
+                            textAlign: TextAlign.center,
+                          ),
                     onTap: () async {
-                      definitionList.searchType = 'FullTextSearch';
+                      DefinitionClass.searchType = 'FullTextSearch';
                       DefinitionClass value = await databaseObject.definition(
-                          definitionList.searchWord, definitionList.searchType);
+                          definitionList.searchWord,
+                          DefinitionClass.searchType);
                       setState(() {
                         definitionList.id = value.id;
                         definitionList.word = value.word;
@@ -74,20 +79,25 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
                       });
                     },
                   );
-                } else if (definitionList.searchType == 'FullTextSearch') {
-                  if (definitionList.definition.length > 50) {
-                    return Container(
-                      child: TextButton.icon(
-                        icon: Icon(
-                          Icons.info,
-                          color: Theme.of(context).iconTheme.color,
-                        ),
-                        label: Text(
-                          'Too many matches, showing limited results for ${definitionList.searchWord}',
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                        onPressed: () {},
+                } else if (DefinitionClass.searchType == 'FullTextSearch') {
+                  if (definitionList.definition.length > 50 ||
+                      definitionList.definition.length == 0) {
+                    return ListTile(
+                      title: Text(
+                        definitionList.searchWord!,
+                        style: Theme.of(context).textTheme.bodyText1,
+                        textAlign: TextAlign.center,
                       ),
+                      subtitle: definitionList.definition.length == 0
+                          ? Text(
+                              'No results found',
+                              textAlign: TextAlign.center,
+                            )
+                          : Text(
+                              'Too many matches, results might be truncated.',
+                              textAlign: TextAlign.center,
+                            ),
+                      onTap: () {},
                     );
                   }
                   return Container(
@@ -136,26 +146,21 @@ class HomeScreen extends StatelessWidget {
           // crossAxisCount: 2,
           children: [
             HomePageCards(
-              icon: Icon(
-                Icons.favorite,
-                color: Colors.red,
-              ),
-              title: "Favorites",
+              imagePath: FAV_IMAGE,
               route: "/favorites",
             ),
             HomePageCards(
-              title: "#UnfreezeAfghanistan",
-              subtitle: "Millions are facing starvation.\nDONATE NOW",
+              imagePath: DONATE_IMAGE,
               route: "/donate",
             ),
-            // HomePageCards(
-            //   icon: Icon(
-            //     Icons.history,
-            //     color: Colors.red,
-            //   ),
-            //   title: "History",
-            //   route: "/history",
-            // ),
+            HomePageCards(
+              imagePath: QURANLE_IMAGE,
+              uri: quranleUri,
+            ),
+            HomePageCards(
+              imagePath: FOR_HIRE_IMAGE,
+              uri: portfolioUri,
+            ),
           ],
         );
       },
@@ -166,43 +171,42 @@ class HomeScreen extends StatelessWidget {
 class HomePageCards extends StatelessWidget {
   const HomePageCards({
     Key? key,
-    required this.title,
-    this.icon,
-    this.subtitle,
-    required this.route,
+    required this.imagePath,
+    this.route,
+    this.uri,
   }) : super(key: key);
-  final String title;
-  final Icon? icon;
-  final String? subtitle;
-  final String route;
+  final String imagePath;
+  final String? route;
+  final Uri? uri;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Provider.of<DefinitionClass>(context, listen: false)
-            .updateSerachType(route);
+        route != null
+            ? Provider.of<DefinitionClass>(context, listen: false)
+                .updateSearchType(route!)
+            : launchUrl(uri!, mode: LaunchMode.externalApplication);
       },
-      child: Card(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AutoSizeText(
-              title,
-              style: Theme.of(context).textTheme.headline6,
-              maxLines: 1,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            image: DecorationImage(
+                image: AssetImage(imagePath), fit: BoxFit.cover),
+          ),
+          child: Card(
+            elevation: 0,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [],
             ),
-            icon ??
-                AutoSizeText(
-                  subtitle!,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.red),
-                  maxLines: 2,
-                ),
-          ],
-        ),
-        color: Theme.of(context).canvasColor.withAlpha(100),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
+            shadowColor: Theme.of(context).primaryColor,
+            color: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+          ),
         ),
       ),
     );
@@ -251,11 +255,11 @@ class DefinitionTile extends StatelessWidget {
                         quranoccurrenceDialog(context);
                     },
                     child: Text(
-                      "${definitionList!.quranOccurrence![index! - 1]} occurrences in Qur'an",
+                      "Q - ${definitionList!.quranOccurrence![index! - 1]}",
                       style: Theme.of(context).textTheme.subtitle2,
                     ),
                     style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).textTheme.bodyText2!.color,
+                      primary: Theme.of(context).primaryColor,
                     ),
                   )
                 : Container(),
@@ -296,16 +300,26 @@ class DefinitionTile extends StatelessWidget {
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, j) {
-                          String uriScheme =
-                              "quran://${snapshot.data![j]['SURAH']}/${snapshot.data![j]['AYAH']}/${snapshot.data![j]['POSITION']}";
-
+                          final Uri uriScheme = Uri(
+                            scheme: "quran",
+                            path:
+                                "//${snapshot.data![j]['SURAH']}/${snapshot.data![j]['AYAH']}/${snapshot.data![j]['POSITION']}",
+                          );
+                          final Uri quranComUri = Uri(
+                            scheme: "https",
+                            host: "www.quran.com",
+                            path:
+                                "//${snapshot.data![j]['SURAH']}/${snapshot.data![j]['AYAH']}/${snapshot.data![j]['POSITION']}",
+                          );
                           return ListTile(
                             onTap: () async {
-                              if (await canLaunch(uriScheme)) {
-                                await launch(uriScheme);
+                              if (await canLaunchUrl(uriScheme)) {
+                                print(uriScheme);
+                                await launchUrl(uriScheme,
+                                    mode: LaunchMode.externalApplication);
                               } else
-                                await launch(
-                                    "https://www.quran.com/${snapshot.data![j]['SURAH']}/${snapshot.data![j]['AYAH']}");
+                                await launchUrl(quranComUri,
+                                    mode: LaunchMode.externalApplication);
                             },
                             leading: Text(
                               '${j + 1} - ',

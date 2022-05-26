@@ -1,8 +1,7 @@
-import 'dart:math';
-
+import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter/material.dart';
-import 'package:hans_wehr_dictionary/services/launchURL.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/drawer.dart';
 import '../constants/appConstants.dart';
@@ -60,46 +59,6 @@ class _AboutAppState extends State<AboutApp> {
                   padding: const EdgeInsets.all(16.0),
                   child: Divider(),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    HtmlWidget(
-                      COMMUNITY_INVITE,
-                      textStyle: Theme.of(context).textTheme.bodyText1!,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        InkWell(
-                          child: Image.asset("assets/discord.png",
-                              width: min(
-                                  MediaQuery.of(context).size.width * 0.35,
-                                  220),
-                              height: min(
-                                  MediaQuery.of(context).size.width * 0.105,
-                                  70),
-                              fit: BoxFit.cover),
-                          onTap: () => launchURL(DISCORD_INVITE_LINK),
-                        ),
-                        InkWell(
-                          child: Image.asset("assets/reddit.png",
-                              width: min(
-                                  MediaQuery.of(context).size.width * 0.35,
-                                  220),
-                              height: min(
-                                  MediaQuery.of(context).size.width * 0.105,
-                                  70),
-                              fit: BoxFit.cover),
-                          onTap: () => launchURL(REDDIT_INVITE_LINK),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Divider(),
-                ),
                 HtmlWidget(
                   COURTSEY,
                   textStyle: Theme.of(context).textTheme.bodyText1!,
@@ -111,6 +70,54 @@ class _AboutAppState extends State<AboutApp> {
                 HtmlWidget(
                   CONTACT_ME,
                   textStyle: Theme.of(context).textTheme.bodyText1!,
+                ),
+                GestureDetector(
+                  child: Text(
+                    EMAIL,
+                    style: TextStyle(color: Theme.of(context).primaryColor),
+                  ),
+                  onTap: () {
+                    Clipboard.setData(
+                      ClipboardData(text: EMAIL),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("Email Copied"),
+                      ),
+                    );
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Divider(),
+                ),
+                HtmlWidget(
+                  SOCIAL_PROFILES,
+                  textStyle: Theme.of(context).textTheme.bodyText1!,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      child: Image(
+                        image: AssetImage('assets/GitHub.png'),
+                      ),
+                      onTap: () {
+                        launchUrl(githubUri,
+                            mode: LaunchMode.externalApplication);
+                      },
+                    ),
+                    Padding(padding: EdgeInsets.all(16)),
+                    GestureDetector(
+                      child: Image(
+                        image: AssetImage('assets/linkedin.png'),
+                      ),
+                      onTap: () {
+                        launchUrl(linkedinUri,
+                            mode: LaunchMode.externalApplication);
+                      },
+                    ),
+                  ],
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
