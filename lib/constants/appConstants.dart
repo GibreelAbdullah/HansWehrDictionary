@@ -16,7 +16,7 @@ const String HISTORY_SCREEN_TITLE = 'History';
 const String MORE_APPS = 'More Apps';
 const String ALL_MY_APPS = 'All Apps By Me';
 
-const String FAV_IMAGE = 'assets/like_button.webp';
+const String FAV_IMAGE = 'assets/like_button.jpg';
 const String DONATE_IMAGE = 'assets/donate.jpg';
 const String QURANLE_IMAGE = 'assets/Quranle.jpg';
 const String FOR_HIRE_IMAGE = 'assets/ForHire.webp';
@@ -58,7 +58,10 @@ final Uri linkedinUri = Uri(
   path: "in/gibreel-abdullah",
 );
 
-const String DONATE_LINK = 'https://www.islamic-relief.org/';
+final Uri donateUri = Uri(
+  scheme: 'https',
+  host: 'donate.islamic-relief.org',
+);
 
 const String ABOUT_APP = '''
     <br>

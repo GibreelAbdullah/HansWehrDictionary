@@ -100,17 +100,11 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
                       onTap: () {},
                     );
                   }
-                  return Container(
-                    child: TextButton.icon(
-                      icon: Icon(
-                        Icons.info,
-                        color: Theme.of(context).iconTheme.color,
-                      ),
-                      label: Text(
-                        definitionList.searchWord ?? "Loading...",
-                        style: Theme.of(context).textTheme.bodyText1,
-                      ),
-                      onPressed: () {},
+                  return ListTile(
+                    title: Text(
+                      definitionList.searchWord!,
+                      style: Theme.of(context).textTheme.bodyText1,
+                      textAlign: TextAlign.center,
                     ),
                   );
                 }
@@ -309,7 +303,7 @@ class DefinitionTile extends StatelessWidget {
                             scheme: "https",
                             host: "www.quran.com",
                             path:
-                                "//${snapshot.data![j]['SURAH']}/${snapshot.data![j]['AYAH']}/${snapshot.data![j]['POSITION']}",
+                                "//${snapshot.data![j]['SURAH']}/${snapshot.data![j]['AYAH']}",
                           );
                           return ListTile(
                             onTap: () async {

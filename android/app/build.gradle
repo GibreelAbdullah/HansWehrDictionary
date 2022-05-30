@@ -29,8 +29,6 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
    if (keystorePropertiesFile.exists()) {
        keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
    }
-
-
 android {
     compileSdkVersion 31
 
@@ -49,6 +47,7 @@ android {
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
     }
   signingConfigs {
        release {

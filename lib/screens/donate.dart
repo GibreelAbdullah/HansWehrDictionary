@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../constants/appConstants.dart';
+
 class Donate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -28,12 +30,7 @@ Kindly donate to them.''',
             ),
             ElevatedButton(
               onPressed: () {
-                launchUrl(
-                    Uri(
-                      scheme: 'https',
-                      host: 'donate.islamic-relief.org',
-                    ),
-                    mode: LaunchMode.externalApplication);
+                launchUrl(donateUri, mode: LaunchMode.externalApplication);
               },
               child: Text(
                 'Donate through IslamicRelief',

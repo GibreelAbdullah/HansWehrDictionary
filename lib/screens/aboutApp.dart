@@ -117,6 +117,16 @@ class _AboutAppState extends State<AboutApp> {
                             mode: LaunchMode.externalApplication);
                       },
                     ),
+                    Padding(padding: EdgeInsets.all(16)),
+                    GestureDetector(
+                      child: Image(
+                        image: AssetImage('assets/website.png'),
+                      ),
+                      onTap: () {
+                        launchUrl(portfolioUri,
+                            mode: LaunchMode.externalApplication);
+                      },
+                    ),
                   ],
                 ),
                 Padding(

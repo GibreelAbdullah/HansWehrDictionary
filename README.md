@@ -8,6 +8,10 @@ Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechne
 
 ## Release Notes
 
+#### V - 1.12.1+52 (30 May, 2022) 
+- Minor UX improvements
+- Quran.com link not working fix
+
 #### V - 1.12.0+51 (26 May, 2022) 
 - Design Changes
 - Quranle integration
