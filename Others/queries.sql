@@ -1,5 +1,5 @@
-UPDATE DICTIONARY  SET quran_occurance = (select occurance from 
-(select  root_word , count(*) occurance from quran
+UPDATE DICTIONARY  SET quran_occurrence = (select occurrence from 
+(select  root_word , count(*) occurrence from quran
 group by root_word)
 where word = root_word)
 where is_root = 1

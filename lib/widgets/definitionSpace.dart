@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:hans_wehr_dictionary/screens/quranicWords.dart';
 import '../screens/donate.dart';
 import '../screens/favorites.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
@@ -12,6 +13,7 @@ import '../classes/definitionClass.dart';
 import '../constants/appConstants.dart';
 import '../serviceLocator.dart';
 import '../services/LocalStorageService.dart';
+import 'quranOccurrenceAlert.dart';
 
 class DefinitionSpace extends StatefulWidget {
   DefinitionSpace({
@@ -36,6 +38,8 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
             return Favorites();
           } else if (DefinitionClass.searchType == '/donate') {
             return Donate();
+          } else if (DefinitionClass.searchType == '/quranicWords') {
+            return QuranicWords();
           }
           return ListView.separated(
             padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
@@ -144,6 +148,10 @@ class HomeScreen extends StatelessWidget {
               route: "/favorites",
             ),
             HomePageCards(
+              imagePath: QURAN_IMAGE,
+              route: "/quranicWords",
+            ),
+            HomePageCards(
               imagePath: DONATE_IMAGE,
               route: "/donate",
             ),
@@ -246,7 +254,10 @@ class DefinitionTile extends StatelessWidget {
                 ? ElevatedButton(
                     onPressed: () {
                       if (definitionList!.quranOccurrence![index! - 1] != null)
-                        quranoccurrenceDialog(context);
+                        quranOccurrenceDialog(
+                            context,
+                            definitionList!.quranOccurrence![index! - 1]!,
+                            definitionList!.word[index! - 1]!);
                     },
                     child: Text(
                       "Q - ${definitionList!.quranOccurrence![index! - 1]}",
@@ -267,89 +278,6 @@ class DefinitionTile extends StatelessWidget {
       onTapDown: (details) => _tapPosition = details.globalPosition,
     );
     // }
-  }
-
-  quranoccurrenceDialog(BuildContext context) async {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Center(
-            child: Text(
-              '${definitionList!.quranOccurrence![index! - 1]} Occurrences in the Qur\'an',
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
-          ),
-          titlePadding: const EdgeInsets.all(8.0),
-          contentPadding: const EdgeInsets.all(0.0),
-          content: Container(
-            height: MediaQuery.of(context).size.height * .7,
-            width: MediaQuery.of(context).size.width * .9,
-            child: FutureBuilder<List<Map<String, dynamic>>>(
-                future: databaseObject
-                    .quranicDetails(definitionList!.word[index! - 1]),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, j) {
-                          final Uri uriScheme = Uri(
-                            scheme: "quran",
-                            path:
-                                "//${snapshot.data![j]['SURAH']}/${snapshot.data![j]['AYAH']}/${snapshot.data![j]['POSITION']}",
-                          );
-                          final Uri quranComUri = Uri(
-                            scheme: "https",
-                            host: "www.quran.com",
-                            path:
-                                "//${snapshot.data![j]['SURAH']}/${snapshot.data![j]['AYAH']}",
-                          );
-                          return ListTile(
-                            onTap: () async {
-                              if (await canLaunchUrl(uriScheme)) {
-                                print(uriScheme);
-                                await launchUrl(uriScheme,
-                                    mode: LaunchMode.externalApplication);
-                              } else
-                                await launchUrl(quranComUri,
-                                    mode: LaunchMode.externalApplication);
-                            },
-                            leading: Text(
-                              '${j + 1} - ',
-                              style: Theme.of(context).textTheme.bodyText1,
-                            ),
-                            title: Text(
-                              "Quran ${snapshot.data![j]['SURAH']}:${snapshot.data![j]['AYAH']}/${snapshot.data![j]['POSITION']}",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(
-                                    decoration: TextDecoration.underline,
-                                    color: Theme.of(context).primaryColor,
-                                  ),
-                            ),
-                          );
-                        });
-                  } else {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                }),
-          ),
-          actions: [
-            TextButton(
-              child: Text(
-                'DISMISS',
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-              onPressed: Navigator.of(context).pop,
-            ),
-          ],
-        );
-      },
-    );
   }
 
   contextMenu(BuildContext context, Offset tapPosition) async {
@@ -445,13 +373,13 @@ class _FavIconWidgetState extends State<FavIconWidget> {
   @override
   void initState() {
     super.initState();
-    favIconColor = widget.definitionList!.favoriteFlag[widget.index! - 1] == 1
-        ? Colors.red
-        : Colors.grey;
   }
 
   @override
   Widget build(BuildContext context) {
+    favIconColor = widget.definitionList!.favoriteFlag[widget.index! - 1] == 1
+        ? Colors.red
+        : Colors.grey;
     return IconButton(
       onPressed: () {
         toggleFavoritesMethod(widget.definitionList!, widget.index!, context);

@@ -20,8 +20,9 @@ class ThemeModel extends ChangeNotifier {
                   bodyText2: TextStyle(
                     fontFamily: locator<LocalStorageService>().font,
                     fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
-                    color: hexToColor(
-                        locator<LocalStorageService>().highlightTextColor),
+                    color: hexToColor(locator<LocalStorageService>()
+                            .highlightTextColor) ??
+                        Colors.cyan,
                   ),
                   subtitle1: TextStyle(
                     fontFamily: locator<LocalStorageService>().font,
@@ -67,8 +68,9 @@ class ThemeModel extends ChangeNotifier {
                   bodyText2: TextStyle(
                     fontFamily: locator<LocalStorageService>().font,
                     fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
-                    color: hexToColor(
-                        locator<LocalStorageService>().highlightTextColor),
+                    color: hexToColor(locator<LocalStorageService>()
+                            .highlightTextColor) ??
+                        Colors.blue,
                   ),
                   subtitle1: TextStyle(
                     fontFamily: locator<LocalStorageService>().font,

@@ -12,7 +12,7 @@ class Donate extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              'Donate',
+              'DONATE',
               textScaleFactor: 2,
               style: Theme.of(context).textTheme.bodyText1,
             ),

@@ -8,6 +8,15 @@ Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechne
 
 ## Release Notes
 
+#### V - 1.13.1+54 (09 June, 2022) 
+- Favorites screen alignment issue fix
+- Incorrect Favorite button color fix 
+- Minor UX improvements
+
+#### V - 1.13.0+53 (07 June, 2022) 
+- Minor UX improvements
+- Quranic Words Screen
+
 #### V - 1.12.1+52 (30 May, 2022) 
 - Minor UX improvements
 - Quran.com link not working fix

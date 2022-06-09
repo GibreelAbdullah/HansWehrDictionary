@@ -15,7 +15,7 @@ ThemeData lightTheme = ThemeData.light().copyWith(
           fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
           color:
               hexToColor(locator<LocalStorageService>().highlightTextColor) ??
-                  Colors.black,
+                  Colors.blue,
         ),
         subtitle1: TextStyle(
           fontFamily: locator<LocalStorageService>().font,
@@ -64,7 +64,7 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
           fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
           color:
               hexToColor(locator<LocalStorageService>().highlightTextColor) ??
-                  Colors.white,
+                  Colors.cyan,
         ),
         subtitle1: TextStyle(
           fontFamily: locator<LocalStorageService>().font,

@@ -2,6 +2,7 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:hans_wehr_dictionary/widgets/quranOccurrenceAlert.dart';
 import '../classes/definitionClass.dart';
 import '../widgets/drawer.dart';
 import '../constants/appConstants.dart';
@@ -126,39 +127,34 @@ class _BrowseState extends State<Browse> {
   }
 }
 
+// buildDefinitionDialog(BuildContext context, String? word) {
+//   FutureBuilder<DefinitionClass>(
+//       future: databaseObject.definition(word, "BrowseScreen"),
+//       builder: (context, snapshot) {});
+// }
+
 Future buildDefinitionAlert(BuildContext context, String? word) {
   return showDialog(
     context: context,
     builder: (BuildContext context) {
-      return AlertDialog(
-        insetPadding: EdgeInsets.all(0),
-        contentPadding: EdgeInsets.all(0),
-        title: Center(
-          child: Text(
-            word!,
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-        ),
-        content: Container(
-          height: MediaQuery.of(context).size.height * .7,
-          width: MediaQuery.of(context).size.width * .9,
-          child: FutureBuilder<DefinitionClass>(
-            future: databaseObject.definition(word, "BrowseScreen"),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Center(
-                  child: Container(
-                      height: 50,
-                      width: 50,
-                      child: CircularProgressIndicator()),
-                );
-              } else if (snapshot.hasError) {
-                return Text(
-                  "Error",
+      return FutureBuilder<DefinitionClass>(
+        future: databaseObject.definition(word, "BrowseScreen"),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return AlertDialog(
+              actionsAlignment: MainAxisAlignment.spaceBetween,
+              insetPadding: EdgeInsets.all(0),
+              contentPadding: EdgeInsets.all(15),
+              title: Center(
+                child: Text(
+                  word!,
                   style: Theme.of(context).textTheme.bodyText1,
-                );
-              } else {
-                return ListView.builder(
+                ),
+              ),
+              content: Container(
+                height: MediaQuery.of(context).size.height * .7,
+                width: MediaQuery.of(context).size.width * .9,
+                child: ListView.builder(
                   itemCount: snapshot.data!.definition.length,
                   itemBuilder: (context, index) {
                     return ListTile(
@@ -173,22 +169,36 @@ Future buildDefinitionAlert(BuildContext context, String? word) {
                       ),
                     );
                   },
-                );
-              }
-            },
-          ),
-        ),
-        actions: [
-          TextButton(
-            child: Text(
-              'DISMISS',
-              style: Theme.of(context).textTheme.bodyText2,
-            ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
+                ),
+              ),
+              actions: [
+                snapshot.data!.quranOccurrence![0] != null
+                    ? TextButton(
+                        child: Text(
+                          'Q - ${snapshot.data!.quranOccurrence![0]}',
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ),
+                        onPressed: () {
+                          quranOccurrenceDialog(context,
+                              snapshot.data!.quranOccurrence![0]!, word);
+                        },
+                      )
+                    : Container(),
+                TextButton(
+                  child: Text(
+                    'DISMISS',
+                    style: Theme.of(context).textTheme.bodyText2,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          } else {
+            return Container();
+          }
+        },
       );
     },
   );

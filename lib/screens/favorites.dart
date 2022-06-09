@@ -11,88 +11,110 @@ class Favorites extends StatefulWidget {
 class _FavoritesState extends State<Favorites> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Row(
-            // alignment: Alignment.centerLeft,
-            children: [
-              Text(
-                'Favorites',
-                textScaleFactor: 2,
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-              Icon(
-                Icons.favorite,
-                color: Colors.red,
-              )
-            ],
-            mainAxisAlignment: MainAxisAlignment.center,
-          ),
-        ),
-        FutureBuilder<List<Map<String, dynamic>>>(
-          future: databaseObject.getFavorites(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              List<Map<String, dynamic>> favData = [];
-              favData.addAll(snapshot.data!);
-              if (favData.length == 0) {
-                return Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.report_gmailerrorred,
-                        size: 72,
-                        color: Colors.grey,
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'FAVORITES',
+              textAlign: TextAlign.center,
+              textScaleFactor: 2,
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+            FutureBuilder<List<Map<String, dynamic>>>(
+              future: databaseObject.getFavorites(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  List<Map<String, dynamic>> favData = [];
+                  favData.addAll(snapshot.data!);
+                  if (favData.length == 0) {
+                    return Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.heart_broken,
+                            size: 72,
+                            color: Colors.grey,
+                          ),
+                          Text(
+                            'Favorite some words by selecting ❤️ icon',
+                            style:
+                                Theme.of(context).textTheme.bodyText1!.copyWith(
+                                      color: Colors.grey,
+                                    ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        'Nothing to see here',
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                              color: Colors.grey,
+                    );
+                  }
+                  return Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: favData.length,
+                        itemBuilder: (context, j) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              color: j % 2 == 0
+                                  ? Theme.of(context).scaffoldBackgroundColor
+                                  : Theme.of(context)
+                                      .primaryColor
+                                      .withAlpha(20),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              ),
                             ),
+                            child: ListTile(
+                              onTap: () async {
+                                buildDefinitionAlert(
+                                    context, favData[j]['word']);
+                              },
+                              leading: Text(
+                                '${j + 1} ',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1!
+                                            .color!
+                                            .withAlpha(100)),
+                              ),
+                              title: Text(
+                                favData[j]['word'],
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                              trailing: IconButton(
+                                icon: Icon(Icons.delete_forever),
+                                onPressed: () {
+                                  databaseObject.toggleFavorites(
+                                      favData[j]['id'], 0);
+                                  setState(() {
+                                    favData.removeAt(j);
+                                  });
+                                },
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                    ],
-                  ),
-                );
-              }
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: favData.length,
-                itemBuilder: (context, j) {
-                  return ListTile(
-                    onTap: () async {
-                      buildDefinitionAlert(context, favData[j]['word']);
-                    },
-                    leading: Text(
-                      '${j + 1} - ',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    title: Text(
-                      favData[j]['word'],
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete_forever),
-                      onPressed: () {
-                        databaseObject.toggleFavorites(favData[j]['id'], 0);
-                        setState(() {
-                          favData.removeAt(j);
-                        });
-                      },
                     ),
                   );
-                },
-              );
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

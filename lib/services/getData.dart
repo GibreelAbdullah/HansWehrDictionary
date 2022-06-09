@@ -8,18 +8,18 @@ import '../constants/appConstants.dart';
 class DatabaseAccess {
   Future<Database> openDatabaseConnection() async {
     // Sqflite.devSetDebugModeOn(true);
-    var path = join(await getDatabasesPath(), "hanswehrV11.db");
+    var path = join(await getDatabasesPath(), "hanswehrV12.db");
     var exists = await databaseExists(path);
 
     if (!exists) {
       try {
         await Directory(dirname(path)).create(recursive: true);
       } catch (_) {}
-      ByteData data = await rootBundle.load(join("assets", "hanswehrV11.db"));
+      ByteData data = await rootBundle.load(join("assets", "hanswehrV12.db"));
       List<int> bytes =
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       await File(path).writeAsBytes(bytes, flush: true);
-      var oldPath = join(await getDatabasesPath(), "hanswehrV10.db");
+      var oldPath = join(await getDatabasesPath(), "hanswehrV11.db");
       exists = await databaseExists(oldPath);
       if (exists) {
         databaseFactory.deleteDatabase(oldPath);
@@ -55,15 +55,15 @@ class DatabaseAccess {
     switch (type) {
       case "BrowseScreen":
         query =
-            "SELECT word, 0 highlight, definition, is_root, quran_occurance FROM DICTIONARY WHERE PARENT_ID IN (SELECT ID FROM DICTIONARY WHERE WORD = '$word' and IS_ROOT=1) ORDER BY ID";
+            "SELECT word, 0 highlight, definition, is_root, quran_occurrence FROM DICTIONARY WHERE PARENT_ID IN (SELECT ID FROM DICTIONARY WHERE WORD = '$word' and IS_ROOT=1) ORDER BY ID";
         break;
       case "RootSearch":
         query =
-            "SELECT id, word, CASE word when '$word' then 1 else 0 end as highlight, definition, is_root, quran_occurance, favorite_flag FROM DICTIONARY WHERE PARENT_ID IN (SELECT PARENT_ID FROM DICTIONARY WHERE WORD = '$word') ORDER BY ID";
+            "SELECT id, word, CASE word when '$word' then 1 else 0 end as highlight, definition, is_root, quran_occurrence, favorite_flag FROM DICTIONARY WHERE PARENT_ID IN (SELECT PARENT_ID FROM DICTIONARY WHERE WORD = '$word') ORDER BY ID";
         break;
       case "FullTextSearch":
         query =
-            "SELECT id, word, MAX(highlight) highlight, definition, is_root, quran_occurance, favorite_flag from (SELECT dict.word, dict.id, CASE dict.id WHEN dict2.id then 1 else 0 end as highlight, REPLACE(dict.definition,'$word','<mark>$word</mark>') AS definition,  dict.is_root , dict.quran_occurance, dict.favorite_flag FROM DICTIONARY dict inner join (SELECT ID, PARENT_ID, is_root FROM DICTIONARY WHERE definition like '%$word%' LIMIT 50) dict2 ON dict.parent_id = dict2.parent_id) group by word, definition, is_root, quran_occurance order by id ";
+            "SELECT id, word, MAX(highlight) highlight, definition, is_root, quran_occurrence, favorite_flag from (SELECT dict.word, dict.id, CASE dict.id WHEN dict2.id then 1 else 0 end as highlight, REPLACE(dict.definition,'$word','<mark>$word</mark>') AS definition,  dict.is_root , dict.quran_occurrence, dict.favorite_flag FROM DICTIONARY dict inner join (SELECT ID, PARENT_ID, is_root FROM DICTIONARY WHERE definition like '%$word%' LIMIT 50) dict2 ON dict.parent_id = dict2.parent_id) group by word, definition, is_root, quran_occurrence order by id ";
         break;
       default:
         break;
@@ -92,7 +92,7 @@ class DatabaseAccess {
           allDefinitions.isRoot.add(value);
         } else if (key == 'highlight') {
           allDefinitions.highlight.add(value);
-        } else if (key == 'quran_occurance') {
+        } else if (key == 'quran_occurrence') {
           allDefinitions.quranOccurrence!.add(value);
         } else if (key == 'favorite_flag') {
           allDefinitions.favoriteFlag.add(value);
@@ -116,6 +116,15 @@ class DatabaseAccess {
       });
     });
     return allWords;
+  }
+
+  Future<List<Map<String, dynamic>>> getQuranicWords() async {
+    Database db = await databaseConnection;
+
+    String query =
+        "SELECT DISTINCT WORD, QURAN_OCCURRENCE FROM DICTIONARY WHERE QURAN_OCCURRENCE is not null ORDER BY QURAN_OCCURRENCE desc";
+    List<Map<String, dynamic>> quranicWords = await db.rawQuery(query);
+    return quranicWords;
   }
 
   Future<List<String>> allXLevelWords(String? word, int length) async {
