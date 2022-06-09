@@ -31,7 +31,6 @@ class _SearchState extends State<Search> {
     setState(() {});
   }
 
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<SearchModel>(
@@ -43,13 +42,24 @@ class _SearchState extends State<Search> {
           definition: [],
           isRoot: [],
           highlight: [],
-          quranOccurance: [],
+          quranOccurrence: [],
           favoriteFlag: [],
         ),
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          drawer: CommonDrawer(currentScreen: SEARCH_SCREEN_TITLE),
-          body: buildSearchBar(),
+        child: WillPopScope(
+          onWillPop: () {
+            if (DefinitionClass.searchType == null) {
+              return Future.value(true);
+            }
+            setState(() {
+              DefinitionClass.searchType = null;
+            });
+            return Future.value(false);
+          },
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            drawer: CommonDrawer(currentScreen: SEARCH_SCREEN_TITLE),
+            body: buildSearchBar(),
+          ),
         ),
       ),
     );
@@ -67,15 +77,6 @@ class _SearchState extends State<Search> {
 
     return Consumer<SearchModel>(
       builder: (context, model, _) => FloatingSearchBar(
-        leadingActions: [
-          IconButton(
-            icon: Icon(Icons.home),
-            onPressed: () {
-              home(context);
-            },
-          ),
-        ],
-        automaticallyImplyBackButton: false,
         controller: controller,
         clearQueryOnClose: false,
         hint: 'Arabic/English العربية/الإنكليزية',
@@ -109,9 +110,9 @@ class _SearchState extends State<Search> {
   void buildDefinitionOnSubmission(
       BuildContext context, String searchWord) async {
     final definitionList = Provider.of<DefinitionClass>(context, listen: false);
-    definitionList.searchType = 'FullTextSearch';
+    DefinitionClass.searchType = 'FullTextSearch';
     DefinitionClass value =
-        await databaseObject.definition(searchWord, definitionList.searchType);
+        await databaseObject.definition(searchWord, DefinitionClass.searchType);
     setState(
       () {
         definitionList.id = value.id;
@@ -120,7 +121,7 @@ class _SearchState extends State<Search> {
         definitionList.definition = value.definition;
         definitionList.isRoot = value.isRoot;
         definitionList.highlight = value.highlight;
-        definitionList.quranOccurance = value.quranOccurance;
+        definitionList.quranOccurrence = value.quranOccurrence;
         definitionList.favoriteFlag = value.favoriteFlag;
       },
     );
@@ -130,7 +131,7 @@ class _SearchState extends State<Search> {
     return Material(
       elevation: 4.0,
       borderRadius: BorderRadius.circular(8),
-      child: ImplicitlyAnimatedList<String?>(
+      child: ImplicitlyAnimatedList<String>(
         shrinkWrap: true,
         padding: EdgeInsets.zero,
         physics: const NeverScrollableScrollPhysics(),
@@ -139,13 +140,13 @@ class _SearchState extends State<Search> {
         itemBuilder: (context, animation, word, i) {
           return SizeFadeTransition(
             animation: animation,
-            child: buildItem(context, word!),
+            child: buildItem(context, word),
           );
         },
         updateItemBuilder: (context, animation, word) {
           return FadeTransition(
             opacity: animation,
-            child: buildItem(context, word!),
+            child: buildItem(context, word),
           );
         },
       ),
@@ -161,7 +162,7 @@ class _SearchState extends State<Search> {
       children: [
         InkWell(
           onTap: () {
-            definitionList.searchType =
+            DefinitionClass.searchType =
                 ALL_ALPHABETS.contains(word.substring(0, 1))
                     ? 'RootSearch'
                     : 'FullTextSearch';
@@ -172,7 +173,7 @@ class _SearchState extends State<Search> {
               () => model.clear(),
             );
             FloatingSearchBar.of(context)!.close();
-            databaseObject.definition(word, definitionList.searchType).then(
+            databaseObject.definition(word, DefinitionClass.searchType).then(
                   (value) => setState(
                     () {
                       definitionList.id = value.id;
@@ -180,7 +181,7 @@ class _SearchState extends State<Search> {
                       definitionList.definition = value.definition;
                       definitionList.isRoot = value.isRoot;
                       definitionList.highlight = value.highlight;
-                      definitionList.quranOccurance = value.quranOccurance;
+                      definitionList.quranOccurrence = value.quranOccurrence;
                       definitionList.favoriteFlag = value.favoriteFlag;
                     },
                   ),
@@ -254,13 +255,13 @@ class _SearchState extends State<Search> {
 
     setState(
       () {
-        definitionList.searchType = null;
+        DefinitionClass.searchType = null;
         definitionList.searchWord = null;
         definitionList.word = [];
         definitionList.definition = [];
         definitionList.isRoot = [];
         definitionList.highlight = [];
-        definitionList.quranOccurance = [];
+        definitionList.quranOccurrence = [];
       },
     );
   }

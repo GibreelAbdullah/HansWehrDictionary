@@ -3,29 +3,28 @@ description: A new Flutter project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.11.2+47
+version: 1.13.1+54
 
 environment:
-  sdk: '>=2.13.0 <3.0.0'
+  sdk: '>=2.16.0 <3.0.0'
   
 dependencies:
   flutter:
     sdk: flutter
-  sqflite: ^2.0.0+4
+  sqflite: ^2.0.2+1
   path: ^1.8.0
-  http: ^0.13.3
-  material_floating_search_bar: ^0.3.4
-  provider: ^6.0.1
-  implicitly_animated_reorderable_list: 0.4.0-dev+4
-  flutter_widget_from_html: ^0.7.0
-  url_launcher: ^6.0.12
-  cupertino_icons: ^1.0.3
-  shared_preferences: ^2.0.8
+  http: ^0.13.4
+  material_floating_search_bar: ^0.3.7
+  provider: ^6.0.2
+  implicitly_animated_reorderable_list: 0.4.2
+  flutter_widget_from_html: ^0.8.5
+  url_launcher: ^6.1.2
+  cupertino_icons: ^1.0.4
+  shared_preferences: ^2.0.15
   get_it: ^7.2.0
-  share: ^2.0.4
+  share_plus: ^4.0.4
   in_app_review: ^2.0.3
-  flutter_colorpicker: ^0.6.0
-  badges: ^2.0.1
+  flutter_colorpicker: ^1.0.3
 
 dev_dependencies:
   flutter_launcher_icons: ^0.9.0
@@ -42,7 +41,7 @@ flutter_icons:
 
   android: "launcher_icon"
   ios: true
-  image_path: "assets/icon/icon.png"
+  image_path: "assets/hans.png"
 
 flutter:
   uses-material-design: true

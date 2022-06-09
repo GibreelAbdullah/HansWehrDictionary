@@ -16,6 +16,55 @@ const String HISTORY_SCREEN_TITLE = 'History';
 const String MORE_APPS = 'More Apps';
 const String ALL_MY_APPS = 'All Apps By Me';
 
+const String FAV_IMAGE = 'assets/like_button.jpg';
+const String DONATE_IMAGE = 'assets/donate.jpg';
+const String QURANLE_IMAGE = 'assets/Quranle.jpg';
+const String FOR_HIRE_IMAGE = 'assets/ForHire.webp';
+const String QURAN_IMAGE = 'assets/quran.jpg';
+
+final Uri quranleUri = Uri(
+  scheme: "https",
+  host: "www.quranle.com",
+  queryParameters: {'ref': 'HansWehr'},
+);
+
+final Uri portfolioUri = Uri(
+  scheme: "https",
+  host: "gibreelabdullah.github.io",
+  queryParameters: {'ref': 'HansWehr'},
+);
+
+final Uri hansWehrAndroidUri = Uri(
+  scheme: "https",
+  host: "play.google.com",
+  path: "store/apps/details",
+  queryParameters: {'id': 'com.muslimtechnet.hanswehr'},
+);
+
+final Uri lanesLexiconAndroidUri = Uri(
+  scheme: "https",
+  host: "play.google.com",
+  path: "store/apps/details",
+  queryParameters: {'id': 'com.muslimtechnet.lanelexicon'},
+);
+
+final Uri githubUri = Uri(
+  scheme: "https",
+  host: "github.com",
+  path: "GibreelAbdullah",
+);
+
+final Uri linkedinUri = Uri(
+  scheme: "https",
+  host: "linkedin.com",
+  path: "in/gibreel-abdullah",
+);
+
+final Uri donateUri = Uri(
+  scheme: 'https',
+  host: 'donate.islamic-relief.org',
+);
+
 const String ABOUT_APP = '''
     <br>
     <p style="text-align:center">The <i><b>Dictionary of Modern Written Arabic</b></i> is an Arabic-English dictionary compiled by 
@@ -23,24 +72,25 @@ const String ABOUT_APP = '''
     <a href="https://en.wikipedia.org/wiki/J_Milton_Cowan" title="J Milton Cowan">J Milton Cowan</a>.''';
 const String WHATS_NEW =
     '''<p style="text-align:center"><b> What's New :</b><br>
-    - Favorites Section <br>
-    - #UnfreezeAfghanistan <br>
-    - Amiri font improvements (Thanks podev) <br>
-    - Preface and Introduction Screen (Thanks Ejaz Shaikh) <br>
-    - Removed Splash Screen due to crashes on Samsung Devices <br>
-    <a href = "https://github.com/MuslimTechNet/HansWehrDictionary/blob/master/README.md">Source Code, Full Release Notes and Future Work</a></p><br>''';
+    - Favorites screen alignment issue fix<br>
+    - Incorrect Favorite button color fix<br>
+    - Minor UX improvements<br>
+    <a href = "https://github.com/MuslimTechNet/HansWehrDictionary">Source Code, Full Release Notes and Future Work</a></p><br>''';
 const String COMMUNITY_INVITE =
     '''<p style="text-align:center">If you are a Muslim tech professional or aspiring to be one join the <br>
     <b>Muslim Tech Network</b></p><br>''';
-const String DISCORD_INVITE_LINK = 'https://discord.gg/QFKwtFC';
-const String REDDIT_INVITE_LINK = 'https://www.reddit.com/r/muslimtechnet/';
-const String DONATE_LINK = 'https://www.islamic-relief.org/';
+
 const String DISCLAIMER =
     '''<p style="text-align:center"><b>DISCLAIMER - Not 100% Accurate.</b></br>
     Text was extracted from scanned pages and may have errors.</p>''';
 
-const String CONTACT_ME = '''<p style="text-align:center"><b>CONTACT ME</b></br>
-    If you have an idea for an app or have a job offer <br><a href = "mailto: gibreel.khan@gmail.com">gibreel.khan@gmail.com</a><br></p><br>''';
+const String CONTACT_ME =
+    '<p style="text-align:center"><b>CONTACT ME</b><br><br>';
+
+const String EMAIL = "gibreel.khan@gmail.com";
+
+const String SOCIAL_PROFILES =
+    '<p style="text-align:center"><b>SOCAIL PROFILES</b><br><br>';
 
 const String COURTSEY = '''<p style="text-align:center"><b>COURTSEY</b>
     <ul>
@@ -107,7 +157,7 @@ Arabic words are arranged according to Arabic roots. Foreign words are listed in
 
 Two or more homonymous roots may be entered as separate items, including foreign words treated as Arabic forms (e.g., كريم karīm under the Arabic root 1كرم and 2كريم, the French word crѐme; cf. also the consonant combination k-r-k). In order to indicate to the reader that the same order of letters occurs more than once and that he should not confine his search to the first listing, each entry is preceded by a small raised numeral (cf. برد, مر).
 
-Under a given root the sequence of entries is as follows. The verb in the perfect of the base stem, if it exists, comes first with the transliteration indicating the voweling. It is followed by the vowel of the imperfect and, in parentheses, the verbal nouns or maṣādir. Then come the derived stems, indicated by boldface Roman numerals II through X. For Arab users unaccustomed to this designation generally used by western orientalists, the corresponding stem forms are: II فعل fa‘‘ala, III فاعل fā‘ala, IV افعل af‘ala, V تفعل taf‘‘ala, VI تفاعل tafā‘ala, VII انفعل infa‘ala, VIII    افتعل ifta‘ala, IX افعل if‘alla, X استفعل istaf‘ala. Wherever there is any irregularity, for the rare stems XI through XV, and for the derived stems of quadriliteral verbs the Arabic form is entered and transliterated (cf. محو VII, وحد , VIII, حدب XII, سلطح III). Then come nominal forms arranged according to their length. Verbal nouns of the stems II through X and all active and passive participles follow at the end. The latter are listed as separate items only when their meaning is not immediately obvious from the verb, particularly where a substantival or adjectival translation is possible (cf. حاجب hājib under حجب, ساحل sāhil under سحل). The sequence under a given root is not determined by historical considerations. Thus, a verb derived from a foreign word is placed at the head of the entire section (cf. اقلم aqlama, 2ترك II).
+Under a given root the sequence of entries is as follows. The verb in the perfect of the base stem, if it exists, comes first with the transliteration indicating the voweling. It is followed by the vowel of the imperfect and, in parentheses, the verbal nouns or maṣādir. Then come the derived stems, indicated by boldface Roman numerals II through X. For Arab users unaccustomed to this designation generally used by western orientalists, the corresponding stem forms are: II فعل fa‘‘ala, III فاعل fā‘ala, IV افعل af‘ala, V تفعل taf‘‘ala, VI تفاعل tafā‘ala, VII انفعل infa‘ala, VIII    افتعل ifta‘ala, IX افعل if‘alla, X استفعل istaf‘ala. Wherever there is any irregularity, for the rare stems XI through XV, and for the derived stems of quadriliteral verbs the Arabic form is entered and transliterated (cf. محو VII, وحد , VIII, حدب XII, سلطح III). Then come nominal forms arranged according to their length. Verbal nouns of the stems II through X and all active and passive participles follow at the end. The latter are listed as separate items only when their meaning is not immediately obvious from the verb, particularly where a substantival or adjectival translation is possible (cf. حاجب hājib under حجب and ساحل sāhil under سحل). The sequence under a given root is not determined by historical considerations. Thus, a verb derived from a foreign word is placed at the head of the entire section (cf. اقلم aqlama, 2ترك II).
 
 Essentially synonymous definitions are separated by commas. A semicolon marks the beginning of a definition in a different semantic range.
 
@@ -149,12 +199,6 @@ All other possible vowelings are transcribed (e.g., if‘āl, fa‘‘āl, fu‘
 In transcription, two nouns forming a genitive compound are treated as a unit. They are transcribed as noun—definite article—noun, with the entry word abbreviated (cf. under صاحب sāḥib, شبه šibh). In a noun compound where the second noun is in apposition or attributive, it alone is transcribed (cf. under ابرة ibra, جلد jild). In this manner the difference between the two constructions is brought out clearly without resorting to transliteration of the i‘rāb endings. A feminine noun ending in -a, as fust member of a genitive compound, ill also abbreviated, and the construct ending -t is to be read even though it is not expressed in the transcription.
 
 In view of the great variety and intricacy of the material presented, it is inevitable that inconsistencies will appear and that similar examples will be treated here and there in a different manner. For such incongruities and for certain redundancies, we must ask the user’s indulgence.\n''';
-
-const String LANE_LEXICON_ANDROID_LINK =
-    'https://play.google.com/store/apps/details?id=com.muslimtechnet.lanelexicon';
-
-const String HANS_WEHR_ANDROID_LINK =
-    'https://play.google.com/store/apps/details?id=com.muslimtechnet.hanswehr';
 
 const List<String> VERB_FORMS = [
   'I - فَعَل/فَعُل/فَعِل',

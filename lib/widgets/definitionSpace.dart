@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:hans_wehr_dictionary/screens/quranicWords.dart';
+import '../screens/donate.dart';
+import '../screens/favorites.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:badges/badges.dart';
 import 'package:html/parser.dart';
 import '../classes/appTheme.dart';
 import '../classes/definitionClass.dart';
 import '../constants/appConstants.dart';
 import '../serviceLocator.dart';
 import '../services/LocalStorageService.dart';
+import 'quranOccurrenceAlert.dart';
 
 class DefinitionSpace extends StatefulWidget {
   DefinitionSpace({
@@ -29,8 +32,14 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
       transitionDuration: const Duration(milliseconds: 800),
       body: Consumer<DefinitionClass>(
         builder: (_, definitionList, __) {
-          if (definitionList.searchType == null) {
+          if (DefinitionClass.searchType == null) {
             return HomeScreen();
+          } else if (DefinitionClass.searchType == '/favorites') {
+            return Favorites();
+          } else if (DefinitionClass.searchType == '/donate') {
+            return Donate();
+          } else if (DefinitionClass.searchType == '/quranicWords') {
+            return QuranicWords();
           }
           return ListView.separated(
             padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
@@ -42,59 +51,64 @@ class _DefinitionSpaceState extends State<DefinitionSpace> {
             },
             itemBuilder: (context, index) {
               if (index == 0) {
-                if (definitionList.searchType == 'RootSearch') {
+                if (DefinitionClass.searchType == 'RootSearch') {
                   return ListTile(
-                    leading: Icon(Icons.info),
                     title: Text(
                       definitionList.searchWord!,
+                      textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyText1,
                     ),
-                    subtitle: Text(
-                      'Tap for full text search. Tip : To directly do a full text search press the Enter key instead of selecting from the dropdown',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
+                    subtitle: definitionList.definition.length == 0
+                        ? Text(
+                            'No results found.\nTap here for full text search.',
+                            textAlign: TextAlign.center,
+                          )
+                        : Text(
+                            'Tap here for full text search.\nTo directly do a full text search press the Enter key instead of selecting from the dropdown.',
+                            textAlign: TextAlign.center,
+                          ),
                     onTap: () async {
-                      definitionList.searchType = 'FullTextSearch';
+                      DefinitionClass.searchType = 'FullTextSearch';
                       DefinitionClass value = await databaseObject.definition(
-                          definitionList.searchWord, definitionList.searchType);
+                          definitionList.searchWord,
+                          DefinitionClass.searchType);
                       setState(() {
                         definitionList.id = value.id;
                         definitionList.word = value.word;
                         definitionList.definition = value.definition;
                         definitionList.isRoot = value.isRoot;
                         definitionList.highlight = value.highlight;
-                        definitionList.quranOccurance = value.quranOccurance;
+                        definitionList.quranOccurrence = value.quranOccurrence;
                         definitionList.favoriteFlag = value.favoriteFlag;
                       });
                     },
                   );
-                } else if (definitionList.searchType == 'FullTextSearch') {
-                  if (definitionList.definition.length > 50) {
-                    return Container(
-                      child: TextButton.icon(
-                        icon: Icon(
-                          Icons.info,
-                          color: Theme.of(context).iconTheme.color,
-                        ),
-                        label: Text(
-                          'Showing First 50 results for ${definitionList.searchWord}',
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                        onPressed: () {},
+                } else if (DefinitionClass.searchType == 'FullTextSearch') {
+                  if (definitionList.definition.length > 50 ||
+                      definitionList.definition.length == 0) {
+                    return ListTile(
+                      title: Text(
+                        definitionList.searchWord!,
+                        style: Theme.of(context).textTheme.bodyText1,
+                        textAlign: TextAlign.center,
                       ),
+                      subtitle: definitionList.definition.length == 0
+                          ? Text(
+                              'No results found',
+                              textAlign: TextAlign.center,
+                            )
+                          : Text(
+                              'Too many matches, results might be truncated.',
+                              textAlign: TextAlign.center,
+                            ),
+                      onTap: () {},
                     );
                   }
-                  return Container(
-                    child: TextButton.icon(
-                      icon: Icon(
-                        Icons.info,
-                        color: Theme.of(context).iconTheme.color,
-                      ),
-                      label: Text(
-                        definitionList.searchWord ?? "assdsdsdsd",
-                        style: Theme.of(context).textTheme.bodyText1,
-                      ),
-                      onPressed: () {},
+                  return ListTile(
+                    title: Text(
+                      definitionList.searchWord!,
+                      style: Theme.of(context).textTheme.bodyText1,
+                      textAlign: TextAlign.center,
                     ),
                   );
                 }
@@ -130,26 +144,25 @@ class HomeScreen extends StatelessWidget {
           // crossAxisCount: 2,
           children: [
             HomePageCards(
-              icon: Icon(
-                Icons.favorite,
-                color: Colors.red,
-              ),
-              title: "Favorites",
+              imagePath: FAV_IMAGE,
               route: "/favorites",
             ),
             HomePageCards(
-              title: "#UnfreezeAfghanistan",
-              subtitle: "Millions are facing starvation.\nDONATE NOW",
+              imagePath: QURAN_IMAGE,
+              route: "/quranicWords",
+            ),
+            HomePageCards(
+              imagePath: DONATE_IMAGE,
               route: "/donate",
             ),
-            // HomePageCards(
-            //   icon: Icon(
-            //     Icons.history,
-            //     color: Colors.red,
-            //   ),
-            //   title: "History",
-            //   route: "/history",
-            // ),
+            HomePageCards(
+              imagePath: QURANLE_IMAGE,
+              uri: quranleUri,
+            ),
+            HomePageCards(
+              imagePath: FOR_HIRE_IMAGE,
+              uri: portfolioUri,
+            ),
           ],
         );
       },
@@ -160,42 +173,42 @@ class HomeScreen extends StatelessWidget {
 class HomePageCards extends StatelessWidget {
   const HomePageCards({
     Key? key,
-    required this.title,
-    this.icon,
-    this.subtitle,
-    required this.route,
+    required this.imagePath,
+    this.route,
+    this.uri,
   }) : super(key: key);
-  final String title;
-  final Icon? icon;
-  final String? subtitle;
-  final String route;
+  final String imagePath;
+  final String? route;
+  final Uri? uri;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, route);
+        route != null
+            ? Provider.of<DefinitionClass>(context, listen: false)
+                .updateSearchType(route!)
+            : launchUrl(uri!, mode: LaunchMode.externalApplication);
       },
-      child: Card(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              title,
-              style: Theme.of(context).textTheme.headline6,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            image: DecorationImage(
+                image: AssetImage(imagePath), fit: BoxFit.cover),
+          ),
+          child: Card(
+            elevation: 0,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [],
             ),
-            Center(
-              child: icon ??
-                  Text(
-                    subtitle!,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.red),
-                  ),
+            shadowColor: Theme.of(context).primaryColor,
+            color: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
             ),
-          ],
-        ),
-        color: Theme.of(context).canvasColor.withAlpha(200),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
+          ),
         ),
       ),
     );
@@ -214,194 +227,60 @@ class DefinitionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Offset _tapPosition = Offset(10.0, 10.0);
-    if (definitionList!.quranOccurance![index! - 1] == null) {
-      return GestureDetector(
-        child: ListTile(
-          selected: definitionList!.highlight[index! - 1] == 1,
-          selectedTileColor:
-              hexToColor(locator<LocalStorageService>().highlightTileColor),
-          contentPadding: EdgeInsets.fromLTRB(
-              definitionList!.isRoot[index! - 1] == 1 ? 16.0 : 50, 0, 16, 0),
-          title: HtmlWidget(
-            definitionList!.definition[index! - 1]!,
-            textStyle: TextStyle(
-              fontFamily: Theme.of(context).textTheme.bodyText1!.fontFamily,
-              fontSize: Theme.of(context).textTheme.bodyText1!.fontSize,
-            ),
-          ),
-          onLongPress: () {
-            contextMenu(context, _tapPosition);
-          },
-          onTap: () {},
-        ),
-        onTapDown: (details) => _tapPosition = details.globalPosition,
-      );
-    } else {
-      return GestureDetector(
-        child: ListTile(
-          isThreeLine: true,
-          selected: definitionList!.highlight[index! - 1] == 1,
-          selectedTileColor:
-              hexToColor(locator<LocalStorageService>().highlightTileColor),
-          contentPadding: EdgeInsets.fromLTRB(16.0, 0, 24, 0),
-          title: HtmlWidget(
-            definitionList!.definition[index! - 1]!,
-            textStyle: TextStyle(
-              fontFamily: Theme.of(context).textTheme.bodyText1!.fontFamily,
-              fontSize: Theme.of(context).textTheme.bodyText1!.fontSize,
-            ),
-          ),
-          subtitle: Center(
-            child: Badge(
-              toAnimate: false,
-              padding: EdgeInsets.all(2),
-              badgeColor: hexToColor(
-                      locator<LocalStorageService>().highlightTextColor) ??
-                  Colors.red,
-              badgeContent: Text(
-                '${definitionList!.quranOccurance![index! - 1]}',
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-              child: Icon(Icons.menu_book),
-            ),
-          ),
-          onTap: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: Center(
-                    child: Text(
-                      '${definitionList!.quranOccurance![index! - 1]} Occurances in the Qur\'an',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                  ),
-                  titlePadding: const EdgeInsets.all(8.0),
-                  contentPadding: const EdgeInsets.all(0.0),
-                  content: Container(
-                    height: MediaQuery.of(context).size.height * .7,
-                    width: MediaQuery.of(context).size.width * .9,
-                    child: FutureBuilder<List<Map<String, dynamic>>>(
-                        future: databaseObject
-                            .quranicDetails(definitionList!.word[index! - 1]),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: snapshot.data!.length,
-                                itemBuilder: (context, j) {
-                                  String uriScheme =
-                                      "quran://${snapshot.data![j]['SURAH']}/${snapshot.data![j]['AYAH']}/${snapshot.data![j]['POSITION']}";
+    return GestureDetector(
+      child: ListTile(
+        isThreeLine: true,
+        selected: definitionList!.highlight[index! - 1] == 1,
+        selectedTileColor:
+            hexToColor(locator<LocalStorageService>().highlightTileColor),
+        // contentPadding: EdgeInsets.fromLTRB(16.0, 0, 24, 0),
+        contentPadding: EdgeInsets.fromLTRB(
+            definitionList!.isRoot[index! - 1] == 1 ? 16.0 : 50, 0, 16, 0),
 
-                                  return ListTile(
-                                    onTap: () async {
-                                      if (await canLaunch(uriScheme)) {
-                                        await launch(uriScheme);
-                                      } else
-                                        await launch(
-                                            "https://www.quran.com/${snapshot.data![j]['SURAH']}/${snapshot.data![j]['AYAH']}");
-                                    },
-                                    leading: Text(
-                                      '${j + 1} - ',
-                                      style:
-                                          Theme.of(context).textTheme.bodyText1,
-                                    ),
-                                    title: Text(
-                                      "Quran ${snapshot.data![j]['SURAH']}:${snapshot.data![j]['AYAH']}/${snapshot.data![j]['POSITION']}",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1!
-                                          .copyWith(
-                                            decoration:
-                                                TextDecoration.underline,
-                                            color:
-                                                Theme.of(context).primaryColor,
-                                          ),
-                                    ),
-                                  );
-                                });
-                          } else {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                        }),
-                  ),
-                  actions: [
-                    TextButton(
-                      child: Text(
-                        'DISMISS',
-                        style: Theme.of(context).textTheme.bodyText1,
-                      ),
-                      onPressed: Navigator.of(context).pop,
-                    ),
-                  ],
-                );
-              },
-            );
-          },
-          onLongPress: () {
-            contextMenu(context, _tapPosition);
-          },
+        title: HtmlWidget(
+          definitionList!.definition[index! - 1]!,
+          textStyle: TextStyle(
+            fontFamily: Theme.of(context).textTheme.bodyText1!.fontFamily,
+            fontSize: Theme.of(context).textTheme.bodyText1!.fontSize,
+          ),
         ),
-        onTapDown: (details) => _tapPosition = details.globalPosition,
-      );
-    }
+        subtitle: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            definitionList!.isRoot[index! - 1] == 1
+                ? FavIconWidget(definitionList: definitionList, index: index)
+                : Container(),
+            definitionList!.quranOccurrence![index! - 1] != null
+                ? ElevatedButton(
+                    onPressed: () {
+                      if (definitionList!.quranOccurrence![index! - 1] != null)
+                        quranOccurrenceDialog(
+                            context,
+                            definitionList!.quranOccurrence![index! - 1]!,
+                            definitionList!.word[index! - 1]!);
+                    },
+                    child: Text(
+                      "Q - ${definitionList!.quranOccurrence![index! - 1]}",
+                      style: Theme.of(context).textTheme.subtitle2,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).primaryColor,
+                    ),
+                  )
+                : Container(),
+          ],
+        ),
+        onTap: () {},
+        onLongPress: () {
+          contextMenu(context, _tapPosition);
+        },
+      ),
+      onTapDown: (details) => _tapPosition = details.globalPosition,
+    );
+    // }
   }
 
   contextMenu(BuildContext context, Offset tapPosition) async {
-    List<PopupMenuEntry<int>> contextMenuItems = [
-      PopupMenuItem<int>(
-        value: 0,
-        child: Row(
-          children: [
-            Icon(Icons.copy),
-            SizedBox(
-              width: 8,
-            ),
-            Text('Copy Selected Definition'),
-          ],
-        ),
-      ),
-      PopupMenuItem<int>(
-        value: 1,
-        child: Row(
-          children: [
-            Icon(Icons.copy),
-            SizedBox(
-              width: 8,
-            ),
-            Text('Copy Root and Derivatives'),
-          ],
-        ),
-      ),
-    ];
-
-    if (definitionList!.isRoot[index! - 1] == 1)
-      contextMenuItems.add(
-        PopupMenuItem<int>(
-          value: 2,
-          child: definitionList!.favoriteFlag[index! - 1] == 1
-              ? Row(
-                  children: [
-                    Icon(Icons.favorite_border),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Text('Remove from Favorites')
-                  ],
-                )
-              : Row(
-                  children: [
-                    Icon(Icons.favorite),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Text('Add to Favorites'),
-                  ],
-                ),
-        ),
-      );
     int? choice = await showMenu(
       position: RelativeRect.fromRect(
           tapPosition & const Size(40, 40), // smaller rect, the touch area
@@ -411,7 +290,32 @@ class DefinitionTile extends StatelessWidget {
                   .findRenderObject()!
                   .semanticBounds
                   .size),
-      items: contextMenuItems,
+      items: [
+        PopupMenuItem<int>(
+          value: 0,
+          child: Row(
+            children: [
+              Icon(Icons.copy),
+              SizedBox(
+                width: 8,
+              ),
+              Text('Copy Selected Definition'),
+            ],
+          ),
+        ),
+        PopupMenuItem<int>(
+          value: 1,
+          child: Row(
+            children: [
+              Icon(Icons.copy),
+              SizedBox(
+                width: 8,
+              ),
+              Text('Copy Root and Derivatives'),
+            ],
+          ),
+        ),
+      ],
       context: context,
     );
     switch (choice) {
@@ -449,21 +353,59 @@ class DefinitionTile extends StatelessWidget {
           ),
         );
         break;
-      case 2:
-        int toggleFavoriteFlag =
-            definitionList!.favoriteFlag[index! - 1] == 1 ? 0 : 1;
-        definitionList!.favoriteFlag[index! - 1] = toggleFavoriteFlag;
-        databaseObject.toggleFavorites(
-            definitionList!.id[index! - 1]!, toggleFavoriteFlag);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: definitionList!.favoriteFlag[index! - 1] == 1
-                ? Text("Added")
-                : Text("Removed"),
-          ),
-        );
-        break;
       default:
     }
   }
+}
+
+class FavIconWidget extends StatefulWidget {
+  const FavIconWidget({Key? key, this.definitionList, this.index})
+      : super(key: key);
+  final DefinitionClass? definitionList;
+  final int? index;
+  @override
+  _FavIconWidgetState createState() => _FavIconWidgetState();
+}
+
+class _FavIconWidgetState extends State<FavIconWidget> {
+  Color? favIconColor;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    favIconColor = widget.definitionList!.favoriteFlag[widget.index! - 1] == 1
+        ? Colors.red
+        : Colors.grey;
+    return IconButton(
+      onPressed: () {
+        toggleFavoritesMethod(widget.definitionList!, widget.index!, context);
+        setState(() {
+          favIconColor = favIconColor == Colors.red ? Colors.grey : Colors.red;
+        });
+      },
+      icon: Icon(
+        Icons.favorite,
+        color: favIconColor,
+      ),
+    );
+  }
+}
+
+void toggleFavoritesMethod(
+    DefinitionClass definitionList, int index, BuildContext context) {
+  int toggleFavoriteFlag = definitionList.favoriteFlag[index - 1] == 1 ? 0 : 1;
+  definitionList.favoriteFlag[index - 1] = toggleFavoriteFlag;
+  databaseObject.toggleFavorites(
+      definitionList.id[index - 1]!, toggleFavoriteFlag);
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: definitionList.favoriteFlag[index - 1] == 1
+          ? Text("Added ${definitionList.word[index - 1]} to favorites")
+          : Text("Removed ${definitionList.word[index - 1]} from favorites"),
+    ),
+  );
 }

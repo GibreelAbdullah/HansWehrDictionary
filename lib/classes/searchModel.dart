@@ -7,10 +7,10 @@ class SearchModel extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  List<String?> _suggestions = locator<LocalStorageService>().history != ""
+  List<String> _suggestions = locator<LocalStorageService>().history != ""
       ? List.from(locator<LocalStorageService>().history.split(',').reversed)
       : [];
-  List<String?> get suggestions => _suggestions;
+  List<String> get suggestions => _suggestions;
 
   String _query = '';
   String get query => _query;

@@ -20,13 +20,19 @@ class ThemeModel extends ChangeNotifier {
                   bodyText2: TextStyle(
                     fontFamily: locator<LocalStorageService>().font,
                     fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
-                    color: hexToColor(
-                        locator<LocalStorageService>().highlightTextColor),
+                    color: hexToColor(locator<LocalStorageService>()
+                            .highlightTextColor) ??
+                        Colors.cyan,
                   ),
                   subtitle1: TextStyle(
                     fontFamily: locator<LocalStorageService>().font,
                     fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
                     color: Colors.white,
+                  ),
+                  subtitle2: TextStyle(
+                    fontFamily: locator<LocalStorageService>().font,
+                    fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
+                    color: Colors.black,
                   ),
                   headline6: TextStyle(
                     fontFamily: locator<LocalStorageService>().font,
@@ -47,7 +53,6 @@ class ThemeModel extends ChangeNotifier {
               color:
                   hexToColor(locator<LocalStorageService>().searchBarColor) ??
                       Colors.grey[850],
-
               systemOverlayStyle: SystemUiOverlayStyle.dark,
             ),
             dialogBackgroundColor:
@@ -63,11 +68,19 @@ class ThemeModel extends ChangeNotifier {
                   bodyText2: TextStyle(
                     fontFamily: locator<LocalStorageService>().font,
                     fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
-                    color: hexToColor(
-                        locator<LocalStorageService>().highlightTextColor),
+                    color: hexToColor(locator<LocalStorageService>()
+                            .highlightTextColor) ??
+                        Colors.blue,
                   ),
                   subtitle1: TextStyle(
+                    fontFamily: locator<LocalStorageService>().font,
+                    fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
                     color: Colors.black,
+                  ),
+                  subtitle2: TextStyle(
+                    fontFamily: locator<LocalStorageService>().font,
+                    fontSize: 16 + locator<LocalStorageService>().fontSizeDelta,
+                    color: Colors.white,
                   ),
                   headline6: TextStyle(
                     fontFamily: locator<LocalStorageService>().font,
@@ -88,7 +101,7 @@ class ThemeModel extends ChangeNotifier {
               color:
                   hexToColor(locator<LocalStorageService>().searchBarColor) ??
                       Colors.grey[100],
-                            systemOverlayStyle: SystemUiOverlayStyle.light,
+              systemOverlayStyle: SystemUiOverlayStyle.light,
             ),
             brightness: Brightness.light,
             dialogBackgroundColor:

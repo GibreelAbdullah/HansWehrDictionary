@@ -5,11 +5,40 @@ Dictionary of Modern Written Arabic by Hans Wehr
 Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechnet.hanswehr
 
 ## Future Work
-- Justify Text Option
 
 ## Release Notes
 
-#### V - 1.11.0+45 (12 April, 2021) 
+#### V - 1.13.1+54 (09 June, 2022) 
+- Favorites screen alignment issue fix
+- Incorrect Favorite button color fix 
+- Minor UX improvements
+
+#### V - 1.13.0+53 (07 June, 2022) 
+- Minor UX improvements
+- Quranic Words Screen
+
+#### V - 1.12.1+52 (30 May, 2022) 
+- Minor UX improvements
+- Quran.com link not working fix
+
+#### V - 1.12.0+51 (26 May, 2022) 
+- Design Changes
+- Quranle integration
+
+#### V - 1.11.5+50 (16 Jan, 2022) 
+- Some aesthetic changes
+
+#### V - 1.11.4+49 (9 Jan, 2022) 
+- Quick Fix
+
+#### V - 1.11.3+48 (8 Jan, 2021) 
+- Bug Fix (Links not working)
+- Favorites, Donate now within main screen.
+
+#### V - 1.11.1+46 (20 Dec, 2021) 
+- Quick Fix (DB Version Change)
+
+#### V - 1.11.0+45 (19 Dec, 2021) 
 - Favorites Section
 - #UnfreezeAfghanistan
 - Amiri font improvements (Thanks podev)

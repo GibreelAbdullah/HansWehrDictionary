@@ -2,25 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../constants/appConstants.dart';
-import '../widgets/drawer.dart';
 
 class Donate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 56,
-        title: Text(
-          DONATE_SCREEN_TITLE,
-          style: Theme.of(context).textTheme.headline6,
-        ),
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        iconTheme: Theme.of(context).iconTheme,
-      ),
-      drawer: CommonDrawer(currentScreen: DONATE_SCREEN_TITLE),
-      body: SingleChildScrollView(
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
           children: [
+            Text(
+              'DONATE',
+              textScaleFactor: 2,
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
             Padding(padding: EdgeInsets.all(10)),
             Text(
               'Thanks for considering to donate.',
@@ -35,16 +30,21 @@ Kindly donate to them.''',
             ),
             ElevatedButton(
               onPressed: () {
-                launch('https://donations.islamic-relief.com/');
+                launchUrl(donateUri, mode: LaunchMode.externalApplication);
               },
               child: Text(
                 'Donate through IslamicRelief',
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.subtitle2,
               ),
-              style: ElevatedButton.styleFrom(),
+              style: ElevatedButton.styleFrom(
+                primary: Theme.of(context).primaryColor,
+              ),
             ),
             Center(
-              child: Text('Or any other charity of your choice.'),
+              child: Text(
+                'Or any other charity of your choice.',
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
             ),
             Padding(
               padding: EdgeInsets.all(20),

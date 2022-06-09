@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../constants/appConstants.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 
 class CommonDrawer extends StatelessWidget {
   final String currentScreen;
@@ -55,11 +55,6 @@ class CommonDrawer extends StatelessWidget {
                       icon: Icons.more_horiz),
                   DrawerItem(
                       currentScreen: currentScreen,
-                      title: DONATE_SCREEN_TITLE,
-                      route: '/donate',
-                      icon: Icons.payment),
-                  DrawerItem(
-                      currentScreen: currentScreen,
                       title: SETTINGS_SCREEN_TITLE,
                       route: '/settings',
                       icon: Icons.settings),
@@ -103,7 +98,8 @@ class RateUs extends StatelessWidget {
               ],
             ),
             onPressed: () {
-              launch(HANS_WEHR_ANDROID_LINK);
+              launchUrl(hansWehrAndroidUri,
+                  mode: LaunchMode.externalApplication);
             },
           ),
         ),
@@ -114,7 +110,7 @@ class RateUs extends StatelessWidget {
           ),
           onPressed: () {
             Share.share('Check out this Hans Wehr Dictionary App : ' +
-                HANS_WEHR_ANDROID_LINK);
+                hansWehrAndroidUri.toString());
           },
         ),
       ],
@@ -191,6 +187,8 @@ class VerbForms extends StatelessWidget {
                   itemCount: VERB_FORMS.length,
                   itemBuilder: (_, i) {
                     return ExpansionTile(
+                      iconColor: Theme.of(context).textTheme.bodyText2!.color,
+                      textColor: Theme.of(context).textTheme.bodyText2!.color,
                       childrenPadding: EdgeInsets.fromLTRB(30, 0, 16, 0),
                       title: Text(
                         VERB_FORMS[i],

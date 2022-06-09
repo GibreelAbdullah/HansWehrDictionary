@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hans_wehr_dictionary/classes/searchModel.dart';
-import 'package:hans_wehr_dictionary/constants/appConstants.dart';
-import 'package:hans_wehr_dictionary/widgets/drawer.dart';
+import '../classes/searchModel.dart';
+import '../constants/appConstants.dart';
+import '../widgets/drawer.dart';
 
 class History extends StatelessWidget {
   const History({Key? key}) : super(key: key);

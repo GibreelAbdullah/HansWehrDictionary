@@ -2,6 +2,7 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:hans_wehr_dictionary/widgets/quranOccurrenceAlert.dart';
 import '../classes/definitionClass.dart';
 import '../widgets/drawer.dart';
 import '../constants/appConstants.dart';
@@ -35,6 +36,10 @@ class _BrowseState extends State<Browse> {
       itemCount: ALL_ALPHABETS.length,
       itemBuilder: (context, i) {
         return ExpansionTile(
+          collapsedIconColor: Theme.of(context).textTheme.bodyText1!.color,
+          collapsedTextColor: Theme.of(context).textTheme.bodyText1!.color,
+          iconColor: Theme.of(context).textTheme.bodyText2!.color,
+          textColor: Theme.of(context).textTheme.bodyText2!.color,
           title: Text(
             ALL_ALPHABETS[i],
             style: TextStyle(
@@ -66,6 +71,8 @@ class _BrowseState extends State<Browse> {
               itemCount: snapshot.data!.length,
               itemBuilder: (context, j) {
                 return ExpansionTile(
+                  iconColor: Theme.of(context).textTheme.bodyText2!.color,
+                  textColor: Theme.of(context).textTheme.bodyText2!.color,
                   tilePadding: EdgeInsets.fromLTRB(40, 0, 40, 0),
                   title: Text(
                     snapshot.data![j]!,
@@ -119,70 +126,80 @@ class _BrowseState extends State<Browse> {
         });
   }
 }
-  Future buildDefinitionAlert(BuildContext context, String? word) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          insetPadding: EdgeInsets.all(0),
-          contentPadding: EdgeInsets.all(0),
-          title: Center(
-            child: Text(
-              word!,
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
-          ),
-          content: Container(
-            height: MediaQuery.of(context).size.height * .7,
-            width: MediaQuery.of(context).size.width * .9,
-            child: FutureBuilder<DefinitionClass>(
-              future: databaseObject.definition(word, "BrowseScreen"),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: Container(
-                        height: 50,
-                        width: 50,
-                        child: CircularProgressIndicator()),
-                  );
-                } else if (snapshot.hasError) {
-                  return Text(
-                    "Error",
-                    style: Theme.of(context).textTheme.bodyText1,
-                  );
-                } else {
-                  return ListView.builder(
-                    itemCount: snapshot.data!.definition.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        contentPadding: EdgeInsets.fromLTRB(
-                            snapshot.data!.isRoot[index] == 1 ? 16.0 : 50.0,
-                            0,
-                            16,
-                            0),
-                        title: HtmlWidget(
-                          snapshot.data!.definition[index]!,
-                          textStyle: Theme.of(context).textTheme.bodyText1!,
-                        ),
-                      );
-                    },
-                  );
-                }
-              },
-            ),
-          ),
-          actions: [
-            TextButton(
-              child: Text(
-                'DISMISS',
-                style: Theme.of(context).textTheme.bodyText2,
+
+// buildDefinitionDialog(BuildContext context, String? word) {
+//   FutureBuilder<DefinitionClass>(
+//       future: databaseObject.definition(word, "BrowseScreen"),
+//       builder: (context, snapshot) {});
+// }
+
+Future buildDefinitionAlert(BuildContext context, String? word) {
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return FutureBuilder<DefinitionClass>(
+        future: databaseObject.definition(word, "BrowseScreen"),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return AlertDialog(
+              actionsAlignment: MainAxisAlignment.spaceBetween,
+              insetPadding: EdgeInsets.all(0),
+              contentPadding: EdgeInsets.all(15),
+              title: Center(
+                child: Text(
+                  word!,
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
               ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+              content: Container(
+                height: MediaQuery.of(context).size.height * .7,
+                width: MediaQuery.of(context).size.width * .9,
+                child: ListView.builder(
+                  itemCount: snapshot.data!.definition.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      contentPadding: EdgeInsets.fromLTRB(
+                          snapshot.data!.isRoot[index] == 1 ? 16.0 : 50.0,
+                          0,
+                          16,
+                          0),
+                      title: HtmlWidget(
+                        snapshot.data!.definition[index]!,
+                        textStyle: Theme.of(context).textTheme.bodyText1!,
+                      ),
+                    );
+                  },
+                ),
+              ),
+              actions: [
+                snapshot.data!.quranOccurrence![0] != null
+                    ? TextButton(
+                        child: Text(
+                          'Q - ${snapshot.data!.quranOccurrence![0]}',
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ),
+                        onPressed: () {
+                          quranOccurrenceDialog(context,
+                              snapshot.data!.quranOccurrence![0]!, word);
+                        },
+                      )
+                    : Container(),
+                TextButton(
+                  child: Text(
+                    'DISMISS',
+                    style: Theme.of(context).textTheme.bodyText2,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          } else {
+            return Container();
+          }
+        },
+      );
+    },
+  );
+}
