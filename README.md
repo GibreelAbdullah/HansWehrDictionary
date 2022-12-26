@@ -8,6 +8,14 @@ Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechne
 
 ## Release Notes
 
+#### V - 1.14.1+56 (26 Dec, 2022) 
+- Fixing app starting issue
+
+#### V - 1.14.0+55 (25 Dec, 2022) 
+- Updated packages
+- Added HadithHub link
+- Corrected spelling
+
 #### V - 1.13.1+54 (09 June, 2022) 
 - Favorites screen alignment issue fix
 - Incorrect Favorite button color fix 

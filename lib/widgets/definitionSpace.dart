@@ -163,6 +163,10 @@ class HomeScreen extends StatelessWidget {
               imagePath: FOR_HIRE_IMAGE,
               uri: portfolioUri,
             ),
+            HomePageCards(
+              imagePath: HAITHHUB_IMAGE,
+              uri: hadithHubUri,
+            ),
           ],
         );
       },
@@ -264,7 +268,7 @@ class DefinitionTile extends StatelessWidget {
                       style: Theme.of(context).textTheme.subtitle2,
                     ),
                     style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).primaryColor,
+                      backgroundColor: Theme.of(context).primaryColor,
                     ),
                   )
                 : Container(),

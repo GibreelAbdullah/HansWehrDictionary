@@ -21,6 +21,7 @@ const String DONATE_IMAGE = 'assets/donate.jpg';
 const String QURANLE_IMAGE = 'assets/Quranle.jpg';
 const String FOR_HIRE_IMAGE = 'assets/ForHire.webp';
 const String QURAN_IMAGE = 'assets/quran.jpg';
+const String HAITHHUB_IMAGE = 'assets/HadithHub.png';
 
 final Uri quranleUri = Uri(
   scheme: "https",
@@ -32,6 +33,11 @@ final Uri portfolioUri = Uri(
   scheme: "https",
   host: "gibreelabdullah.github.io",
   queryParameters: {'ref': 'HansWehr'},
+);
+
+final Uri hadithHubUri = Uri(
+  scheme: "https",
+  host: "hadithhub.com",
 );
 
 final Uri hansWehrAndroidUri = Uri(
@@ -82,7 +88,8 @@ const String COMMUNITY_INVITE =
 
 const String DISCLAIMER =
     '''<p style="text-align:center"><b>DISCLAIMER - Not 100% Accurate.</b></br>
-    Text was extracted from scanned pages and may have errors.</p>''';
+    Text was extracted from scanned pages and has many errors which unfortunately is not possible for me to fix manually.</br>
+    Try <a href="https://arabicstudentsdictionary.com/">Arabic Students Dictionary</a> which has most of these errors corrected.</p>''';
 
 const String CONTACT_ME =
     '<p style="text-align:center"><b>CONTACT ME</b><br><br>';
@@ -233,7 +240,7 @@ const List<String> VERB_FORM_EXAMPLES = [
   'اخرج - He took out',
   'توكّل - He trusted',
   'تعاون - He cooperated',
-  'اِنْفَقلب - He overturned',
+  'اِنْقلب - He overturned',
   'اِختلف - He differed',
   'اِحمرّ - He became red',
   'اِسْتَغفر - He sought forgiveness',

@@ -37,7 +37,7 @@ Kindly donate to them.''',
                 style: Theme.of(context).textTheme.subtitle2,
               ),
               style: ElevatedButton.styleFrom(
-                primary: Theme.of(context).primaryColor,
+                backgroundColor: Theme.of(context).primaryColor,
               ),
             ),
             Center(
