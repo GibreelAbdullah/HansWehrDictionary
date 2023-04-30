@@ -218,6 +218,8 @@ const List<String> VERB_FORMS = [
   'VIII - اِفْتَعَل',
   'IX - اِفْعَل',
   'X - اِسْتَفْعَل',
+  'XI - اِفْعالَّ',
+  'XII - اِفْعَوْعَلَ',
 ];
 
 const List<String> VERB_FORM_DESCRIPTIONS = [
@@ -231,19 +233,23 @@ const List<String> VERB_FORM_DESCRIPTIONS = [
   'No consistent meaning pattern, being in a state of something ',
   'Used for colors or defects',
   'To seek or ask something, wanting, trying',
+  'Like Form IX used for colors or defects but more temporary or intense',
+  'Like Form XI tend to refer to a colour or physical quality'
 ];
 
 const List<String> VERB_FORM_EXAMPLES = [
-  'غفر - He forgave',
+  'ضَرَبَ - He hit\n       غفر - He forgave',
   'علّم - He taught',
   'قاتل - He fought',
-  'اخرج - He took out',
-  'توكّل - He trusted',
-  'تعاون - He cooperated',
-  'اِنْقلب - He overturned',
-  'اِختلف - He differed',
+  'اكْرَمَ - He honored\n       اخرج - He took out',
+  'تَمَتَّعَ - He enjoyed\n       توكّل - He trusted',
+  'تَبادَلَ - He exchanged\n       تعاون - He cooperated',
+  'اِنكَسَرَ - He broke\n       اِنْقلب - He overturned',
+  'اِجتَنَبَ - He avoided\n       اِختلف - He differed',
   'اِحمرّ - He became red',
   'اِسْتَغفر - He sought forgiveness',
+  'اِحْمارَّ - He became temporarily or extremely red',
+  'اِخْشَوْشَنَ - He became rough, coarse',
 ];
 
 const List<String> ALL_ALPHABETS = [

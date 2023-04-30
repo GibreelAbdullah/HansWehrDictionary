@@ -8,6 +8,9 @@ Play Store Link - https://play.google.com/store/apps/details?id=com.muslimtechne
 
 ## Release Notes
 
+#### V - 1.14.2+57 (26 Dec, 2022) 
+- Updated verb form examples
+
 #### V - 1.14.1+56 (26 Dec, 2022) 
 - Fixing app starting issue
 
