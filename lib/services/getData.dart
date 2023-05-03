@@ -1,5 +1,5 @@
 import '../classes/definitionClass.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:path/path.dart';
 import 'dart:io';
 import 'package:flutter/services.dart';
@@ -7,8 +7,12 @@ import '../constants/appConstants.dart';
 
 class DatabaseAccess {
   Future<Database> openDatabaseConnection() async {
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
     // Sqflite.devSetDebugModeOn(true);
-    var path = join(await getDatabasesPath(), "hanswehrV12.db");
+    // var path = join(await getDatabasesPath(), "hanswehrV12.db");
+    var path = normalize(absolute(join(
+        '.dart_tool', 'sqflite_common_ffi', 'databases', 'hanswehrV12.db')));
     var exists = await databaseExists(path);
 
     if (!exists) {
