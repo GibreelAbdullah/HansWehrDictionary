@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../constants/appConstants.dart';
+import '../constants/app_constants.dart';
 import 'browse.dart';
 
 class Favorites extends StatefulWidget {
   const Favorites({Key? key}) : super(key: key);
   @override
-  _FavoritesState createState() => _FavoritesState();
+  State<Favorites> createState() => _FavoritesState();
 }
 
 class _FavoritesState extends State<Favorites> {
@@ -21,7 +21,7 @@ class _FavoritesState extends State<Favorites> {
               'FAVORITES',
               textAlign: TextAlign.center,
               textScaleFactor: 2,
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
             FutureBuilder<List<Map<String, dynamic>>>(
               future: databaseObject.getFavorites(),
@@ -29,12 +29,12 @@ class _FavoritesState extends State<Favorites> {
                 if (snapshot.hasData) {
                   List<Map<String, dynamic>> favData = [];
                   favData.addAll(snapshot.data!);
-                  if (favData.length == 0) {
+                  if (favData.isEmpty) {
                     return Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.heart_broken,
                             size: 72,
                             color: Colors.grey,
@@ -42,7 +42,7 @@ class _FavoritesState extends State<Favorites> {
                           Text(
                             'Favorite some words by selecting ❤️ icon',
                             style:
-                                Theme.of(context).textTheme.bodyText1!.copyWith(
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
                                       color: Colors.grey,
                                     ),
                           ),
@@ -64,7 +64,7 @@ class _FavoritesState extends State<Favorites> {
                                   : Theme.of(context)
                                       .primaryColor
                                       .withAlpha(20),
-                              borderRadius: BorderRadius.all(
+                              borderRadius: const BorderRadius.all(
                                 Radius.circular(10),
                               ),
                             ),
@@ -77,20 +77,20 @@ class _FavoritesState extends State<Favorites> {
                                 '${j + 1} ',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText1!
+                                    .bodyLarge!
                                     .copyWith(
                                         color: Theme.of(context)
                                             .textTheme
-                                            .bodyText1!
+                                            .bodyLarge!
                                             .color!
                                             .withAlpha(100)),
                               ),
                               title: Text(
                                 favData[j]['word'],
-                                style: Theme.of(context).textTheme.bodyText1,
+                                style: Theme.of(context).textTheme.bodyLarge,
                               ),
                               trailing: IconButton(
-                                icon: Icon(Icons.delete_forever),
+                                icon: const Icon(Icons.delete_forever),
                                 onPressed: () {
                                   databaseObject.toggleFavorites(
                                       favData[j]['id'], 0);
@@ -106,7 +106,7 @@ class _FavoritesState extends State<Favorites> {
                     ),
                   );
                 } else {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }

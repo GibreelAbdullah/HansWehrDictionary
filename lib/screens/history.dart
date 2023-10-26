@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../classes/searchModel.dart';
-import '../constants/appConstants.dart';
+import '../classes/search_suggestions_provider.dart';
+import '../constants/app_constants.dart';
 import '../widgets/drawer.dart';
 
 class History extends StatelessWidget {
@@ -8,29 +8,26 @@ class History extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SearchModel().getHistory();
+    SearchSuggestionsProvider().getHistory();
 
     return Scaffold(
         appBar: AppBar(
           toolbarHeight: 56,
           title: Text(
-            HISTORY_SCREEN_TITLE,
-            style: Theme.of(context).textTheme.headline6,
+            historyScreenTitle,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           iconTheme: Theme.of(context).iconTheme,
         ),
-        drawer: CommonDrawer(currentScreen: HISTORY_SCREEN_TITLE),
+        drawer: const CommonDrawer(currentScreen: historyScreenTitle),
         body: ListView.builder(
-          itemCount: SearchModel().getHistory().length,
+          itemCount: SearchSuggestionsProvider().getHistory().length,
           itemBuilder: (context, index) {
             return ListTile(
               // leading: Text((index + 1).toString()),
               title: Text(
-                (index + 1).toString() +
-                    ' - ' +
-                    SearchModel().getHistory()[
-                        SearchModel().getHistory().length - index - 1],
+                '${index + 1} - ${SearchSuggestionsProvider().getHistory()[SearchSuggestionsProvider().getHistory().length - index - 1]}',
               ),
             );
           },

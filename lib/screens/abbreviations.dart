@@ -1,57 +1,54 @@
 import 'package:flutter/material.dart';
 import '../widgets/drawer.dart';
-import '../constants/appConstants.dart';
+import '../constants/app_constants.dart';
 
 class Abbreviations extends StatelessWidget {
+  const Abbreviations({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 56,
         title: Text(
-          ABBREVIATIONS_SCREEN_TITLE,
-          style: Theme.of(context).textTheme.headline6,
+          abbreviationsScreenTitle,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         iconTheme: Theme.of(context).iconTheme,
       ),
-      drawer: CommonDrawer(currentScreen: ABBREVIATIONS_SCREEN_TITLE),
+      drawer: const CommonDrawer(currentScreen: abbreviationsScreenTitle),
       body: ListView.builder(
-        padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
-        itemCount: ABBREVIATIONS.length,
+        padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+        itemCount: abbreviations.length,
         itemBuilder: (context, index) {
-          if (FULL_FORM[index] == "") {
-            return Container(
-              // alignment: AlignmentDirectional.bottomStart,
-              child: Text(
-                ABBREVIATIONS[index],
-                textScaleFactor: 2,
-                textAlign: TextAlign.left,
-                style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                      color: Colors.grey,
-                    ),
-              ),
+          if (fullForm[index] == "") {
+            return Text(
+              abbreviations[index],
+              textScaleFactor: 2,
+              textAlign: TextAlign.left,
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: Colors.grey,
+                  ),
             );
           } else {
-            return Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * .25,
-                    child: Text(ABBREVIATIONS[index],
-                        style: Theme.of(context).textTheme.bodyText1),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * .6,
-                    child: Text(FULL_FORM[index],
-                        style: Theme.of(context).textTheme.bodyText1),
-                  ),
-                ],
-              ),
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * .25,
+                  child: Text(abbreviations[index],
+                      style: Theme.of(context).textTheme.bodyLarge),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * .6,
+                  child: Text(fullForm[index],
+                      style: Theme.of(context).textTheme.bodyLarge),
+                ),
+              ],
             );
           }
         },

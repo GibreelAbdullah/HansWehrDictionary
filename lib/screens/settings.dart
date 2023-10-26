@@ -1,20 +1,22 @@
 import 'dart:async';
 
 import 'package:provider/provider.dart';
-import '../classes/appTheme.dart';
-import '../classes/themeModel.dart';
+import '../classes/app_theme.dart';
+import '../classes/theme_model.dart';
 import '../widgets/drawer.dart';
-import '../constants/appConstants.dart';
+import '../constants/app_constants.dart';
 
 import 'package:flutter/material.dart';
-import '../serviceLocator.dart';
-import '../services/LocalStorageService.dart';
+import '../service_locator.dart';
+import '../services/local_storage_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class Settings extends StatefulWidget {
+  const Settings({Key? key}) : super(key: key);
+
   @override
-  _SettingsState createState() => _SettingsState();
+  State<Settings> createState() => _SettingsState();
 }
 
 class _SettingsState extends State<Settings> {
@@ -26,56 +28,56 @@ class _SettingsState extends State<Settings> {
       appBar: AppBar(
         toolbarHeight: 56,
         title: Text(
-          SETTINGS_SCREEN_TITLE,
-          style: Theme.of(context).textTheme.headline6,
+          settingsScreenTitle,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         iconTheme: Theme.of(context).iconTheme,
       ),
-      drawer: CommonDrawer(currentScreen: SETTINGS_SCREEN_TITLE),
-      body: Container(
-        child: Column(
-          children: [
-            FontSelector(),
-            FontSizeModifier(),
-            ThemeIcon(),
-            ExpansionTile(
-              iconColor: Theme.of(context).textTheme.bodyText2!.color,
-              textColor: Theme.of(context).textTheme.bodyText2!.color,
-              tilePadding: EdgeInsets.fromLTRB(16, 0, 28, 0),
-              title: Text(
-                'Advanced Theming Options',
-                style: TextStyle(
-                  fontFamily: Theme.of(context).textTheme.bodyText1!.fontFamily,
-                  fontSize: Theme.of(context).textTheme.bodyText1!.fontSize,
-                ),
+      drawer: const CommonDrawer(currentScreen: settingsScreenTitle),
+      body: Column(
+        children: [
+          const FontSelector(),
+          const FontSizeModifier(),
+          const ThemeIcon(),
+          ExpansionTile(
+            iconColor: Theme.of(context).textTheme.bodyMedium!.color,
+            textColor: Theme.of(context).textTheme.bodyMedium!.color,
+            tilePadding: const EdgeInsets.fromLTRB(16, 0, 28, 0),
+            title: Text(
+              'Advanced Theming Options',
+              style: TextStyle(
+                fontFamily: Theme.of(context).textTheme.bodyLarge!.fontFamily,
+                fontSize: Theme.of(context).textTheme.bodyLarge!.fontSize,
               ),
-              childrenPadding: EdgeInsets.symmetric(horizontal: 16),
-              children: [
-                ColorMod(
-                  title: "Highlight Text Color",
-                ),
-                ColorMod(
-                  title: "Highlight Tile Color",
-                ),
-                ColorMod(
-                  title: "Background Color",
-                ),
-                ColorMod(
-                  title: "Search Bar Color",
-                ),
-              ],
             ),
-          ],
-        ),
+            childrenPadding: const EdgeInsets.symmetric(horizontal: 16),
+            children: const [
+              ColorMod(
+                title: "Highlight Text Color",
+              ),
+              ColorMod(
+                title: "Highlight Tile Color",
+              ),
+              ColorMod(
+                title: "Background Color",
+              ),
+              ColorMod(
+                title: "Search Bar Color",
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
 }
 
 class FontSelector extends StatefulWidget {
+  const FontSelector({Key? key}) : super(key: key);
+
   @override
-  _FontSelectorState createState() => _FontSelectorState();
+  State<FontSelector> createState() => _FontSelectorState();
 }
 
 class _FontSelectorState extends State<FontSelector> {
@@ -84,12 +86,12 @@ class _FontSelectorState extends State<FontSelector> {
     return ListTile(
       title: Text(
         'Font',
-        style: Theme.of(context).textTheme.bodyText1,
+        style: Theme.of(context).textTheme.bodyLarge,
       ),
-      contentPadding: EdgeInsets.fromLTRB(16, 0, 28, 0),
+      contentPadding: const EdgeInsets.fromLTRB(16, 0, 28, 0),
       trailing: DropdownButton(
         value: locator<LocalStorageService>().font,
-        icon: Icon(Icons.keyboard_arrow_down),
+        icon: const Icon(Icons.keyboard_arrow_down),
         iconSize: 24,
         elevation: 16,
         // style: TextStyle(color: Colors.deepPurple),
@@ -116,8 +118,10 @@ class _FontSelectorState extends State<FontSelector> {
 }
 
 class FontSizeModifier extends StatefulWidget {
+  const FontSizeModifier({Key? key}) : super(key: key);
+
   @override
-  _FontSizeModifierState createState() => _FontSizeModifierState();
+  State<FontSizeModifier> createState() => _FontSizeModifierState();
 }
 
 class _FontSizeModifierState extends State<FontSizeModifier> {
@@ -126,17 +130,17 @@ class _FontSizeModifierState extends State<FontSizeModifier> {
     return ListTile(
       title: Text(
         'Font Size',
-        style: Theme.of(context).textTheme.bodyText1,
+        style: Theme.of(context).textTheme.bodyLarge,
       ),
-      trailing: Container(
+      trailing: SizedBox(
         width: MediaQuery.of(context).size.width * .3,
         child: Row(
           children: [
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width * .1,
               child: Center(
                 child: IconButton(
-                  icon: Icon(Icons.remove),
+                  icon: const Icon(Icons.remove),
                   onPressed: () {
                     setState(
                       () {
@@ -151,20 +155,20 @@ class _FontSizeModifierState extends State<FontSizeModifier> {
                 ),
               ),
             ),
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width * .1,
               child: Center(
                 child: Text(
                   '${locator<LocalStorageService>().fontSizeDelta + 10}',
-                  style: Theme.of(context).textTheme.bodyText1,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ),
             ),
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width * .1,
               child: Center(
                 child: IconButton(
-                  icon: Icon(Icons.add),
+                  icon: const Icon(Icons.add),
                   onPressed: () {
                     setState(
                       () {
@@ -194,7 +198,7 @@ class ColorMod extends StatefulWidget {
     this.title,
   }) : super(key: key);
   @override
-  _ColorModState createState() => _ColorModState();
+  State<ColorMod> createState() => _ColorModState();
 }
 
 class _ColorModState extends State<ColorMod> {
@@ -236,9 +240,9 @@ class _ColorModState extends State<ColorMod> {
     return ListTile(
       title: Text(
         widget.title!,
-        style: Theme.of(context).textTheme.bodyText1,
+        style: Theme.of(context).textTheme.bodyLarge,
       ),
-      trailing: Container(
+      trailing: SizedBox(
         width: 84,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -246,7 +250,7 @@ class _ColorModState extends State<ColorMod> {
             property == null
                 ? Container()
                 : IconButton(
-                    icon: Icon(Icons.restore),
+                    icon: const Icon(Icons.restore),
                     onPressed: () {
                       switch (widget.title) {
                         case 'Highlight Text Color':
@@ -303,16 +307,16 @@ class _ColorModState extends State<ColorMod> {
                       ),
                       actions: [
                         TextButton(
+                          onPressed: Navigator.of(context).pop,
                           child: Text(
                             'CANCEL',
-                            style: Theme.of(context).textTheme.bodyText1,
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
-                          onPressed: Navigator.of(context).pop,
                         ),
                         TextButton(
                           child: Text(
                             'OK',
-                            style: Theme.of(context).textTheme.bodyText1,
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           onPressed: () {
                             Navigator.of(context).pop();
@@ -359,7 +363,7 @@ class _ColorModState extends State<ColorMod> {
                           color: property,
                           border: Border.all(color: Colors.grey)),
                     )
-                  : Icon(
+                  : const Icon(
                       Icons.error,
                       size: 36,
                     ),
@@ -372,8 +376,10 @@ class _ColorModState extends State<ColorMod> {
 }
 
 class ThemeIcon extends StatefulWidget {
+  const ThemeIcon({Key? key}) : super(key: key);
+
   @override
-  _ThemeIconState createState() => _ThemeIconState();
+  State<ThemeIcon> createState() => _ThemeIconState();
 }
 
 class _ThemeIconState extends State<ThemeIcon> {
@@ -386,7 +392,7 @@ class _ThemeIconState extends State<ThemeIcon> {
     return ListTile(
       title: Text(
         "Theme",
-        style: Theme.of(context).textTheme.bodyText1,
+        style: Theme.of(context).textTheme.bodyLarge,
       ),
       trailing: IconButton(
         icon: Icon(

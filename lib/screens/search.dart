@@ -5,19 +5,19 @@ import 'package:implicitly_animated_reorderable_list_2/implicitly_animated_reord
 import 'package:implicitly_animated_reorderable_list_2/transitions.dart';
 import 'package:provider/provider.dart';
 
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
-import '../classes/definitionClass.dart';
+import 'package:material_floating_search_bar_2/material_floating_search_bar_2.dart';
+import '../classes/definition_provider.dart';
 
-import '../classes/searchModel.dart';
-import '../widgets/definitionSpace.dart';
+import '../classes/search_suggestions_provider.dart';
+import '../widgets/definition_space.dart';
 import '../widgets/drawer.dart';
-import '../constants/appConstants.dart';
+import '../constants/app_constants.dart';
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
 
   @override
-  _SearchState createState() => _SearchState();
+  State<Search> createState() => _SearchState();
 }
 
 class _SearchState extends State<Search> {
@@ -33,39 +33,27 @@ class _SearchState extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<SearchModel>(
-      create: (_) => SearchModel(),
-      child: ChangeNotifierProvider<DefinitionClass>(
-        create: (_) => DefinitionClass(
-          id: [],
-          word: [],
-          definition: [],
-          isRoot: [],
-          highlight: [],
-          quranOccurrence: [],
-          favoriteFlag: [],
-        ),
-        child: WillPopScope(
+    return Consumer<DefinitionProvider>(
+      builder: (_, definitionListConsumer, __) {
+        return WillPopScope(
           onWillPop: () {
-            if (DefinitionClass.searchType == null) {
+            if (definitionListConsumer.searchType == null) {
               return Future.value(true);
             }
-            setState(() {
-              DefinitionClass.searchType = null;
-            });
+            definitionListConsumer.searchType = null;
             return Future.value(false);
           },
           child: Scaffold(
             resizeToAvoidBottomInset: false,
-            drawer: CommonDrawer(currentScreen: SEARCH_SCREEN_TITLE),
-            body: buildSearchBar(),
+            drawer: const CommonDrawer(currentScreen: searchScreenTitle),
+            body: buildSearchBar(definitionListConsumer),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
-  Widget buildSearchBar() {
+  Widget buildSearchBar(DefinitionProvider definitionListConsumer) {
     final actions = [
       FloatingSearchBarAction.searchToClear(
         showIfClosed: true,
@@ -75,7 +63,7 @@ class _SearchState extends State<Search> {
     final isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
 
-    return Consumer<SearchModel>(
+    return Consumer<SearchSuggestionsProvider>(
       builder: (context, model, _) => FloatingSearchBar(
         controller: controller,
         clearQueryOnClose: false,
@@ -95,39 +83,38 @@ class _SearchState extends State<Search> {
           buildDefinitionOnSubmission(
             context,
             query,
+            definitionListConsumer,
           );
         },
         onFocusChanged: (isFocused) {},
         onQueryChanged: model.onQueryChanged,
         scrollPadding: EdgeInsets.zero,
         transition: CircularFloatingSearchBarTransition(),
-        builder: (context, _) => buildExpandableBody(model),
+        builder: (context, _) =>
+            buildExpandableBody(model, definitionListConsumer),
         body: buildDefinitionSpace(),
       ),
     );
   }
 
-  void buildDefinitionOnSubmission(
-      BuildContext context, String searchWord) async {
-    final definitionList = Provider.of<DefinitionClass>(context, listen: false);
-    DefinitionClass.searchType = 'FullTextSearch';
-    DefinitionClass value =
-        await databaseObject.definition(searchWord, DefinitionClass.searchType);
-    setState(
-      () {
-        definitionList.id = value.id;
-        definitionList.searchWord = searchWord;
-        definitionList.word = value.word;
-        definitionList.definition = value.definition;
-        definitionList.isRoot = value.isRoot;
-        definitionList.highlight = value.highlight;
-        definitionList.quranOccurrence = value.quranOccurrence;
-        definitionList.favoriteFlag = value.favoriteFlag;
-      },
+  void buildDefinitionOnSubmission(BuildContext context, String searchWord,
+      DefinitionProvider definitionListConsumer) async {
+    DefinitionProvider value =
+        await databaseObject.definition(searchWord, 'FullTextSearch');
+    definitionListConsumer.updateDefinition(
+      value.id,
+      value.word,
+      value.definition,
+      value.isRoot,
+      value.highlight,
+      searchWord,
+      value.quranOccurrence,
+      value.favoriteFlag,
     );
   }
 
-  Widget buildExpandableBody(SearchModel model) {
+  Widget buildExpandableBody(SearchSuggestionsProvider model,
+      DefinitionProvider definitionListConsumer) {
     return Material(
       elevation: 4.0,
       borderRadius: BorderRadius.circular(8),
@@ -137,55 +124,54 @@ class _SearchState extends State<Search> {
         physics: const NeverScrollableScrollPhysics(),
         items: model.suggestions.take(6).toList(),
         areItemsTheSame: (a, b) => a == b,
-        itemBuilder: (context, animation, word, i) {
+        itemBuilder: (context, animation, searchWord, i) {
           return SizeFadeTransition(
             animation: animation,
-            child: buildItem(context, word),
+            child: buildItem(context, searchWord, definitionListConsumer),
           );
         },
-        updateItemBuilder: (context, animation, word) {
+        updateItemBuilder: (context, animation, searchWord) {
           return FadeTransition(
             opacity: animation,
-            child: buildItem(context, word),
+            child: buildItem(context, searchWord, definitionListConsumer),
           );
         },
       ),
     );
   }
 
-  Widget buildItem(BuildContext context, String word) {
-    final model = Provider.of<SearchModel>(context, listen: false);
-    final definitionList = Provider.of<DefinitionClass>(context, listen: false);
-
+  Widget buildItem(BuildContext context, String searchWord,
+      DefinitionProvider definitionList) {
+    final model =
+        Provider.of<SearchSuggestionsProvider>(context, listen: false);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         InkWell(
-          onTap: () {
-            DefinitionClass.searchType =
-                ALL_ALPHABETS.contains(word.substring(0, 1))
+          onTap: () async {
+            definitionList.searchType =
+                allAlphabets.contains(searchWord.substring(0, 1))
                     ? 'RootSearch'
                     : 'FullTextSearch';
-            definitionList.searchWord = word;
-            model.addHistory(word);
+            definitionList.searchWord = searchWord;
+            model.addHistory(searchWord);
             Future.delayed(
               const Duration(milliseconds: 50000),
               () => model.clear(),
             );
             FloatingSearchBar.of(context)!.close();
-            databaseObject.definition(word, DefinitionClass.searchType).then(
-                  (value) => setState(
-                    () {
-                      definitionList.id = value.id;
-                      definitionList.word = value.word;
-                      definitionList.definition = value.definition;
-                      definitionList.isRoot = value.isRoot;
-                      definitionList.highlight = value.highlight;
-                      definitionList.quranOccurrence = value.quranOccurrence;
-                      definitionList.favoriteFlag = value.favoriteFlag;
-                    },
-                  ),
-                );
+            DefinitionProvider value = await databaseObject.definition(
+                searchWord, definitionList.searchType);
+            definitionList.updateDefinition(
+              value.id,
+              value.word,
+              value.definition,
+              value.isRoot,
+              value.highlight,
+              searchWord,
+              value.quranOccurrence,
+              value.favoriteFlag,
+            );
           },
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -195,7 +181,7 @@ class _SearchState extends State<Search> {
                   width: 36,
                   child: AnimatedSwitcher(
                     duration: const Duration(milliseconds: 50),
-                    child: model.getHistory().contains(word)
+                    child: model.getHistory().contains(searchWord)
                         ? const Icon(
                             Icons.history,
                             key: Key('history'),
@@ -213,8 +199,8 @@ class _SearchState extends State<Search> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        word,
-                        style: Theme.of(context).textTheme.bodyText1,
+                        searchWord,
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ],
                   ),
@@ -223,7 +209,8 @@ class _SearchState extends State<Search> {
             ),
           ),
         ),
-        if (model.suggestions.isNotEmpty && word != model.suggestions.last)
+        if (model.suggestions.isNotEmpty &&
+            searchWord != model.suggestions.last)
           const Divider(height: 0),
       ],
     );
@@ -241,28 +228,12 @@ class _SearchState extends State<Search> {
         Expanded(
           child: IndexedStack(
             index: min(index, 2),
-            children: [
+            children: const [
               DefinitionSpace(),
             ],
           ),
         ),
       ],
-    );
-  }
-
-  void home(BuildContext context) {
-    final definitionList = Provider.of<DefinitionClass>(context, listen: false);
-
-    setState(
-      () {
-        DefinitionClass.searchType = null;
-        definitionList.searchWord = null;
-        definitionList.word = [];
-        definitionList.definition = [];
-        definitionList.isRoot = [];
-        definitionList.highlight = [];
-        definitionList.quranOccurrence = [];
-      },
     );
   }
 }
