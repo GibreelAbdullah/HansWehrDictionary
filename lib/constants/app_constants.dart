@@ -80,7 +80,7 @@ const String whatsNew = '''<p style="text-align:center"><b> What's New :</b><br>
     - Favorites screen alignment issue fix<br>
     - Incorrect Favorite button color fix<br>
     - Minor UX improvements<br>
-    <a href = "https://github.com/MuslimTechNet/HansWehrDictionary">Source Code, Full Release Notes and Future Work</a></p><br>''';
+    <a href = "https://github.com/GibreelAbdullah/HansWehrDictionary">Source Code, Full Release Notes and Future Work</a></p><br>''';
 const String communityInvite =
     '''<p style="text-align:center">If you are a Muslim tech professional or aspiring to be one join the <br>
     <b>Muslim Tech Network</b></p><br>''';
