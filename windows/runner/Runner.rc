@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.muslimtechnet" "\0"
-            VALUE "FileDescription", "hans_wehr_dictionary" "\0"
+            VALUE "FileDescription", "hanswehr" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "hans_wehr_dictionary" "\0"
+            VALUE "InternalName", "hanswehr" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.muslimtechnet. All rights reserved." "\0"
-            VALUE "OriginalFilename", "hans_wehr_dictionary.exe" "\0"
-            VALUE "ProductName", "hans_wehr_dictionary" "\0"
+            VALUE "OriginalFilename", "hanswehr.exe" "\0"
+            VALUE "ProductName", "hanswehr" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
