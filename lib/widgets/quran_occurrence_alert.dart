@@ -40,7 +40,7 @@ quranOccurrenceDialog(
                             scheme: "https",
                             host: "www.quran.com",
                             path:
-                                "//${snapshot.data![j]['SURAH']}/${snapshot.data![j]['AYAH']}",
+                                "/${snapshot.data![j]['SURAH']}/${snapshot.data![j]['AYAH']}",
                           );
                           return Container(
                             decoration: BoxDecoration(
