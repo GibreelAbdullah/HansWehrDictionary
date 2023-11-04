@@ -6,8 +6,8 @@ import 'package:flutter/services.dart';
 import '../constants/app_constants.dart';
 
 class DatabaseAccess {
-  static const String _newDBName = "hanswehrV12.db";
-  static const String _oldDBName = "hanswehrV11.db";
+  static const String _newDBName = "hanswehr.sqlite";
+  static const String _oldDBName = "hanswehrV12.db";
 
   Future<Database> openDatabaseConnection() async {
     var path = "";
@@ -70,7 +70,7 @@ class DatabaseAccess {
         break;
       case "FullTextSearch":
         query =
-            "SELECT id, word, MAX(highlight) highlight, definition, is_root, quran_occurrence, favorite_flag from (SELECT dict.word, dict.id, CASE dict.id WHEN dict2.id then 1 else 0 end as highlight, REPLACE(dict.definition,'$word','<mark>$word</mark>') AS definition,  dict.is_root , dict.quran_occurrence, dict.favorite_flag FROM DICTIONARY dict inner join (SELECT ID, PARENT_ID, is_root FROM DICTIONARY WHERE definition like '%$word%' LIMIT 50) dict2 ON dict.parent_id = dict2.parent_id) group by word, definition, is_root, quran_occurrence order by id ";
+            "SELECT id, word, MAX(highlight) highlight, definition, is_root, quran_occurrence, favorite_flag from (SELECT dict.word, dict.id, CASE dict.id WHEN dict2.id then 1 else 0 end as highlight, REPLACE(dict.definition,'$word','<mark>$word</mark>') AS definition,  dict.is_root , dict.quran_occurrence, dict.favorite_flag FROM DICTIONARY dict inner join (SELECT ID, PARENT_ID, is_root FROM DICTIONARY WHERE definition match '$word' LIMIT 50) dict2 ON dict.parent_id = dict2.parent_id) group by word, definition, is_root, quran_occurrence order by id ";
         break;
       default:
         break;
