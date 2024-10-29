@@ -99,6 +99,8 @@ class _SearchState extends State<Search> {
 
   void buildDefinitionOnSubmission(BuildContext context, String searchWord,
       DefinitionProvider definitionListConsumer) async {
+    definitionListConsumer.searchWord = searchWord;
+    definitionListConsumer.searchType = 'FullTextSearch';
     DefinitionProvider value =
         await databaseObject.definition(searchWord, 'FullTextSearch');
     definitionListConsumer.updateDefinition(
@@ -141,7 +143,7 @@ class _SearchState extends State<Search> {
   }
 
   Widget buildItem(BuildContext context, String searchWord,
-      DefinitionProvider definitionList) {
+      DefinitionProvider definitionListConsumer) {
     final model =
         Provider.of<SearchSuggestionsProvider>(context, listen: false);
     return Column(
@@ -149,11 +151,11 @@ class _SearchState extends State<Search> {
       children: [
         InkWell(
           onTap: () async {
-            definitionList.searchType =
+            definitionListConsumer.searchType =
                 allAlphabets.contains(searchWord.substring(0, 1))
                     ? 'RootSearch'
                     : 'FullTextSearch';
-            definitionList.searchWord = searchWord;
+            definitionListConsumer.searchWord = searchWord;
             model.addHistory(searchWord);
             Future.delayed(
               const Duration(milliseconds: 50000),
@@ -161,8 +163,8 @@ class _SearchState extends State<Search> {
             );
             FloatingSearchBar.of(context)!.close();
             DefinitionProvider value = await databaseObject.definition(
-                searchWord, definitionList.searchType);
-            definitionList.updateDefinition(
+                searchWord, definitionListConsumer.searchType);
+            definitionListConsumer.updateDefinition(
               value.id,
               value.word,
               value.definition,
