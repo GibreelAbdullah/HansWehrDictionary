@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import '../screens/donate.dart';
 import '../screens/favorites.dart';
-import 'package:material_floating_search_bar_2/material_floating_search_bar_2.dart';
+import 'package:material_floating_search_bar_plus/material_floating_search_bar_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:html/parser.dart';
@@ -287,7 +287,7 @@ class DefinitionTile extends StatelessWidget {
     // }
   }
 
-  contextMenu(BuildContext context, Offset tapPosition) async {
+  Future<void> contextMenu(BuildContext context, Offset tapPosition) async {
     int? choice = await showMenu(
       position: RelativeRect.fromRect(
           tapPosition & const Size(40, 40), // smaller rect, the touch area

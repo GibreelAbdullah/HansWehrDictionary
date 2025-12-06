@@ -3,7 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../constants/app_constants.dart';
 
-quranOccurrenceDialog(
+Future<void> quranOccurrenceDialog(
     BuildContext context, int quranOccurrences, String word) async {
   showDialog(
     context: context,

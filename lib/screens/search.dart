@@ -5,7 +5,7 @@ import 'package:implicitly_animated_reorderable_list_2/implicitly_animated_reord
 import 'package:implicitly_animated_reorderable_list_2/transitions.dart';
 import 'package:provider/provider.dart';
 
-import 'package:material_floating_search_bar_2/material_floating_search_bar_2.dart';
+import 'package:material_floating_search_bar_plus/material_floating_search_bar_plus.dart';
 import '../classes/definition_provider.dart';
 
 import '../classes/search_suggestions_provider.dart';

@@ -39,17 +39,15 @@ ThemeData lightTheme = ThemeData.light().copyWith(
   scaffoldBackgroundColor:
       hexToColor(locator<LocalStorageService>().backgroundColor) ??
           Colors.white,
-  dialogBackgroundColor:
-      hexToColor(locator<LocalStorageService>().backgroundColor) ??
-          Colors.white,
   appBarTheme: AppBarTheme(
-    color: hexToColor(locator<LocalStorageService>().searchBarColor) ??
+    backgroundColor: hexToColor(locator<LocalStorageService>().searchBarColor) ??
         Colors.grey[100],
     systemOverlayStyle: SystemUiOverlayStyle.light,
   ),
   brightness: Brightness.light,
   cardColor: hexToColor(locator<LocalStorageService>().searchBarColor),
-  iconTheme: const IconThemeData(color: Colors.black),
+  iconTheme: const IconThemeData(color: Colors.black), dialogTheme: DialogThemeData(backgroundColor: hexToColor(locator<LocalStorageService>().backgroundColor) ??
+          Colors.white),
 );
 
 ThemeData darkTheme = ThemeData.dark().copyWith(
@@ -85,20 +83,18 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
   primaryColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
   // accentColor: hexToColor(locator<LocalStorageService>().highlightTextColor),
   canvasColor: hexToColor(locator<LocalStorageService>().backgroundColor),
-  dialogBackgroundColor:
-      hexToColor(locator<LocalStorageService>().backgroundColor) ??
-          Colors.grey[900],
   scaffoldBackgroundColor:
       hexToColor(locator<LocalStorageService>().backgroundColor) ??
           Colors.grey[900],
   appBarTheme: AppBarTheme(
-    color: hexToColor(locator<LocalStorageService>().searchBarColor) ??
+    backgroundColor: hexToColor(locator<LocalStorageService>().searchBarColor) ??
         Colors.grey[850],
     systemOverlayStyle: SystemUiOverlayStyle.dark,
   ),
   cardColor: hexToColor(locator<LocalStorageService>().searchBarColor),
   brightness: Brightness.dark,
-  iconTheme: const IconThemeData(color: Colors.white),
+  iconTheme: const IconThemeData(color: Colors.white), dialogTheme: DialogThemeData(backgroundColor: hexToColor(locator<LocalStorageService>().backgroundColor) ??
+          Colors.grey[900]),
 );
 
 Color? hexToColor(String? code) {

@@ -8,7 +8,7 @@ class ThemeModel extends ChangeNotifier {
   ThemeData currentTheme =
       locator<LocalStorageService>().darkTheme ? darkTheme : lightTheme;
 
-  refreshTheme() {
+  void refreshTheme() {
     currentTheme = locator<LocalStorageService>().darkTheme
         ? darkTheme.copyWith(
             textTheme: ThemeData.dark().textTheme.copyWith(
@@ -50,13 +50,11 @@ class ThemeModel extends ChangeNotifier {
                 hexToColor(locator<LocalStorageService>().backgroundColor) ??
                     Colors.grey[900],
             appBarTheme: AppBarTheme(
-              color:
+              backgroundColor:
                   hexToColor(locator<LocalStorageService>().searchBarColor) ??
                       Colors.grey[850],
               systemOverlayStyle: SystemUiOverlayStyle.dark,
-            ),
-            dialogBackgroundColor:
-                hexToColor(locator<LocalStorageService>().backgroundColor),
+            ), dialogTheme: DialogThemeData(backgroundColor: hexToColor(locator<LocalStorageService>().backgroundColor)),
           )
         : lightTheme.copyWith(
             textTheme: ThemeData.light().textTheme.copyWith(
@@ -98,14 +96,12 @@ class ThemeModel extends ChangeNotifier {
                 hexToColor(locator<LocalStorageService>().backgroundColor) ??
                     Colors.white,
             appBarTheme: AppBarTheme(
-              color:
+              backgroundColor:
                   hexToColor(locator<LocalStorageService>().searchBarColor) ??
                       Colors.grey[100],
               systemOverlayStyle: SystemUiOverlayStyle.light,
             ),
-            brightness: Brightness.light,
-            dialogBackgroundColor:
-                hexToColor(locator<LocalStorageService>().backgroundColor),
+            brightness: Brightness.light, dialogTheme: DialogThemeData(backgroundColor: hexToColor(locator<LocalStorageService>().backgroundColor)),
           );
     return notifyListeners();
   }

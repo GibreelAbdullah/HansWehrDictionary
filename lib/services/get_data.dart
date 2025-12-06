@@ -192,7 +192,7 @@ class DatabaseAccess {
     return version;
   }
 
-  applyUpdates(String updateDBScript) async {
+  Future<void> applyUpdates(String updateDBScript) async {
     Database db = await databaseConnection;
 
     List<String> updateDBCommand = updateDBScript.split('\n');
@@ -205,7 +205,7 @@ class DatabaseAccess {
     });
   }
 
-  markNotificationsRead() async {
+  Future<void> markNotificationsRead() async {
     Database db = await databaseConnection;
     db.rawUpdate(
         'UPDATE NOTIFICATIONS SET VISIBLE_FLAG = 0 WHERE VISIBLE_FLAG = 1');
