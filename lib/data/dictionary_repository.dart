@@ -1,4 +1,4 @@
-import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'database_helper.dart';
 import '../domain/dictionary_entry.dart';
 import '../domain/quran_reference.dart';
@@ -94,7 +94,7 @@ class DictionaryRepository {
     final db = await _db;
     final results = await db.rawQuery(
       'SELECT id, word, definition, is_root, parent_id, quran_occurrence, favorite_flag '
-      'FROM DICTIONARY WHERE quran_occurrence IS NOT NULL AND quran_occurrence != "" '
+      "FROM DICTIONARY WHERE quran_occurrence IS NOT NULL AND quran_occurrence != '' "
       'ORDER BY CAST(quran_occurrence AS INTEGER) DESC',
     );
     return results.map(DictionaryEntry.fromMap).toList();

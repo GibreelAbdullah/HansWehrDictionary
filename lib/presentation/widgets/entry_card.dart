@@ -32,15 +32,9 @@ class EntryCard extends StatelessWidget {
 
     final rightMargin = (!entry.isRoot && indentDerivative) ? 28.0 : 12.0;
 
-    return Card(
-      color: cardColor,
-      margin: EdgeInsets.only(left: 12, right: rightMargin, top: entry.isRoot ? 6 : 3, bottom: entry.isRoot ? 6 : 3),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(12),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Column(
+    final content = Padding(
+      padding: const EdgeInsets.all(14),
+      child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Row(
@@ -79,8 +73,8 @@ class EntryCard extends StatelessWidget {
               const SizedBox(height: 6),
               highlightQuery != null && highlightQuery!.isNotEmpty
                   ? _buildHighlightedText(entry.definition, highlightQuery!, cs)
-                  : RichText(
-                      text: TextSpan(
+                  : Text.rich(
+                      TextSpan(
                         style: TextStyle(fontSize: 14, color: cs.onSurfaceVariant, height: 1.4),
                         children: parseDefinition(entry.definition,
                             boldStyle: TextStyle(fontWeight: FontWeight.bold, color: cs.onSurface)),
@@ -90,8 +84,18 @@ class EntryCard extends StatelessWidget {
                     ),
             ],
           ),
-        ),
-      ),
+    );
+
+    return Card(
+      color: cardColor,
+      margin: EdgeInsets.only(left: 12, right: rightMargin, top: entry.isRoot ? 6 : 3, bottom: entry.isRoot ? 6 : 3),
+      child: onTap != null
+          ? InkWell(
+              borderRadius: BorderRadius.circular(12),
+              onTap: onTap,
+              child: content,
+            )
+          : content,
     );
   }
 
@@ -121,8 +125,8 @@ class EntryCard extends StatelessWidget {
       start = idx + query.length;
     }
 
-    return RichText(
-      text: TextSpan(
+    return Text.rich(
+      TextSpan(
         style: TextStyle(fontSize: 14, color: cs.onSurfaceVariant, height: 1.4),
         children: spans,
       ),

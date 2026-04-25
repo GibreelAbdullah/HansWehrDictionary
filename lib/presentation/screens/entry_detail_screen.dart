@@ -50,24 +50,26 @@ class _EntryDetailScreenState extends ConsumerState<EntryDetailScreen> {
         WidgetsBinding.instance.addPostFrameCallback((_) => _tryScroll());
         return SingleChildScrollView(
           padding: const EdgeInsets.only(bottom: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _buildRootHeader(cs),
-              if (list.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
-                  child: Text('Derived Forms',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            color: cs.primary, fontWeight: FontWeight.w600)),
-                ),
-              for (final child in list)
-                Padding(
-                  key: child.id == widget.highlightEntryId ? _highlightKey : null,
-                  padding: const EdgeInsets.only(right: 24),
-                  child: EntryCard(entry: child, isHighlighted: child.id == widget.highlightEntryId),
-                ),
-            ],
+          child: SelectionArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _buildRootHeader(cs),
+                if (list.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+                    child: Text('Derived Forms',
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              color: cs.primary, fontWeight: FontWeight.w600)),
+                  ),
+                for (final child in list)
+                  Padding(
+                    key: child.id == widget.highlightEntryId ? _highlightKey : null,
+                    padding: const EdgeInsets.only(right: 24),
+                    child: EntryCard(entry: child, isHighlighted: child.id == widget.highlightEntryId),
+                  ),
+              ],
+            ),
           ),
         );
       },
@@ -120,27 +122,28 @@ class _EntryDetailScreenState extends ConsumerState<EntryDetailScreen> {
           ),
           if (widget.entry.quranOccurrence != null && widget.entry.quranOccurrence!.isNotEmpty) ...[
             const SizedBox(height: 8),
-            InkWell(
-              borderRadius: BorderRadius.circular(8),
-              onTap: () => _showQuranRefs(context),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                child: Row(
-                  children: [
-                    Icon(Icons.menu_book, size: 16, color: cs.tertiary),
-                    const SizedBox(width: 6),
-                    Text('Quran occurrences: ${widget.entry.quranOccurrence}',
-                        style: TextStyle(color: cs.tertiary, fontSize: 13)),
-                    const SizedBox(width: 4),
-                    Icon(Icons.open_in_new, size: 13, color: cs.tertiary),
-                  ],
+            SelectionContainer.disabled(
+              child: GestureDetector(
+                onTap: () => _showQuranRefs(context),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: Row(
+                    children: [
+                      Icon(Icons.menu_book, size: 16, color: cs.tertiary),
+                      const SizedBox(width: 6),
+                      Text('Quran occurrences: ${widget.entry.quranOccurrence}',
+                          style: TextStyle(color: cs.tertiary, fontSize: 13)),
+                      const SizedBox(width: 4),
+                      Icon(Icons.open_in_new, size: 13, color: cs.tertiary),
+                    ],
+                  ),
                 ),
               ),
             ),
           ],
           const SizedBox(height: 12),
-          RichText(
-            text: TextSpan(
+          Text.rich(
+            TextSpan(
               style: TextStyle(fontSize: 16, height: 1.5, color: cs.onSurfaceVariant),
               children: parseDefinition(widget.entry.definition,
                   boldStyle: TextStyle(fontWeight: FontWeight.bold, color: cs.onSurface)),

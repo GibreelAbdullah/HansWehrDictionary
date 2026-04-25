@@ -3,11 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class DatabaseHelper {
   static Database? _database;
-  static const _dbVersion = 3; // bump when asset DB changes
+  static const _dbVersion = 4; // FTS4 -> FTS5 migration // bump when asset DB changes
 
   static Future<Database> get database async {
     if (_database != null) return _database!;
