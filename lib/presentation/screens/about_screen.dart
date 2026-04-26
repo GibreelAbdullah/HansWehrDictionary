@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../providers/dictionary_providers.dart';
+import '../widgets/constrained_body.dart';
 
 class AboutScreen extends ConsumerWidget {
   const AboutScreen({super.key});
@@ -141,10 +142,12 @@ class AboutScreen extends ConsumerWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: isBottom
-              ? [Expanded(child: body), const Divider(height: 1), toolbar]
-              : [toolbar, const Divider(height: 1), Expanded(child: body)],
+        child: ConstrainedBody(
+          child: Column(
+            children: isBottom
+                ? [Expanded(child: body), const Divider(height: 1), toolbar]
+                : [toolbar, const Divider(height: 1), Expanded(child: body)],
+          ),
         ),
       ),
     );

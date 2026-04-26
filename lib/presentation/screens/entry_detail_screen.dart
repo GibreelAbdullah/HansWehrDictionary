@@ -5,6 +5,7 @@ import '../providers/dictionary_providers.dart';
 import '../providers/favorites_provider.dart';
 import '../widgets/definition_text.dart';
 import '../widgets/entry_card.dart';
+import '../widgets/constrained_body.dart';
 import '../widgets/quran_references_sheet.dart';
 
 class EntryDetailScreen extends ConsumerStatefulWidget {
@@ -80,12 +81,14 @@ class _EntryDetailScreenState extends ConsumerState<EntryDetailScreen> {
     if (isBottom) {
       return Scaffold(
         body: SafeArea(
-          child: Column(
-            children: [
-              Expanded(child: body),
-              const Divider(height: 1),
-              toolbar,
-            ],
+          child: ConstrainedBody(
+            child: Column(
+              children: [
+                Expanded(child: body),
+                const Divider(height: 1),
+                toolbar,
+              ],
+            ),
           ),
         ),
       );
@@ -93,12 +96,14 @@ class _EntryDetailScreenState extends ConsumerState<EntryDetailScreen> {
 
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            toolbar,
-            const Divider(height: 1),
-            Expanded(child: body),
-          ],
+        child: ConstrainedBody(
+          child: Column(
+            children: [
+              toolbar,
+              const Divider(height: 1),
+              Expanded(child: body),
+            ],
+          ),
         ),
       ),
     );

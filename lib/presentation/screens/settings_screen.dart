@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/dictionary_providers.dart';
+import '../widgets/constrained_body.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -76,10 +77,12 @@ class SettingsScreen extends ConsumerWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: searchBarBottom
-              ? [Expanded(child: body), const Divider(height: 1), toolbar]
-              : [toolbar, const Divider(height: 1), Expanded(child: body)],
+        child: ConstrainedBody(
+          child: Column(
+            children: searchBarBottom
+                ? [Expanded(child: body), const Divider(height: 1), toolbar]
+                : [toolbar, const Divider(height: 1), Expanded(child: body)],
+          ),
         ),
       ),
     );

@@ -12,6 +12,7 @@ import 'abbreviations_screen.dart';
 import 'introduction_screen.dart';
 import 'settings_screen.dart';
 import 'verb_forms_screen.dart';
+import '../widgets/constrained_body.dart';
 
 /// Controls whether we're on the dashboard or a sub-view
 enum HomeView { dashboard, favorites, quranicWords, browse, history }
@@ -134,34 +135,36 @@ class HomeScreen extends ConsumerWidget {
         ),
       ),
       body: SafeArea(
-        child: Stack(
-          children: [
-            Column(
-              children: isBottom
-                  ? [content, const Divider(height: 1), searchBar]
-                  : [searchBar, const Divider(height: 1), content],
-            ),
-            Positioned(
-              bottom: isBottom ? 12 : null,
-              top: isBottom ? null : 12,
-              left: 0,
-              child: Builder(
-                builder: (ctx) => IconButton(
-                  icon: const Icon(Icons.menu),
-                  onPressed: () => Scaffold.of(ctx).openDrawer(),
+        child: ConstrainedBody(
+          child: Stack(
+            children: [
+              Column(
+                children: isBottom
+                    ? [content, const Divider(height: 1), searchBar]
+                    : [searchBar, const Divider(height: 1), content],
+              ),
+              Positioned(
+                bottom: isBottom ? 12 : null,
+                top: isBottom ? null : 12,
+                left: 0,
+                child: Builder(
+                  builder: (ctx) => IconButton(
+                    icon: const Icon(Icons.menu),
+                    onPressed: () => Scaffold.of(ctx).openDrawer(),
+                  ),
                 ),
               ),
-            ),
-            Positioned(
-              bottom: isBottom ? 12 : null,
-              top: isBottom ? null : 12,
-              right: 0,
-              child: IconButton(
-                icon: const Icon(Icons.home),
-                onPressed: () => ref.read(homeViewProvider.notifier).set(HomeView.dashboard),
+              Positioned(
+                bottom: isBottom ? 12 : null,
+                top: isBottom ? null : 12,
+                right: 0,
+                child: IconButton(
+                  icon: const Icon(Icons.home),
+                  onPressed: () => ref.read(homeViewProvider.notifier).set(HomeView.dashboard),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

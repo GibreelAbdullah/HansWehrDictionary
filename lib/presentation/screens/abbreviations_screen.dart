@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/abbreviations.dart';
 import '../providers/dictionary_providers.dart';
+import '../widgets/constrained_body.dart';
 
 class AbbreviationsScreen extends ConsumerStatefulWidget {
   const AbbreviationsScreen({super.key});
@@ -87,10 +88,12 @@ class _AbbreviationsScreenState extends ConsumerState<AbbreviationsScreen> {
 
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: isBottom
-              ? [Expanded(child: body), const Divider(height: 1), searchField, toolbar]
-              : [toolbar, searchField, const Divider(height: 1), Expanded(child: body)],
+        child: ConstrainedBody(
+          child: Column(
+            children: isBottom
+                ? [Expanded(child: body), const Divider(height: 1), searchField, toolbar]
+                : [toolbar, searchField, const Divider(height: 1), Expanded(child: body)],
+          ),
         ),
       ),
     );

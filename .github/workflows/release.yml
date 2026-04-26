@@ -1,0 +1,164 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  # ── Android APK ──────────────────────────────────────────────
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: flutter pub get
+      - run: flutter build apk --release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+  # ── Linux tar.gz ─────────────────────────────────────────────
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+      - run: flutter pub get
+      - run: flutter build linux --release
+      - run: |
+          cd build/linux/x64/release/bundle
+          tar czf "$GITHUB_WORKSPACE/hans-wehr-linux-x64.tar.gz" .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-bundle
+          path: hans-wehr-linux-x64.tar.gz
+
+  # ── Web (GitHub Pages) ──────────────────────────────────────
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - run: flutter pub get
+      - run: |
+          curl -L -o web/sqlite3.wasm \
+            "https://github.com/simolus3/sqlite3.dart/releases/download/sqlite3-3.3.1/sqlite3.wasm"
+      - run: flutter build web --release --base-href "/HansWehrDictionary/"
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+      - uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: build/web
+
+  deploy-pages:
+    needs: web
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  # ── Windows exe ─────────────────────────────────────────────
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - run: flutter pub get
+      - run: flutter build windows --release
+      - run: Compress-Archive -Path build\windows\x64\runner\Release\* -DestinationPath hans-wehr-windows-x64.zip
+        shell: pwsh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-zip
+          path: hans-wehr-windows-x64.zip
+
+  # ── macOS dmg ───────────────────────────────────────────────
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - run: flutter pub get
+      - run: flutter build macos --release
+      - run: |
+          APP_PATH="build/macos/Build/Products/Release/hans_wehr_dictionary.app"
+          DMG_PATH="hans-wehr-macos.dmg"
+          hdiutil create -volname "Hans Wehr Dictionary" \
+            -srcfolder "$APP_PATH" \
+            -ov -format UDZO "$DMG_PATH"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos-dmg
+          path: hans-wehr-macos.dmg
+
+  # ── iOS IPA (no codesign) ───────────────────────────────────
+  ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - run: flutter pub get
+      - run: flutter build ios --release --no-codesign
+      - run: |
+          mkdir -p Payload
+          cp -r build/ios/iphoneos/Runner.app Payload/
+          zip -r hans-wehr-ios.ipa Payload
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ios-ipa
+          path: hans-wehr-ios.ipa
+
+  # ── Create GitHub Release with all artifacts ────────────────
+  release:
+    needs: [android, linux, windows, macos, ios]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - run: |
+          mv artifacts/android-apk/app-release.apk artifacts/hans-wehr-android.apk
+          mv artifacts/linux-bundle/hans-wehr-linux-x64.tar.gz artifacts/
+          mv artifacts/windows-zip/hans-wehr-windows-x64.zip artifacts/
+          mv artifacts/macos-dmg/hans-wehr-macos.dmg artifacts/
+          mv artifacts/ios-ipa/hans-wehr-ios.ipa artifacts/
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            artifacts/hans-wehr-android.apk
+            artifacts/hans-wehr-linux-x64.tar.gz
+            artifacts/hans-wehr-windows-x64.zip
+            artifacts/hans-wehr-macos.dmg
+            artifacts/hans-wehr-ios.ipa
+          generate_release_notes: true
