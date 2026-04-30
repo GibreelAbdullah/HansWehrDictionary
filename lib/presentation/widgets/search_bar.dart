@@ -39,9 +39,16 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
   }
 
   void _onFocusChange() {
-    setState(() {
-      _showHistory = _focusNode.hasFocus;
-    });
+    if (_focusNode.hasFocus) {
+      setState(() => _showHistory = true);
+    } else {
+      // Delay hiding so taps on history items can register first
+      Future.delayed(const Duration(milliseconds: 200), () {
+        if (mounted && !_focusNode.hasFocus) {
+          setState(() => _showHistory = false);
+        }
+      });
+    }
   }
 
   @override
