@@ -1,38 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../domain/dictionary_entry.dart';
 import '../providers/dictionary_providers.dart';
 import '../providers/favorites_provider.dart';
 import '../providers/search_history_provider.dart';
 import '../widgets/entry_card.dart';
 import '../widgets/search_bar.dart';
-import 'entry_detail_screen.dart';
-import 'about_screen.dart';
-import 'abbreviations_screen.dart';
-import 'introduction_screen.dart';
-import 'settings_screen.dart';
-import 'verb_forms_screen.dart';
 import '../widgets/constrained_body.dart';
 
-/// Controls whether we're on the dashboard or a sub-view
-enum HomeView { dashboard, favorites, quranicWords, browse, history }
-
-class HomeViewNotifier extends Notifier<HomeView> {
-  @override
-  HomeView build() => HomeView.dashboard;
-  void set(HomeView view) => state = view;
+String _entryUri(String word, int occ) {
+  return occ > 1 ? '/entry/$word/$occ' : '/entry/$word';
 }
 
-final homeViewProvider = NotifierProvider<HomeViewNotifier, HomeView>(HomeViewNotifier.new);
+/// Navigate to a root entry.
+Future<void> _pushRootEntry(BuildContext context, WidgetRef ref, DictionaryEntry entry) async {
+  final repo = ref.read(repositoryProvider);
+  final occ = await repo.getRootOccurrence(entry.id, entry.word);
+  final uri = _entryUri(entry.word, occ);
+  debugPrint('_pushRootEntry: $uri mounted=${context.mounted}');
+  if (context.mounted) GoRouter.of(context).go(uri);
+}
+
+/// Navigate to any entry (root or derived). Derived entries go to their parent with highlight.
+Future<void> _pushEntry(BuildContext context, WidgetRef ref, DictionaryEntry entry) async {
+  if (entry.isRoot) {
+    return _pushRootEntry(context, ref, entry);
+  }
+  final repo = ref.read(repositoryProvider);
+  final parent = await repo.getEntry(entry.parentId);
+  if (parent != null && context.mounted) {
+    final occ = await repo.getRootOccurrence(parent.id, parent.word);
+    final uri = '${_entryUri(parent.word, occ)}?highlight=${entry.id}';
+    debugPrint('_pushEntry: $uri mounted=${context.mounted}');
+    if (context.mounted) GoRouter.of(context).go(uri);
+  }
+}
+
+enum HomeView { dashboard, favorites, quranicWords, browse, history }
 
 class HomeScreen extends ConsumerWidget {
-  const HomeScreen({super.key});
+  final HomeView view;
+  const HomeScreen({super.key, required this.view});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final query = ref.watch(searchQueryProvider);
     final isSearching = query.isNotEmpty;
-    final view = ref.watch(homeViewProvider);
     final isBottom = ref.watch(searchBarBottomProvider).value ?? false;
 
     final searchBar = const DictionarySearchBar();
@@ -95,7 +110,7 @@ class HomeScreen extends ConsumerWidget {
                 title: const Text('Introduction'),
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => const IntroductionScreen()));
+                  context.push('/introduction');
                 },
               ),
               ListTile(
@@ -103,7 +118,7 @@ class HomeScreen extends ConsumerWidget {
                 title: const Text('Verb Forms'),
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => const VerbFormsScreen()));
+                  context.push('/verb-forms');
                 },
               ),
               ListTile(
@@ -111,7 +126,7 @@ class HomeScreen extends ConsumerWidget {
                 title: const Text('Abbreviations'),
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => const AbbreviationsScreen()));
+                  context.push('/abbreviations');
                 },
               ),
               ListTile(
@@ -119,7 +134,7 @@ class HomeScreen extends ConsumerWidget {
                 title: const Text('Settings'),
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsScreen()));
+                  context.push('/settings');
                 },
               ),
               ListTile(
@@ -127,7 +142,7 @@ class HomeScreen extends ConsumerWidget {
                 title: const Text('About'),
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => const AboutScreen()));
+                  context.push('/about');
                 },
               ),
             ],
@@ -160,7 +175,7 @@ class HomeScreen extends ConsumerWidget {
                 right: 0,
                 child: IconButton(
                   icon: const Icon(Icons.home),
-                  onPressed: () => ref.read(homeViewProvider.notifier).set(HomeView.dashboard),
+                  onPressed: () => context.go('/'),
                 ),
               ),
             ],
@@ -200,28 +215,28 @@ class _Dashboard extends ConsumerWidget {
             icon: Icons.favorite,
             color: cs.error,
             title: 'Favorites',
-            onTap: () => ref.read(homeViewProvider.notifier).set(HomeView.favorites),
+            onTap: () => context.go('/favorites'),
           ),
           const SizedBox(height: 12),
           _Tile(
             icon: Icons.menu_book,
             color: cs.tertiary,
             title: 'Quranic Words',
-            onTap: () => ref.read(homeViewProvider.notifier).set(HomeView.quranicWords),
+            onTap: () => context.go('/quranic-words'),
           ),
           const SizedBox(height: 12),
           _Tile(
             icon: Icons.list,
             color: cs.primary,
             title: 'Browse',
-            onTap: () => ref.read(homeViewProvider.notifier).set(HomeView.browse),
+            onTap: () => context.go('/browse'),
           ),
           const SizedBox(height: 12),
           _Tile(
             icon: Icons.history,
             color: cs.secondary,
             title: 'History',
-            onTap: () => ref.read(homeViewProvider.notifier).set(HomeView.history),
+            onTap: () => context.go('/history'),
           ),
         ],
       ),
@@ -269,7 +284,7 @@ class _FavoritesList extends ConsumerWidget {
             final entry = list[i];
             return EntryCard(
               entry: entry,
-              onTap: () => _navigate(context, ref, entry),
+              onTap: () => _pushEntry(context, ref, entry),
             );
           },
         );
@@ -277,23 +292,6 @@ class _FavoritesList extends ConsumerWidget {
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => Center(child: Text('Error: $e')),
     );
-  }
-
-  void _navigate(BuildContext context, WidgetRef ref, dynamic entry) {
-    if (entry.isRoot) {
-      Navigator.push(context, MaterialPageRoute(builder: (_) => EntryDetailScreen(entry: entry)));
-    } else {
-      _navigateToParent(context, ref, entry);
-    }
-  }
-
-  Future<void> _navigateToParent(BuildContext context, WidgetRef ref, dynamic entry) async {
-    final repo = ref.read(repositoryProvider);
-    final parent = await repo.getEntry(entry.parentId);
-    if (parent != null && context.mounted) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (_) => EntryDetailScreen(entry: parent, highlightEntryId: entry.id)));
-    }
   }
 }
 
@@ -311,30 +309,13 @@ class _QuranicWordsList extends ConsumerWidget {
           final entry = list[i];
           return EntryCard(
             entry: entry,
-            onTap: () => _navigate(context, ref, entry),
+            onTap: () => _pushEntry(context, ref, entry),
           );
         },
       ),
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => Center(child: Text('Error: $e')),
     );
-  }
-
-  void _navigate(BuildContext context, WidgetRef ref, dynamic entry) {
-    if (entry.isRoot) {
-      Navigator.push(context, MaterialPageRoute(builder: (_) => EntryDetailScreen(entry: entry)));
-    } else {
-      _navigateToParent(context, ref, entry);
-    }
-  }
-
-  Future<void> _navigateToParent(BuildContext context, WidgetRef ref, dynamic entry) async {
-    final repo = ref.read(repositoryProvider);
-    final parent = await repo.getEntry(entry.parentId);
-    if (parent != null && context.mounted) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (_) => EntryDetailScreen(entry: parent, highlightEntryId: entry.id)));
-    }
   }
 }
 
@@ -370,7 +351,10 @@ class _SearchResults extends ConsumerWidget {
               entry: entry,
               indentDerivative: true,
               highlightQuery: mode == SearchMode.fullText ? query : null,
-              onTap: () => _navigateToEntry(context, ref, entry),
+              onTap: () {
+                ref.read(searchHistoryProvider.notifier).add(entry.word);
+                _pushEntry(context, ref, entry);
+              },
             );
           },
         );
@@ -378,24 +362,6 @@ class _SearchResults extends ConsumerWidget {
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => Center(child: Text('Search error: $e')),
     );
-  }
-
-  void _navigateToEntry(BuildContext context, WidgetRef ref, dynamic entry) {
-    ref.read(searchHistoryProvider.notifier).add(entry.word);
-    if (entry.isRoot) {
-      Navigator.push(context, MaterialPageRoute(builder: (_) => EntryDetailScreen(entry: entry)));
-    } else {
-      _navigateToParent(context, ref, entry);
-    }
-  }
-
-  Future<void> _navigateToParent(BuildContext context, WidgetRef ref, dynamic entry) async {
-    final repo = ref.read(repositoryProvider);
-    final parent = await repo.getEntry(entry.parentId);
-    if (parent != null && context.mounted) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (_) => EntryDetailScreen(entry: parent, highlightEntryId: entry.id)));
-    }
   }
 }
 
@@ -527,8 +493,7 @@ class _LetterTile extends ConsumerWidget {
                   padding: const EdgeInsets.only(right: 16),
                   child: EntryCard(
                     entry: e,
-                    onTap: () => Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => EntryDetailScreen(entry: e))),
+                    onTap: () => _pushRootEntry(context, ref, e),
                   ),
                 )),
             loading: () => [const Center(child: Padding(padding: EdgeInsets.all(8), child: CircularProgressIndicator()))],
@@ -584,8 +549,7 @@ class _PrefixEntries extends ConsumerWidget {
                 padding: const EdgeInsets.only(right: 48),
                 child: EntryCard(
                   entry: e,
-                  onTap: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => EntryDetailScreen(entry: e))),
+                  onTap: () => _pushRootEntry(context, ref, e),
                 ),
               )).toList(),
         ),

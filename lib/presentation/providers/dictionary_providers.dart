@@ -71,6 +71,11 @@ final allEntriesProvider = FutureProvider<List<DictionaryEntry>>((ref) {
   return ref.read(repositoryProvider).getAllEntries();
 });
 
+final entryByWordProvider =
+    FutureProvider.family<DictionaryEntry?, ({String word, int occurrence})>((ref, params) {
+  return ref.read(repositoryProvider).getRootByWord(params.word, occurrence: params.occurrence);
+});
+
 final childEntriesProvider =
     FutureProvider.family<List<DictionaryEntry>, int>((ref, parentId) {
   return ref.read(repositoryProvider).getChildEntries(parentId);

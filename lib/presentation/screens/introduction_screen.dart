@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../data/intro_texts.dart';
 import '../providers/dictionary_providers.dart';
 import '../widgets/constrained_body.dart';
@@ -19,7 +20,7 @@ class IntroductionScreen extends ConsumerWidget {
         children: [
           IconButton(
             icon: const Icon(Icons.arrow_back),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => context.pop(),
           ),
           const Expanded(
             child: Text('Introduction',

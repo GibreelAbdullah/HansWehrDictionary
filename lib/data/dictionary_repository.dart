@@ -47,6 +47,31 @@ class DictionaryRepository {
     return DictionaryEntry.fromMap(results.first);
   }
 
+  /// Returns the nth root entry matching [word] (1-based index).
+  Future<DictionaryEntry?> getRootByWord(String word, {int occurrence = 1}) async {
+    final db = await _db;
+    final results = await db.rawQuery(
+      'SELECT id, word, definition, is_root, parent_id, quran_occurrence, favorite_flag '
+      'FROM DICTIONARY WHERE is_root = 1 AND word = ? ORDER BY id LIMIT 1 OFFSET ?',
+      [word, occurrence - 1],
+    );
+    if (results.isEmpty) return null;
+    return DictionaryEntry.fromMap(results.first);
+  }
+
+  /// Returns the 1-based occurrence index of a root entry among roots with the same word.
+  Future<int> getRootOccurrence(int id, String word) async {
+    final db = await _db;
+    final results = await db.rawQuery(
+      'SELECT id FROM DICTIONARY WHERE is_root = 1 AND word = ? ORDER BY id',
+      [word],
+    );
+    for (int i = 0; i < results.length; i++) {
+      if (results[i]['id'] == id) return i + 1;
+    }
+    return 1;
+  }
+
   /// Returns the parent root entry + all siblings for a given entry
   Future<List<DictionaryEntry>> getFamily(int parentId) async {
     final db = await _db;

@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 import 'presentation/providers/dictionary_providers.dart';
-import 'presentation/screens/home_screen.dart';
+import 'presentation/router.dart';
 import 'presentation/theme.dart';
 
 void main() {
@@ -24,13 +24,14 @@ class HansWehrApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeModeProvider);
-    return MaterialApp(
+    final router = ref.watch(routerProvider);
+    return MaterialApp.router(
       title: 'Hans Wehr Dictionary',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: themeMode,
-      home: const HomeScreen(),
+      routerConfig: router,
     );
   }
 }
