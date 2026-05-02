@@ -19,8 +19,7 @@ Future<void> _pushRootEntry(BuildContext context, WidgetRef ref, DictionaryEntry
   final repo = ref.read(repositoryProvider);
   final occ = await repo.getRootOccurrence(entry.id, entry.word);
   final uri = _entryUri(entry.word, occ);
-  debugPrint('_pushRootEntry: $uri mounted=${context.mounted}');
-  if (context.mounted) GoRouter.of(context).go(uri);
+  if (context.mounted) context.go(uri);
 }
 
 /// Navigate to any entry (root or derived). Derived entries go to their parent with highlight.
@@ -33,8 +32,7 @@ Future<void> _pushEntry(BuildContext context, WidgetRef ref, DictionaryEntry ent
   if (parent != null && context.mounted) {
     final occ = await repo.getRootOccurrence(parent.id, parent.word);
     final uri = '${_entryUri(parent.word, occ)}?highlight=${entry.id}';
-    debugPrint('_pushEntry: $uri mounted=${context.mounted}');
-    if (context.mounted) GoRouter.of(context).go(uri);
+    if (context.mounted) context.go(uri);
   }
 }
 
@@ -110,7 +108,7 @@ class HomeScreen extends ConsumerWidget {
                 title: const Text('Introduction'),
                 onTap: () {
                   Navigator.pop(context);
-                  context.push('/introduction');
+                  context.go('/introduction');
                 },
               ),
               ListTile(
@@ -118,7 +116,7 @@ class HomeScreen extends ConsumerWidget {
                 title: const Text('Verb Forms'),
                 onTap: () {
                   Navigator.pop(context);
-                  context.push('/verb-forms');
+                  context.go('/verb-forms');
                 },
               ),
               ListTile(
@@ -126,7 +124,7 @@ class HomeScreen extends ConsumerWidget {
                 title: const Text('Abbreviations'),
                 onTap: () {
                   Navigator.pop(context);
-                  context.push('/abbreviations');
+                  context.go('/abbreviations');
                 },
               ),
               ListTile(
@@ -134,7 +132,7 @@ class HomeScreen extends ConsumerWidget {
                 title: const Text('Settings'),
                 onTap: () {
                   Navigator.pop(context);
-                  context.push('/settings');
+                  context.go('/settings');
                 },
               ),
               ListTile(
@@ -142,7 +140,7 @@ class HomeScreen extends ConsumerWidget {
                 title: const Text('About'),
                 onTap: () {
                   Navigator.pop(context);
-                  context.push('/about');
+                  context.go('/about');
                 },
               ),
             ],

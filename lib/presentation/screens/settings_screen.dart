@@ -19,7 +19,13 @@ class SettingsScreen extends ConsumerWidget {
         children: [
           IconButton(
             icon: const Icon(Icons.arrow_back),
-            onPressed: () => context.pop(),
+            onPressed: () {
+              if (GoRouter.of(context).canPop()) {
+                context.pop();
+              } else {
+                context.go('/');
+              }
+            },
           ),
           const Expanded(
             child: Text('Settings',
