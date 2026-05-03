@@ -5,7 +5,7 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = hans_wehr_dictionary
+PRODUCT_NAME = The Hans Wehr Dictionary Of Modern Written Arabic
 
 // The application's bundle identifier
 PRODUCT_BUNDLE_IDENTIFIER = com.hanswehr.hansWehrDictionary
