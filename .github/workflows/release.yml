@@ -10,12 +10,22 @@ permissions:
   pages: write
   id-token: write
 
+env:
+  # Strip leading 'v' → e.g. "2.3.0"
+  APP_VERSION: ""
+
 jobs:
   # ── Android APK ──────────────────────────────────────────────
   android:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Set version from tag
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          IFS='.' read -r major minor patch <<< "$VERSION"
+          BUILD_NUMBER=$(( major * 10000 + minor * 100 + patch ))
+          sed -i "s/^version: .*/version: ${VERSION}+${BUILD_NUMBER}/" pubspec.yaml
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
@@ -35,6 +45,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Set version from tag
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          sed -i "s/^version: .*/version: ${VERSION}+1/" pubspec.yaml
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
@@ -56,6 +70,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Set version from tag
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          sed -i "s/^version: .*/version: ${VERSION}+1/" pubspec.yaml
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
@@ -87,6 +105,11 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Set version from tag
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}".TrimStart('v')
+          (Get-Content pubspec.yaml) -replace '^version: .*', "version: ${version}+1" | Set-Content pubspec.yaml
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
@@ -104,6 +127,10 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Set version from tag
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          sed -i '' "s/^version: .*/version: ${VERSION}+1/" pubspec.yaml
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
@@ -125,6 +152,10 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Set version from tag
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          sed -i '' "s/^version: .*/version: ${VERSION}+1/" pubspec.yaml
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
@@ -155,6 +186,8 @@ jobs:
           mv artifacts/ios-ipa/hans-wehr-ios.ipa artifacts/
       - uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
           files: |
             artifacts/hans-wehr-android.apk
             artifacts/hans-wehr-linux-x64.tar.gz
