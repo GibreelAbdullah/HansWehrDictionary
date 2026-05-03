@@ -137,7 +137,7 @@ jobs:
       - run: flutter pub get
       - run: flutter build macos --release
       - run: |
-          APP_PATH="build/macos/Build/Products/Release/hans_wehr_dictionary.app"
+          APP_PATH="build/macos/Build/Products/Release/The Hans Wehr Dictionary Of Modern Written Arabic.app"
           DMG_PATH="hans-wehr-macos.dmg"
           hdiutil create -volname "Hans Wehr Dictionary" \
             -srcfolder "$APP_PATH" \
