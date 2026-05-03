@@ -5,6 +5,7 @@ import 'screens/entry_detail_screen.dart';
 import 'screens/introduction_screen.dart';
 import 'screens/verb_forms_screen.dart';
 import 'screens/abbreviations_screen.dart';
+import 'screens/transliteration_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/about_screen.dart';
 
@@ -66,6 +67,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/abbreviations',
         builder: (context, state) => const AbbreviationsScreen(),
+      ),
+      GoRoute(
+        path: '/transliteration',
+        builder: (context, state) => const TransliterationScreen(),
       ),
       GoRoute(
         path: '/settings',

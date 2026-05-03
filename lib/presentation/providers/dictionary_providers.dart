@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/dictionary_repository.dart';
+import '../../data/transliteration.dart';
 import '../../domain/dictionary_entry.dart';
 import '../../domain/quran_reference.dart';
 
@@ -59,12 +60,15 @@ final searchQueryProvider = NotifierProvider<SearchQueryNotifier, String>(Search
 
 final searchResultsProvider = FutureProvider<List<DictionaryEntry>>((ref) async {
   final query = ref.watch(searchQueryProvider);
-  final mode = ref.watch(searchModeProvider); // watch both so switching mode triggers refresh
+  final mode = ref.watch(searchModeProvider);
   if (query.isEmpty) return [];
   final repo = ref.read(repositoryProvider);
-  return mode == SearchMode.keyword
-      ? repo.searchByWord(query)
-      : repo.fullTextSearch(query);
+  if (mode == SearchMode.fullText) return repo.fullTextSearch(query);
+  if (isLatin(query)) {
+    final normalized = query.toLowerCase().replaceAll('v', 'w');
+    return repo.searchByTransliteration(normalized);
+  }
+  return repo.searchByWord(query);
 });
 
 final allEntriesProvider = FutureProvider<List<DictionaryEntry>>((ref) {

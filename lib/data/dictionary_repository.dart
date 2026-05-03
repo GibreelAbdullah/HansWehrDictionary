@@ -93,6 +93,17 @@ class DictionaryRepository {
     return results.map(DictionaryEntry.fromMap).toList();
   }
 
+  Future<List<DictionaryEntry>> searchByTransliteration(String query) async {
+    final db = await _db;
+    final results = await db.rawQuery(
+      'SELECT d.id, d.word, d.definition, d.is_root, d.parent_id, d.quran_occurrence, d.favorite_flag '
+      'FROM DICTIONARY d JOIN TRANSLITERATION t ON d.id = t.id '
+      'WHERE t.transliteration LIKE ? ORDER BY d.is_root DESC, d.id LIMIT 100',
+      ['%$query%'],
+    );
+    return results.map(DictionaryEntry.fromMap).toList();
+  }
+
   Future<List<DictionaryEntry>> fullTextSearch(String query) async {
     final db = await _db;
     final results = await db.rawQuery(

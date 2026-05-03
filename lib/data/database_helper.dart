@@ -4,7 +4,7 @@ import 'database_helper_native.dart' if (dart.library.html) 'database_helper_web
 
 class DatabaseHelper {
   static Database? _database;
-  static const _dbVersion = 4;
+  static const _dbVersion = 5;
 
   static Future<Database> get database async {
     if (_database != null) return _database!;

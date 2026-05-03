@@ -128,6 +128,14 @@ class HomeScreen extends ConsumerWidget {
                 },
               ),
               ListTile(
+                leading: const Icon(Icons.translate),
+                title: const Text('Transliteration'),
+                onTap: () {
+                  Navigator.pop(context);
+                  context.go('/transliteration');
+                },
+              ),
+              ListTile(
                 leading: const Icon(Icons.settings_outlined),
                 title: const Text('Settings'),
                 onTap: () {
