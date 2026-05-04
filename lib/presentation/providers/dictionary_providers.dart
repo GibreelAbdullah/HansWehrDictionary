@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/dictionary_repository.dart';
 import '../../data/transliteration.dart';
@@ -116,4 +117,13 @@ final rootsByPrefixProvider =
 final singleCharRootsProvider =
     FutureProvider.family<List<DictionaryEntry>, String>((ref, letter) {
   return ref.read(repositoryProvider).getSingleCharRoots(letter);
+});
+
+final remoteMessageProvider = FutureProvider<String>((ref) async {
+  final response = await http.get(Uri.parse(
+      'https://raw.githubusercontent.com/GibreelAbdullah/HansWehrDictionary/refs/heads/master/msg.md'));
+  if (response.statusCode == 200 && response.body.trim().isNotEmpty) {
+    return response.body;
+  }
+  return '';
 });

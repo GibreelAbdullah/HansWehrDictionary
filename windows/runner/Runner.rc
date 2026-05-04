@@ -89,11 +89,11 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.hanswehr" "\0"
+            VALUE "CompanyName", "com.hadithhub" "\0"
             VALUE "FileDescription", "hans_wehr_dictionary" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "hans_wehr_dictionary" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2026 com.hanswehr. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2026 com.hadithhub. All rights reserved." "\0"
             VALUE "OriginalFilename", "hans_wehr_dictionary.exe" "\0"
             VALUE "ProductName", "hans_wehr_dictionary" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"

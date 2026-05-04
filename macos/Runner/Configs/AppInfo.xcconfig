@@ -8,7 +8,7 @@
 PRODUCT_NAME = The Hans Wehr Dictionary Of Modern Written Arabic
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.hanswehr.hansWehrDictionary
+PRODUCT_BUNDLE_IDENTIFIER = com.hadithhub.hansWehrDictionary
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2026 com.hanswehr. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2026 com.hadithhub. All rights reserved.

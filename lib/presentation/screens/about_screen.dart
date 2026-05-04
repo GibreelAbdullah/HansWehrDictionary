@@ -52,10 +52,9 @@ class AboutScreen extends ConsumerWidget {
                     TextSpan(children: [
                       const TextSpan(text: 'The '),
                       TextSpan(
-                          text: 'Dictionary of Modern Written Arabic',
+                          text: 'Hans Wehr Dictionary of Modern Written Arabic',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic,
                               color: cs.onSurface)),
                       const TextSpan(text: ' is an Arabic-English dictionary compiled by '),
                     ]),
@@ -87,6 +86,28 @@ class AboutScreen extends ConsumerWidget {
                 child: Text('Source Code',
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 14, color: cs.primary, decoration: TextDecoration.underline)),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+
+          // Available On
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  Text('AVAILABLE ON',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 15, color: cs.onSurface)),
+                  const SizedBox(height: 12),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    alignment: WrapAlignment.center,
+                    children: _platforms.map((p) => _PlatformChip(platform: p)).toList(),
+                  ),
+                ],
               ),
             ),
           ),
@@ -188,6 +209,32 @@ class AboutScreen extends ConsumerWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+const _releaseUrl = 'https://github.com/GibreelAbdullah/HansWehrDictionary/releases/latest';
+
+const _platforms = [
+  (icon: Icons.android, label: 'Android', url: _releaseUrl),
+  (icon: Icons.phone_iphone, label: 'iOS', url: _releaseUrl),
+  (icon: Icons.language, label: 'Web', url: 'https://gibreelabdullah.github.io/HansWehrDictionary/'),
+  (icon: Icons.desktop_windows, label: 'Windows', url: _releaseUrl),
+  (icon: Icons.desktop_mac, label: 'macOS', url: _releaseUrl),
+  (icon: Icons.computer, label: 'Linux', url: _releaseUrl),
+];
+
+class _PlatformChip extends StatelessWidget {
+  final ({IconData icon, String label, String url}) platform;
+  const _PlatformChip({required this.platform});
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return ActionChip(
+      avatar: Icon(platform.icon, size: 18, color: cs.primary),
+      label: Text(platform.label, style: const TextStyle(fontSize: 12)),
+      onPressed: () => launchUrl(Uri.parse(platform.url)),
     );
   }
 }

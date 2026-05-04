@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../domain/dictionary_entry.dart';
@@ -244,6 +245,8 @@ class _Dashboard extends ConsumerWidget {
             title: 'History',
             onTap: () => context.go('/history'),
           ),
+          const SizedBox(height: 12),
+          const _RemoteMessage(),
         ],
       ),
     );
@@ -268,6 +271,32 @@ class _Tile extends StatelessWidget {
         trailing: Icon(Icons.chevron_right, color: cs.onSurfaceVariant),
         onTap: onTap,
       ),
+    );
+  }
+}
+
+class _RemoteMessage extends ConsumerWidget {
+  const _RemoteMessage();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final msg = ref.watch(remoteMessageProvider);
+    return msg.when(
+      data: (text) => text.isEmpty
+          ? const SizedBox.shrink()
+          : Card(
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: MarkdownBody(
+                  data: text,
+                  onTapLink: (_, href, _) {
+                    if (href != null) launchUrl(Uri.parse(href));
+                  },
+                ),
+              ),
+            ),
+      loading: () => const SizedBox.shrink(),
+      error: (_, _) => const SizedBox.shrink(),
     );
   }
 }
