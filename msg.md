@@ -1,0 +1,1 @@
+Available on Android 🤖, iOS 🍎, Linux 🐧, Windows 🪟, Mac 💻, and Web 🌐
