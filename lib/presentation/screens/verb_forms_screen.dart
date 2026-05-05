@@ -128,7 +128,7 @@ class VerbFormsScreen extends ConsumerWidget {
     final body = ListView.separated(
       padding: const EdgeInsets.all(12),
       itemCount: _verbForms.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 10),
+      separatorBuilder: (_, _) => const SizedBox(height: 10),
       itemBuilder: (_, i) {
         final v = _verbForms[i];
         return Card(

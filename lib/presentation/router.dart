@@ -7,6 +7,7 @@ import 'screens/verb_forms_screen.dart';
 import 'screens/abbreviations_screen.dart';
 import 'screens/transliteration_screen.dart';
 import 'screens/settings_screen.dart';
+import 'screens/theme_settings_screen.dart';
 import 'screens/about_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -75,6 +76,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/settings',
         builder: (context, state) => const SettingsScreen(),
+      ),
+      GoRoute(
+        path: '/settings/theme',
+        builder: (context, state) => const ThemeSettingsScreen(),
       ),
       GoRoute(
         path: '/about',

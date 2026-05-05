@@ -37,6 +37,7 @@ class _EntryDetailScreenState extends ConsumerState<EntryDetailScreen> {
       final ctx = _highlightKey.currentContext;
       if (ctx != null) {
         Scrollable.ensureVisible(
+          // ignore: use_build_context_synchronously
           ctx,
           duration: const Duration(milliseconds: 400),
           alignment: 0.3,
