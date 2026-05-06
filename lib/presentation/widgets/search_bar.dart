@@ -111,6 +111,17 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
     final history = ref.watch(searchHistoryProvider).value ?? [];
     final isBottom = ref.watch(searchBarBottomProvider).value ?? false;
 
+    // Sync controller when query is cleared externally (e.g. home button)
+    final providerQuery = ref.watch(searchQueryProvider);
+    if (providerQuery.isEmpty && _controller.text.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _controller.clear();
+          setState(() => _textDirection = TextDirection.ltr);
+        }
+      });
+    }
+
     final searchField = Padding(
       padding: const EdgeInsets.only(left: 36, right: 36),
       child: TextField(

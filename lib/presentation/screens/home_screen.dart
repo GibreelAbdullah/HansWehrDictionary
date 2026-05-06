@@ -182,7 +182,10 @@ class HomeScreen extends ConsumerWidget {
                 right: 0,
                 child: IconButton(
                   icon: const Icon(Icons.home),
-                  onPressed: () => context.go('/'),
+                  onPressed: () {
+                    ref.read(searchQueryProvider.notifier).set('');
+                    context.go('/');
+                  },
                 ),
               ),
             ],
