@@ -19,6 +19,7 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
   bool _showHistory = false;
   TextDirection _textDirection = TextDirection.ltr;
   bool _keyboardVisible = false;
+  String _lastSetQuery = '';
 
   @override
   void initState() {
@@ -81,6 +82,7 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
     });
     _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 350), () {
+      _lastSetQuery = value.trim();
       ref.read(searchQueryProvider.notifier).set(value.trim());
     });
   }
@@ -88,6 +90,7 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
   void _onSubmitted(String value) {
     final trimmed = value.trim();
     if (trimmed.isNotEmpty) {
+      _lastSetQuery = trimmed;
       ref.read(searchHistoryProvider.notifier).add(trimmed);
       ref.read(searchQueryProvider.notifier).set(trimmed);
     }
@@ -99,6 +102,7 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
     _controller.text = query;
     _controller.selection = TextSelection.collapsed(offset: query.length);
     _textDirection = _detectDirection(query);
+    _lastSetQuery = query;
     ref.read(searchQueryProvider.notifier).set(query);
     setState(() => _showHistory = false);
     _focusNode.unfocus();
@@ -113,9 +117,10 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
 
     // Sync controller when query is cleared externally (e.g. home button)
     final providerQuery = ref.watch(searchQueryProvider);
-    if (providerQuery.isEmpty && _controller.text.isNotEmpty) {
+    if (providerQuery.isEmpty && _lastSetQuery.isNotEmpty) {
+      _lastSetQuery = '';
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
+        if (mounted && _controller.text.isNotEmpty) {
           _controller.clear();
           setState(() => _textDirection = TextDirection.ltr);
         }
@@ -141,6 +146,7 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
                   icon: const Icon(Icons.clear),
                   onPressed: () {
                     _controller.clear();
+                    _lastSetQuery = '';
                     ref.read(searchQueryProvider.notifier).set('');
                     setState(() {
                       _textDirection = TextDirection.ltr;
