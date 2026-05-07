@@ -1,4 +1,4 @@
-package com.hadithhub.hans_wehr_dictionary
+package com.muslimtechnet.hanswehr
 
 import io.flutter.embedding.android.FlutterActivity
 

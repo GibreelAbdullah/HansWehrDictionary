@@ -27,7 +27,7 @@ const _transliterationTable = [
   ('m', 'م'),
   ('n', 'ن'),
   ('w / v', 'و'),
-  ('y', 'ي'),
+  ('y / i', 'ي'),
 ];
 
 class TransliterationScreen extends ConsumerWidget {
