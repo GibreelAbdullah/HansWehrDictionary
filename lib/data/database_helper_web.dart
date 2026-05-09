@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:sqflite_common/sqflite.dart';
 
 Future<Database> initDatabase(int dbVersion) async {
   const path = 'hanswehr.sqlite';

@@ -1,4 +1,4 @@
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:sqflite_common/sqflite.dart';
 
 import 'database_helper_native.dart' if (dart.library.html) 'database_helper_web.dart' as platform;
 

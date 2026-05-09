@@ -1,4 +1,4 @@
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:sqflite_common/sqflite.dart';
 import 'database_helper.dart';
 import '../domain/dictionary_entry.dart';
 import '../domain/quran_reference.dart';
