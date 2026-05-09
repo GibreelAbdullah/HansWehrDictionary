@@ -48,9 +48,9 @@ Future<void> _migrateFavorites(SharedPreferences prefs) async {
 
     final db = sqlite3.sqlite3.open(oldPath, mode: sqlite3.OpenMode.readOnly);
     try {
-      // Old DB is FTS4 — all values stored as text in DICTIONARY_content
+      // Old DB is FTS4 — favorite_flag stored as integer in content table
       final results = db.select(
-        "SELECT c0id FROM DICTIONARY_content WHERE c6favorite_flag = '1'",
+        'SELECT c0id FROM DICTIONARY_content WHERE c6favorite_flag != 0',
       );
       if (results.isEmpty) return;
       final ids = results.map((r) => r['c0id'].toString()).toList();
