@@ -56,7 +56,7 @@ Future<void> _migrateFavorites(SharedPreferences prefs) async {
       final ids = results.map((r) => r['c0id'].toString()).toList();
       await prefs.setStringList('favorite_ids', ids);
     } finally {
-      db.dispose();
+      db.close();
     }
   } catch (_) {
     // Silently fail — don't block app startup
