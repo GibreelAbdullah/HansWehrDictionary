@@ -10,6 +10,7 @@ import '../providers/search_history_provider.dart';
 import '../widgets/entry_card.dart';
 import '../widgets/search_bar.dart';
 import '../widgets/constrained_body.dart';
+import '../widgets/db_update_banner.dart';
 
 String _entryUri(String word, int occ) {
   return occ > 1 ? '/entry/$word/$occ' : '/entry/$word';
@@ -221,6 +222,7 @@ class _Dashboard extends ConsumerWidget {
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
+          const DbUpdateBanner(),
           _Tile(
             icon: Icons.favorite,
             color: cs.error,

@@ -11,4 +11,10 @@ class DatabaseHelper {
     _database = await platform.initDatabase(_dbVersion);
     return _database!;
   }
+
+  /// Call after a remote DB update to force re-open on next access.
+  static void invalidate() {
+    _database?.close();
+    _database = null;
+  }
 }

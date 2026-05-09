@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,4 +20,14 @@ Future<Database> initDatabase(int dbVersion) async {
   }
 
   return openDatabase(path, readOnly: true);
+}
+
+Future<void> downloadAndReplaceDb(String url, int newVersion) async {
+  final response = await http.get(Uri.parse(url));
+  if (response.statusCode != 200) throw Exception('Download failed');
+  final dir = await getApplicationDocumentsDirectory();
+  final path = join(dir.path, 'hanswehr.sqlite');
+  await File(path).writeAsBytes(response.bodyBytes, flush: true);
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setInt('db_version', newVersion);
 }
