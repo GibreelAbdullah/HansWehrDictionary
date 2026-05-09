@@ -1,34 +1,39 @@
-import 'package:flutter/services.dart';
+import 'dart:typed_data';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite_common/sqflite.dart';
+
+const _dbUrl = 'assets/hanswehr.sqlite';
 
 Future<Database> initDatabase(int dbVersion) async {
   const path = 'hanswehr.sqlite';
   final prefs = await SharedPreferences.getInstance();
   final currentVersion = prefs.getInt('db_version') ?? 0;
+  final needsRefresh = currentVersion < dbVersion;
 
-  if (currentVersion < dbVersion) {
-    // On web, sqflite_ffi_web handles the virtual filesystem.
-    // We need to delete and recreate if version changed.
+  if (needsRefresh) {
     try {
       await deleteDatabase(path);
     } catch (_) {}
-    await prefs.setInt('db_version', dbVersion);
   }
 
-  final data = await rootBundle.load('assets/hanswehr.sqlite');
-  final bytes = data.buffer.asUint8List();
-
-  final db = await openDatabase(path, readOnly: false);
-  // Check if tables exist; if not, restore from asset
-  final tables = await db.rawQuery(
-    "SELECT name FROM sqlite_master WHERE type='table' AND name='entries'",
-  );
-  if (tables.isEmpty) {
-    await db.close();
-    // Write the asset bytes to the database path
-    await databaseFactory.writeDatabaseBytes(path, bytes);
-    return openDatabase(path, readOnly: true);
+  // Check if DB already exists in virtual filesystem
+  if (!needsRefresh) {
+    try {
+      final db = await openDatabase(path, readOnly: true);
+      final tables = await db.rawQuery(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='DICTIONARY'",
+      );
+      if (tables.isNotEmpty) return db;
+      await db.close();
+    } catch (_) {}
   }
-  return db;
+
+  // Fetch DB over HTTP (relative to the deployed web app)
+  final response = await http.get(Uri.parse(_dbUrl));
+  final Uint8List bytes = response.bodyBytes;
+
+  await databaseFactory.writeDatabaseBytes(path, bytes);
+  await prefs.setInt('db_version', dbVersion);
+  return openDatabase(path, readOnly: true);
 }
