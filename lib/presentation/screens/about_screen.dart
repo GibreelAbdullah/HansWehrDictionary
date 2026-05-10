@@ -216,7 +216,7 @@ class AboutScreen extends ConsumerWidget {
 const _releaseUrl = 'https://github.com/GibreelAbdullah/HansWehrDictionary/releases/latest';
 
 const _platforms = [
-  (icon: Icons.android, label: 'Android', url: _releaseUrl),
+  (icon: Icons.android, label: 'Android', url: 'https://play.google.com/store/apps/details?id=com.muslimtechnet.hanswehr'),
   (icon: Icons.phone_iphone, label: 'iOS', url: _releaseUrl),
   (icon: Icons.language, label: 'Web', url: 'https://gibreelabdullah.github.io/HansWehrDictionary/'),
   (icon: Icons.desktop_windows, label: 'Windows', url: _releaseUrl),

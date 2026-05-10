@@ -16,7 +16,7 @@ A cross-platform Flutter application for the *Dictionary of Modern Written Arabi
 
 | Platform | Link |
 |----------|------|
-| Android | [GitHub Releases](https://github.com/GibreelAbdullah/HansWehrDictionary/releases/latest) |
+| Android | [Play Store](https://play.google.com/store/apps/details?id=com.muslimtechnet.hanswehr) |
 | iOS | [GitHub Releases](https://github.com/GibreelAbdullah/HansWehrDictionary/releases/latest) |
 | Web | [HansWehrDictionary](https://gibreelabdullah.github.io/HansWehrDictionary/) |
 | Windows | [GitHub Releases](https://github.com/GibreelAbdullah/HansWehrDictionary/releases/latest) |

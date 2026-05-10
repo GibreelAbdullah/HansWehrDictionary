@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
@@ -171,11 +172,12 @@ class HomeScreen extends ConsumerWidget {
                       TextSpan(
                         text: 'Dictionary v${ref.watch(dbVersionProvider).value ?? '…'}',
                         children: [
-                          if (ref.watch(dbUpdateProvider).value case final info?)
-                            TextSpan(
-                              text: ' (v${info.remoteVersion} available)',
-                              style: TextStyle(color: Theme.of(context).colorScheme.primary),
-                            ),
+                          if (!kIsWeb)
+                            if (ref.watch(dbUpdateProvider).value case final info?)
+                              TextSpan(
+                                text: ' (v${info.remoteVersion} available)',
+                                style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                              ),
                         ],
                       ),
                       style: TextStyle(
