@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/db_update_provider.dart';
@@ -16,7 +17,7 @@ class _DbUpdateBannerState extends ConsumerState<DbUpdateBanner> {
 
   @override
   Widget build(BuildContext context) {
-    if (_dismissed) return const SizedBox.shrink();
+    if (kIsWeb || _dismissed) return const SizedBox.shrink();
     final update = ref.watch(dbUpdateProvider);
     return update.when(
       data: (info) {
