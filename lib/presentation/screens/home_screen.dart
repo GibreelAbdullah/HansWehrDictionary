@@ -21,7 +21,7 @@ Future<void> _pushRootEntry(BuildContext context, WidgetRef ref, DictionaryEntry
   final repo = ref.read(repositoryProvider);
   final occ = await repo.getRootOccurrence(entry.id, entry.word);
   final uri = _entryUri(entry.word, occ);
-  if (context.mounted) context.go(uri);
+  if (context.mounted) context.push(uri);
 }
 
 /// Navigate to any entry (root or derived). Derived entries go to their parent with highlight.
@@ -34,7 +34,7 @@ Future<void> _pushEntry(BuildContext context, WidgetRef ref, DictionaryEntry ent
   if (parent != null && context.mounted) {
     final occ = await repo.getRootOccurrence(parent.id, parent.word);
     final uri = '${_entryUri(parent.word, occ)}?highlight=${entry.id}';
-    if (context.mounted) context.go(uri);
+    if (context.mounted) context.push(uri);
   }
 }
 
