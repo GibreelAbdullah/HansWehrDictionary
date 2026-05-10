@@ -2,7 +2,7 @@ import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:sqflite_common/sqflite.dart';
 
-const _dbAssetUrl = 'assets/hanswehr.sqlite';
+const _dbAssetUrl = 'assets/assets/hanswehr.sqlite';
 
 Future<Database> initDatabase(int dbVersion) async {
   const path = 'hanswehr.sqlite';
