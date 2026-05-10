@@ -179,6 +179,7 @@ jobs:
     needs: [android, linux, windows, macos, ios]
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
           path: artifacts
@@ -188,6 +189,7 @@ jobs:
           mv artifacts/windows-zip/hans-wehr-windows-x64.zip artifacts/
           mv artifacts/macos-dmg/hans-wehr-macos.dmg artifacts/
           mv artifacts/ios-ipa/hans-wehr-ios.ipa artifacts/
+          cp assets/hanswehr.sqlite artifacts/hanswehr.sqlite
       - uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
@@ -198,4 +200,5 @@ jobs:
             artifacts/hans-wehr-windows-x64.zip
             artifacts/hans-wehr-macos.dmg
             artifacts/hans-wehr-ios.ipa
+            artifacts/hanswehr.sqlite
           generate_release_notes: true

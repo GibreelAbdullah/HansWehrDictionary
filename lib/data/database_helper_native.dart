@@ -24,7 +24,9 @@ Future<Database> initDatabase(int dbVersion) async {
 
 Future<void> downloadAndReplaceDb(String url, int newVersion) async {
   final response = await http.get(Uri.parse(url));
-  if (response.statusCode != 200) throw Exception('Download failed');
+  if (response.statusCode != 200) {
+    throw Exception('Download failed: HTTP ${response.statusCode} from $url');
+  }
   final dir = await getApplicationDocumentsDirectory();
   final path = join(dir.path, 'hanswehr.sqlite');
   await File(path).writeAsBytes(response.bodyBytes, flush: true);

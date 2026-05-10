@@ -69,15 +69,17 @@ class _DbUpdateBannerState extends ConsumerState<DbUpdateBanner> {
       if (mounted) {
         setState(() => _dismissed = true);
         ref.invalidate(dbUpdateProvider);
+        ref.invalidate(dbVersionProvider);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Dictionary updated successfully.')),
         );
       }
-    } catch (_) {
+    } catch (e, st) {
+      debugPrint('DB update failed: $e\n$st');
       if (mounted) {
         setState(() => _updating = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Update failed. Please try again later.')),
+          SnackBar(content: Text('Update failed: $e')),
         );
       }
     }

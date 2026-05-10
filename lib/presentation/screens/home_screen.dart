@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../domain/dictionary_entry.dart';
 import '../providers/dictionary_providers.dart';
+import '../providers/db_update_provider.dart';
 import '../providers/favorites_provider.dart';
 import '../providers/search_history_provider.dart';
 import '../widgets/entry_card.dart';
@@ -156,12 +157,33 @@ class HomeScreen extends ConsumerWidget {
               const Spacer(),
               Padding(
                 padding: const EdgeInsets.all(16),
-                child: Text(
-                  'v${const String.fromEnvironment('APP_VERSION', defaultValue: 'dev')}',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'App v${const String.fromEnvironment('APP_VERSION', defaultValue: 'dev')}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                    Text.rich(
+                      TextSpan(
+                        text: 'Dictionary v${ref.watch(dbVersionProvider).value ?? '…'}',
+                        children: [
+                          if (ref.watch(dbUpdateProvider).value case final info?)
+                            TextSpan(
+                              text: ' (v${info.remoteVersion} available)',
+                              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                            ),
+                        ],
+                      ),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
