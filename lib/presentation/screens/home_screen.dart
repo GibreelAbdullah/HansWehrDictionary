@@ -153,6 +153,17 @@ class HomeScreen extends ConsumerWidget {
                   context.go('/about');
                 },
               ),
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text(
+                  'v${const String.fromEnvironment('APP_VERSION', defaultValue: 'dev')}',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
