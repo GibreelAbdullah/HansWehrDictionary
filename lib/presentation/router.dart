@@ -9,6 +9,7 @@ import 'screens/transliteration_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/theme_settings_screen.dart';
 import 'screens/about_screen.dart';
+import 'screens/donate_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -84,6 +85,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/about',
         builder: (context, state) => const AboutScreen(),
+      ),
+      GoRoute(
+        path: '/donate',
+        builder: (context, state) => const DonateScreen(),
       ),
     ],
   );
