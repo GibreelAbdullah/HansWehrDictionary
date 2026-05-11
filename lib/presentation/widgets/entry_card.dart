@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/dictionary_entry.dart';
 import 'definition_text.dart';
+import 'font_utils.dart';
 
-class EntryCard extends StatelessWidget {
+class EntryCard extends ConsumerWidget {
   final DictionaryEntry entry;
   final VoidCallback? onTap;
   final bool isHighlighted;
@@ -19,7 +21,7 @@ class EntryCard extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final cs = Theme.of(context).colorScheme;
     Color cardColor;
     if (isHighlighted) {
@@ -60,11 +62,11 @@ class EntryCard extends StatelessWidget {
                   Expanded(
                     child: Text(
                       entry.word,
-                      style: TextStyle(
+                      style: arabicFontStyle(ref, TextStyle(
                         fontSize: entry.isRoot ? 26 : 22,
                         fontWeight: entry.isRoot ? FontWeight.bold : FontWeight.w500,
                         color: cs.onSurface,
-                      ),
+                      )),
                       textDirection: TextDirection.rtl,
                     ),
                   ),
@@ -72,10 +74,10 @@ class EntryCard extends StatelessWidget {
               ),
               const SizedBox(height: 6),
               highlightQuery != null && highlightQuery!.isNotEmpty
-                  ? _buildHighlightedText(entry.definition, highlightQuery!, cs)
+                  ? _buildHighlightedText(entry.definition, highlightQuery!, cs, ref)
                   : Text.rich(
                       TextSpan(
-                        style: TextStyle(fontSize: 14, color: cs.onSurfaceVariant, height: 1.4),
+                        style: englishFontStyle(ref, TextStyle(fontSize: 14, color: cs.onSurfaceVariant, height: 1.4)),
                         children: parseDefinition(entry.definition,
                             boldStyle: TextStyle(fontWeight: FontWeight.bold, color: cs.onSurface)),
                       ),
@@ -99,7 +101,7 @@ class EntryCard extends StatelessWidget {
     );
   }
 
-  Widget _buildHighlightedText(String text, String query, ColorScheme cs) {
+  Widget _buildHighlightedText(String text, String query, ColorScheme cs, WidgetRef ref) {
     final lowerText = text.toLowerCase();
     final lowerQuery = query.toLowerCase();
     final spans = <TextSpan>[];
@@ -127,7 +129,7 @@ class EntryCard extends StatelessWidget {
 
     return Text.rich(
       TextSpan(
-        style: TextStyle(fontSize: 14, color: cs.onSurfaceVariant, height: 1.4),
+        style: englishFontStyle(ref, TextStyle(fontSize: 14, color: cs.onSurfaceVariant, height: 1.4)),
         children: spans,
       ),
       maxLines: 10,

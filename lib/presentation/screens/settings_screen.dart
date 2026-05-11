@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../providers/dictionary_providers.dart';
 import '../providers/theme_provider.dart';
 import '../widgets/constrained_body.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -106,6 +107,70 @@ class SettingsScreen extends ConsumerWidget {
             onTap: () => context.go('/settings/theme'),
           ),
         ),
+        const SizedBox(height: 12),
+
+        // 4. Arabic Font
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.text_fields, color: cs.onSurfaceVariant),
+                    const SizedBox(width: 12),
+                    const Expanded(child: Text('Arabic Font', style: TextStyle(fontSize: 16))),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                RadioGroup<ArabicFont>(
+                  groupValue: ref.watch(arabicFontProvider).value ?? ArabicFont.system,
+                  onChanged: (v) { if (v != null) ref.read(arabicFontProvider.notifier).set(v); },
+                  child: Column(
+                    children: ArabicFont.values.map((f) => RadioListTile<ArabicFont>(
+                          title: Text(f.label, style: _arabicPreviewStyle(f)),
+                          value: f,
+                          dense: true,
+                        )).toList(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 12),
+
+        // 5. English Font
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.font_download, color: cs.onSurfaceVariant),
+                    const SizedBox(width: 12),
+                    const Expanded(child: Text('English Font', style: TextStyle(fontSize: 16))),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                RadioGroup<EnglishFont>(
+                  groupValue: ref.watch(englishFontProvider).value ?? EnglishFont.system,
+                  onChanged: (v) { if (v != null) ref.read(englishFontProvider.notifier).set(v); },
+                  child: Column(
+                    children: EnglishFont.values.map((f) => RadioListTile<EnglishFont>(
+                          title: Text(f.label, style: _englishPreviewStyle(f)),
+                          value: f,
+                          dense: true,
+                        )).toList(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ],
     );
 
@@ -121,4 +186,22 @@ class SettingsScreen extends ConsumerWidget {
       ),
     );
   }
+}
+
+TextStyle? _arabicPreviewStyle(ArabicFont font) {
+  return switch (font) {
+    ArabicFont.system => null,
+    ArabicFont.amiri => GoogleFonts.amiri(),
+    ArabicFont.notoNaskhArabic => GoogleFonts.notoNaskhArabic(),
+    ArabicFont.scheherazadeNew => GoogleFonts.scheherazadeNew(),
+  };
+}
+
+TextStyle? _englishPreviewStyle(EnglishFont font) {
+  return switch (font) {
+    EnglishFont.system => null,
+    EnglishFont.roboto => GoogleFonts.roboto(),
+    EnglishFont.merriweather => GoogleFonts.merriweather(),
+    EnglishFont.lora => GoogleFonts.lora(),
+  };
 }

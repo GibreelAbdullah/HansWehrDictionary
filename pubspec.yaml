@@ -1,7 +1,7 @@
 name: hanswehr
 description: "Hans Wehr Arabic-English Dictionary"
 publish_to: 'none'
-version: 2.10.0+21000
+version: 2.11.0+21100
 
 environment:
   sdk: ^3.10.4
@@ -24,6 +24,7 @@ dependencies:
   go_router: ^17.2.2
   http: ^1.4.0
   flutter_markdown_plus: ^1.0.7
+  google_fonts: ^8.1.0
 
 dev_dependencies:
   flutter_test:
