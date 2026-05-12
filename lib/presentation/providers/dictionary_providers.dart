@@ -123,7 +123,7 @@ final singleCharRootsProvider =
   return ref.read(repositoryProvider).getSingleCharRoots(letter);
 });
 
-final remoteMessageProvider = FutureProvider<String>((ref) async {
+final remoteMessageProvider = FutureProvider.autoDispose<String>((ref) async {
   final response = await http.get(Uri.parse(
       'https://raw.githubusercontent.com/GibreelAbdullah/HansWehrDictionary/refs/heads/master/msg.md'));
   if (response.statusCode == 200 && response.body.trim().isNotEmpty) {
