@@ -7,7 +7,6 @@ import '../providers/favorites_provider.dart';
 import '../widgets/definition_text.dart';
 import '../widgets/entry_card.dart';
 import '../widgets/constrained_body.dart';
-import '../widgets/font_utils.dart';
 import '../widgets/quran_references_sheet.dart';
 
 class EntryDetailScreen extends ConsumerStatefulWidget {
@@ -114,7 +113,7 @@ class _EntryDetailBody extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                _buildRootHeader(context, cs, ref),
+                _buildRootHeader(context, cs),
                 if (list.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
@@ -168,7 +167,7 @@ class _EntryDetailBody extends ConsumerWidget {
     );
   }
 
-  Widget _buildRootHeader(BuildContext context, ColorScheme cs, WidgetRef ref) {
+  Widget _buildRootHeader(BuildContext context, ColorScheme cs) {
     return Container(
       margin: const EdgeInsets.all(12),
       padding: const EdgeInsets.all(18),
@@ -181,7 +180,7 @@ class _EntryDetailBody extends ConsumerWidget {
         children: [
           Text(
             entry.word,
-            style: arabicFontStyle(ref, TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: cs.onSurface)),
+            style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: cs.onSurface),
             textDirection: TextDirection.rtl,
           ),
           if (entry.quranOccurrence != null && entry.quranOccurrence!.isNotEmpty) ...[
@@ -208,7 +207,7 @@ class _EntryDetailBody extends ConsumerWidget {
           const SizedBox(height: 12),
           Text.rich(
             TextSpan(
-              style: englishFontStyle(ref, TextStyle(fontSize: 16, height: 1.5, color: cs.onSurfaceVariant)),
+              style: TextStyle(fontSize: 16, height: 1.5, color: cs.onSurfaceVariant),
               children: parseDefinition(entry.definition,
                   boldStyle: TextStyle(fontWeight: FontWeight.bold, color: cs.onSurface)),
             ),

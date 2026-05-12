@@ -39,6 +39,8 @@ class SettingsScreen extends ConsumerWidget {
       ),
     );
 
+    final appFont = ref.watch(appFontProvider).value ?? AppFont.system;
+
     final body = ListView(
       padding: const EdgeInsets.all(16),
       children: [
@@ -54,7 +56,69 @@ class SettingsScreen extends ConsumerWidget {
         ),
         const SizedBox(height: 12),
 
-        // 2. Font Size
+        // 2. Theme
+        Card(
+          child: ListTile(
+            leading: const Icon(Icons.palette),
+            title: const Text('Theme'),
+            subtitle: const Text('Colors, dark mode, and advanced customization'),
+            trailing: Icon(Icons.chevron_right, color: cs.onSurfaceVariant),
+            onTap: () => context.go('/settings/theme'),
+          ),
+        ),
+        const SizedBox(height: 12),
+
+        // 3. Font
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.text_fields, color: cs.onSurfaceVariant),
+                    const SizedBox(width: 12),
+                    const Expanded(child: Text('Font', style: TextStyle(fontSize: 16))),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                DropdownMenu<AppFont>(
+                  initialSelection: appFont,
+                  expandedInsets: EdgeInsets.zero,
+                  onSelected: (v) { if (v != null) ref.read(appFontProvider.notifier).set(v); },
+                  dropdownMenuEntries: AppFont.values.map((f) => DropdownMenuEntry(
+                    value: f,
+                    label: f.label,
+                    style: MenuItemButton.styleFrom(textStyle: _fontPreviewStyle(f)),
+                  )).toList(),
+                ),
+                const SizedBox(height: 16),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: cs.surfaceContainerHighest.withValues(alpha: 0.4),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Preview', style: TextStyle(fontSize: 12, color: cs.onSurfaceVariant)),
+                      const SizedBox(height: 8),
+                      Text('كَتَبَ', style: TextStyle(fontSize: 18, color: cs.onSurface)),
+                      const SizedBox(height: 4),
+                      Text('كتب kataba u (katb, كتبة kitba, كتابة kitāba) to write, pen, write down, put down in writing, note down, inscribe, enter, record, book, register (هـ s.th.); ', style: TextStyle(fontSize: 14, color: cs.onSurfaceVariant)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 12),
+
+        // 4. Font Size
         Card(
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -95,82 +159,6 @@ class SettingsScreen extends ConsumerWidget {
             ),
           ),
         ),
-        const SizedBox(height: 12),
-
-        // 3. Theme
-        Card(
-          child: ListTile(
-            leading: const Icon(Icons.palette),
-            title: const Text('Theme'),
-            subtitle: const Text('Colors, dark mode, and advanced customization'),
-            trailing: Icon(Icons.chevron_right, color: cs.onSurfaceVariant),
-            onTap: () => context.go('/settings/theme'),
-          ),
-        ),
-        const SizedBox(height: 12),
-
-        // 4. Arabic Font
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Icon(Icons.text_fields, color: cs.onSurfaceVariant),
-                    const SizedBox(width: 12),
-                    const Expanded(child: Text('Arabic Font', style: TextStyle(fontSize: 16))),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                RadioGroup<ArabicFont>(
-                  groupValue: ref.watch(arabicFontProvider).value ?? ArabicFont.system,
-                  onChanged: (v) { if (v != null) ref.read(arabicFontProvider.notifier).set(v); },
-                  child: Column(
-                    children: ArabicFont.values.map((f) => RadioListTile<ArabicFont>(
-                          title: Text(f.label, style: _arabicPreviewStyle(f)),
-                          value: f,
-                          dense: true,
-                        )).toList(),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 12),
-
-        // 5. English Font
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Icon(Icons.font_download, color: cs.onSurfaceVariant),
-                    const SizedBox(width: 12),
-                    const Expanded(child: Text('English Font', style: TextStyle(fontSize: 16))),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                RadioGroup<EnglishFont>(
-                  groupValue: ref.watch(englishFontProvider).value ?? EnglishFont.system,
-                  onChanged: (v) { if (v != null) ref.read(englishFontProvider.notifier).set(v); },
-                  child: Column(
-                    children: EnglishFont.values.map((f) => RadioListTile<EnglishFont>(
-                          title: Text(f.label, style: _englishPreviewStyle(f)),
-                          value: f,
-                          dense: true,
-                        )).toList(),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
       ],
     );
 
@@ -188,20 +176,13 @@ class SettingsScreen extends ConsumerWidget {
   }
 }
 
-TextStyle? _arabicPreviewStyle(ArabicFont font) {
+TextStyle? _fontPreviewStyle(AppFont font) {
   return switch (font) {
-    ArabicFont.system => null,
-    ArabicFont.amiri => GoogleFonts.amiri(),
-    ArabicFont.notoNaskhArabic => GoogleFonts.notoNaskhArabic(),
-    ArabicFont.scheherazadeNew => GoogleFonts.scheherazadeNew(),
-  };
-}
-
-TextStyle? _englishPreviewStyle(EnglishFont font) {
-  return switch (font) {
-    EnglishFont.system => null,
-    EnglishFont.roboto => GoogleFonts.roboto(),
-    EnglishFont.merriweather => GoogleFonts.merriweather(),
-    EnglishFont.lora => GoogleFonts.lora(),
+    AppFont.system => null,
+    AppFont.notoSansArabic => GoogleFonts.notoSansArabic(),
+    AppFont.notoNaskhArabic => GoogleFonts.notoNaskhArabic(),
+    AppFont.amiri => GoogleFonts.amiri(),
+    AppFont.cairo => GoogleFonts.cairo(),
+    AppFont.ibmPlexSansArabic => GoogleFonts.ibmPlexSansArabic(),
   };
 }

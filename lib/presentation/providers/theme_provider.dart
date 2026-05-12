@@ -140,65 +140,37 @@ final themeSettingsProvider =
     AsyncNotifierProvider<ThemeSettingsNotifier, ThemeSettings>(ThemeSettingsNotifier.new);
 
 // Font choices
-enum ArabicFont {
+enum AppFont {
   system('System Default'),
-  amiri('Amiri'),
+  notoSansArabic('Noto Sans Arabic'),
   notoNaskhArabic('Noto Naskh Arabic'),
-  scheherazadeNew('Scheherazade New');
+  amiri('Amiri'),
+  cairo('Cairo'),
+  ibmPlexSansArabic('IBM Plex Sans Arabic');
 
   final String label;
-  const ArabicFont(this.label);
+  const AppFont(this.label);
 }
 
-enum EnglishFont {
-  system('System Default'),
-  roboto('Roboto'),
-  merriweather('Merriweather'),
-  lora('Lora');
-
-  final String label;
-  const EnglishFont(this.label);
-}
-
-class ArabicFontNotifier extends AsyncNotifier<ArabicFont> {
-  static const _key = 'arabic_font';
+class AppFontNotifier extends AsyncNotifier<AppFont> {
+  static const _key = 'app_font';
 
   @override
-  Future<ArabicFont> build() async {
+  Future<AppFont> build() async {
     final prefs = await SharedPreferences.getInstance();
     final idx = prefs.getInt(_key) ?? 0;
-    return ArabicFont.values[idx.clamp(0, ArabicFont.values.length - 1)];
+    return AppFont.values[idx.clamp(0, AppFont.values.length - 1)];
   }
 
-  Future<void> set(ArabicFont font) async {
+  Future<void> set(AppFont font) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt(_key, font.index);
     state = AsyncData(font);
   }
 }
 
-final arabicFontProvider =
-    AsyncNotifierProvider<ArabicFontNotifier, ArabicFont>(ArabicFontNotifier.new);
-
-class EnglishFontNotifier extends AsyncNotifier<EnglishFont> {
-  static const _key = 'english_font';
-
-  @override
-  Future<EnglishFont> build() async {
-    final prefs = await SharedPreferences.getInstance();
-    final idx = prefs.getInt(_key) ?? 0;
-    return EnglishFont.values[idx.clamp(0, EnglishFont.values.length - 1)];
-  }
-
-  Future<void> set(EnglishFont font) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(_key, font.index);
-    state = AsyncData(font);
-  }
-}
-
-final englishFontProvider =
-    AsyncNotifierProvider<EnglishFontNotifier, EnglishFont>(EnglishFontNotifier.new);
+final appFontProvider =
+    AsyncNotifierProvider<AppFontNotifier, AppFont>(AppFontNotifier.new);
 
 // Font scale
 class FontScaleNotifier extends AsyncNotifier<double> {

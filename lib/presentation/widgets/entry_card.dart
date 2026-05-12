@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/dictionary_entry.dart';
 import 'definition_text.dart';
-import 'font_utils.dart';
 
-class EntryCard extends ConsumerWidget {
+class EntryCard extends StatelessWidget {
   final DictionaryEntry entry;
   final VoidCallback? onTap;
   final bool isHighlighted;
@@ -21,7 +19,7 @@ class EntryCard extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     Color cardColor;
     if (isHighlighted) {
@@ -62,11 +60,11 @@ class EntryCard extends ConsumerWidget {
                   Expanded(
                     child: Text(
                       entry.word,
-                      style: arabicFontStyle(ref, TextStyle(
+                      style: TextStyle(
                         fontSize: entry.isRoot ? 26 : 22,
                         fontWeight: entry.isRoot ? FontWeight.bold : FontWeight.w500,
                         color: cs.onSurface,
-                      )),
+                      ),
                       textDirection: TextDirection.rtl,
                     ),
                   ),
@@ -74,10 +72,10 @@ class EntryCard extends ConsumerWidget {
               ),
               const SizedBox(height: 6),
               highlightQuery != null && highlightQuery!.isNotEmpty
-                  ? _buildHighlightedText(entry.definition, highlightQuery!, cs, ref)
+                  ? _buildHighlightedText(entry.definition, highlightQuery!, cs)
                   : Text.rich(
                       TextSpan(
-                        style: englishFontStyle(ref, TextStyle(fontSize: 14, color: cs.onSurfaceVariant, height: 1.4)),
+                        style: TextStyle(fontSize: 14, color: cs.onSurfaceVariant, height: 1.4),
                         children: parseDefinition(entry.definition,
                             boldStyle: TextStyle(fontWeight: FontWeight.bold, color: cs.onSurface)),
                       ),
@@ -101,7 +99,7 @@ class EntryCard extends ConsumerWidget {
     );
   }
 
-  Widget _buildHighlightedText(String text, String query, ColorScheme cs, WidgetRef ref) {
+  Widget _buildHighlightedText(String text, String query, ColorScheme cs) {
     final lowerText = text.toLowerCase();
     final lowerQuery = query.toLowerCase();
     final spans = <TextSpan>[];
@@ -129,7 +127,7 @@ class EntryCard extends ConsumerWidget {
 
     return Text.rich(
       TextSpan(
-        style: englishFontStyle(ref, TextStyle(fontSize: 14, color: cs.onSurfaceVariant, height: 1.4)),
+        style: TextStyle(fontSize: 14, color: cs.onSurfaceVariant, height: 1.4),
         children: spans,
       ),
       maxLines: 10,

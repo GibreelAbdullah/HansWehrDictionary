@@ -23,11 +23,12 @@ class HansWehrApp extends ConsumerWidget {
     final router = ref.watch(routerProvider);
     final themeSettings = ref.watch(themeSettingsProvider).value ?? const ThemeSettings();
     final fontScale = ref.watch(fontScaleProvider).value ?? 1.0;
+    final appFont = ref.watch(appFontProvider).value ?? AppFont.system;
     return MaterialApp.router(
       title: 'Hans Wehr Dictionary',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.buildLight(themeSettings),
-      darkTheme: AppTheme.buildDark(themeSettings),
+      theme: AppTheme.buildLight(themeSettings, font: appFont),
+      darkTheme: AppTheme.buildDark(themeSettings, font: appFont),
       themeMode: themeMode,
       routerConfig: router,
       builder: (context, child) {
