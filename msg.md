@@ -1,2 +1,4 @@
+**For Android Users of the old app.**
+
 This is the new version of the app.
 If you would like to switch back to the older version you can download it from [here](https://github.com/GibreelAbdullah/HansWehrDictionary/raw/refs/heads/old/HansWehrLegacy.apk)
