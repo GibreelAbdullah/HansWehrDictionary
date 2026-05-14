@@ -21,11 +21,18 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
   bool _keyboardVisible = false;
   String _lastSetQuery = '';
 
+  // Typewriter hint
+  static const _hints = ['كتب', 'ktb', 'علم', 'elm'];
+  int _hintIndex = 0;
+  String _hintDisplay = '';
+  Timer? _hintTimer;
+
   @override
   void initState() {
     super.initState();
     _focusNode.addListener(_onFocusChange);
     WidgetsBinding.instance.addObserver(this);
+    _typeNext();
   }
 
   @override
@@ -33,7 +40,6 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
     final bottomInset = WidgetsBinding.instance.platformDispatcher.views.first.viewInsets.bottom;
     final wasVisible = _keyboardVisible;
     _keyboardVisible = bottomInset > 0;
-    // Only react when keyboard was open and is now closed
     if (wasVisible && !_keyboardVisible && _showHistory) {
       _focusNode.unfocus();
     }
@@ -43,7 +49,6 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
     if (_focusNode.hasFocus) {
       setState(() => _showHistory = true);
     } else {
-      // Delay hiding so taps on history items can register first
       Future.delayed(const Duration(milliseconds: 200), () {
         if (mounted && !_focusNode.hasFocus) {
           setState(() => _showHistory = false);
@@ -52,8 +57,42 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
     }
   }
 
+  void _typeNext() {
+    final word = _hints[_hintIndex];
+    int charIndex = 0;
+    _hintDisplay = '';
+    _hintTimer = Timer.periodic(const Duration(milliseconds: 120), (timer) {
+      if (!mounted) { timer.cancel(); return; }
+      if (charIndex < word.length) {
+        setState(() => _hintDisplay = word.substring(0, ++charIndex));
+      } else {
+        timer.cancel();
+        _hintTimer = Timer(const Duration(seconds: 2), () {
+          if (mounted) _eraseHint(word);
+        });
+      }
+    });
+  }
+
+  void _eraseHint(String word) {
+    int charIndex = word.length;
+    _hintTimer = Timer.periodic(const Duration(milliseconds: 60), (timer) {
+      if (!mounted) { timer.cancel(); return; }
+      if (charIndex > 0) {
+        setState(() => _hintDisplay = word.substring(0, --charIndex));
+      } else {
+        timer.cancel();
+        _hintIndex = (_hintIndex + 1) % _hints.length;
+        _hintTimer = Timer(const Duration(milliseconds: 300), () {
+          if (mounted) _typeNext();
+        });
+      }
+    });
+  }
+
   @override
   void dispose() {
+    _hintTimer?.cancel();
     WidgetsBinding.instance.removeObserver(this);
     _debounce?.cancel();
     _focusNode.removeListener(_onFocusChange);
@@ -65,7 +104,6 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
   TextDirection _detectDirection(String text) {
     if (text.isEmpty) return TextDirection.ltr;
     final firstChar = text.codeUnitAt(0);
-    // Arabic Unicode range
     if (firstChar >= 0x0600 && firstChar <= 0x06FF ||
         firstChar >= 0x0750 && firstChar <= 0x077F ||
         firstChar >= 0xFB50 && firstChar <= 0xFDFF ||
@@ -138,7 +176,7 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
         textDirection: _textDirection,
         textAlign: _textDirection == TextDirection.rtl ? TextAlign.right : TextAlign.left,
         decoration: InputDecoration(
-          hintText: mode == SearchMode.keyword ? 'Search Arabic word...' : 'Full text search...',
+          hintText: mode == SearchMode.keyword ? 'Search $_hintDisplay' : 'Full text search...',
           hintTextDirection: TextDirection.ltr,
           prefixIcon: const Icon(Icons.search),
           suffixIcon: _controller.text.isNotEmpty

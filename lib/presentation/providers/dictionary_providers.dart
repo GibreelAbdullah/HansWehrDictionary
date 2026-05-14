@@ -66,9 +66,9 @@ final searchResultsProvider = FutureProvider<List<DictionaryEntry>>((ref) async 
   final repo = ref.read(repositoryProvider);
   if (mode == SearchMode.fullText) return repo.fullTextSearch(query);
   if (isLatin(query)) {
-    final mapping = {'v': 'w', 'i': 'y'};
+    final mapping = {'v': 'w', 'i': 'y', '3': 'e'};
     final normalized = query.toLowerCase().replaceAllMapped(
-      RegExp(r'[vi]'), 
+      RegExp(r'[vi3]'), 
       (match) => mapping[match.group(0)]!
     );
     return repo.searchByTransliteration(normalized);

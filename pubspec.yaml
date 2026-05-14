@@ -1,7 +1,7 @@
 name: hanswehr
 description: "Hans Wehr Arabic-English Dictionary"
 publish_to: 'none'
-version: 2.11.1+21110
+version: 2.12.0+21200
 
 environment:
   sdk: ^3.10.4
