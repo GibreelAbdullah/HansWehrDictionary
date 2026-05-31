@@ -2,6 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// Theme mode
+class ThemeModeNotifier extends Notifier<ThemeMode> {
+  @override
+  ThemeMode build() => ThemeMode.system;
+  void set(ThemeMode mode) => state = mode;
+}
+
+final themeModeProvider = NotifierProvider<ThemeModeNotifier, ThemeMode>(ThemeModeNotifier.new);
+
 /// Preset theme options with a seed color.
 enum ThemePreset {
   blue(Color(0xFF1565C0), 'Blue'),

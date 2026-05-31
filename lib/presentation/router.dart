@@ -2,37 +2,43 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'screens/home_screen.dart';
 import 'screens/entry_detail_screen.dart';
+import 'screens/theme_settings_screen.dart';
+import 'screens/dashboard_screen.dart';
+import 'screens/favorites_screen.dart';
+import 'screens/quranic_words_screen.dart';
+import 'screens/browse_screen.dart';
+import 'screens/history_screen.dart';
+import 'screens/about_screen.dart';
+import 'screens/donate_screen.dart';
 import 'screens/introduction_screen.dart';
 import 'screens/verb_forms_screen.dart';
 import 'screens/abbreviations_screen.dart';
 import 'screens/transliteration_screen.dart';
 import 'screens/settings_screen.dart';
-import 'screens/theme_settings_screen.dart';
-import 'screens/about_screen.dart';
-import 'screens/donate_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     routes: [
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const HomeScreen(view: HomeView.dashboard),
+      ShellRoute(
+        builder: (context, state, child) => HomeShell(child: child),
+        routes: [
+          GoRoute(path: '/', builder: (_, _) => const DashboardScreen()),
+          GoRoute(path: '/favorites', builder: (_, _) => const FavoritesScreen()),
+          GoRoute(path: '/quranic-words', builder: (_, _) => const QuranicWordsScreen()),
+          GoRoute(path: '/browse', builder: (_, _) => const BrowseScreen()),
+          GoRoute(path: '/history', builder: (_, _) => const HistoryScreen()),
+          GoRoute(path: '/about', builder: (_, _) => const AboutBody()),
+          GoRoute(path: '/donate', builder: (_, _) => const DonateBody()),
+          GoRoute(path: '/introduction', builder: (_, _) => const IntroductionBody()),
+          GoRoute(path: '/verb-forms', builder: (_, _) => const VerbFormsBody()),
+          GoRoute(path: '/abbreviations', builder: (_, _) => const AbbreviationsBody()),
+          GoRoute(path: '/transliteration', builder: (_, _) => const TransliterationBody()),
+          GoRoute(path: '/settings', builder: (_, _) => const SettingsBody()),
+        ],
       ),
       GoRoute(
-        path: '/favorites',
-        builder: (context, state) => const HomeScreen(view: HomeView.favorites),
-      ),
-      GoRoute(
-        path: '/quranic-words',
-        builder: (context, state) => const HomeScreen(view: HomeView.quranicWords),
-      ),
-      GoRoute(
-        path: '/browse',
-        builder: (context, state) => const HomeScreen(view: HomeView.browse),
-      ),
-      GoRoute(
-        path: '/history',
-        builder: (context, state) => const HomeScreen(view: HomeView.history),
+        path: '/settings/theme',
+        builder: (context, state) => const ThemeSettingsScreen(),
       ),
       GoRoute(
         path: '/entry/:word',
@@ -57,38 +63,6 @@ final routerProvider = Provider<GoRouter>((ref) {
             highlightEntryId: highlight != null ? int.tryParse(highlight) : null,
           );
         },
-      ),
-      GoRoute(
-        path: '/introduction',
-        builder: (context, state) => const IntroductionScreen(),
-      ),
-      GoRoute(
-        path: '/verb-forms',
-        builder: (context, state) => const VerbFormsScreen(),
-      ),
-      GoRoute(
-        path: '/abbreviations',
-        builder: (context, state) => const AbbreviationsScreen(),
-      ),
-      GoRoute(
-        path: '/transliteration',
-        builder: (context, state) => const TransliterationScreen(),
-      ),
-      GoRoute(
-        path: '/settings',
-        builder: (context, state) => const SettingsScreen(),
-      ),
-      GoRoute(
-        path: '/settings/theme',
-        builder: (context, state) => const ThemeSettingsScreen(),
-      ),
-      GoRoute(
-        path: '/about',
-        builder: (context, state) => const AboutScreen(),
-      ),
-      GoRoute(
-        path: '/donate',
-        builder: (context, state) => const DonateScreen(),
       ),
     ],
   );

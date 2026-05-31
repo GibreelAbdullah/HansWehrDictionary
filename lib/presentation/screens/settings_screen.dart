@@ -1,50 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../providers/dictionary_providers.dart';
 import '../providers/theme_provider.dart';
-import '../widgets/constrained_body.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-class SettingsScreen extends ConsumerWidget {
-  const SettingsScreen({super.key});
+class SettingsBody extends ConsumerWidget {
+  const SettingsBody({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final searchBarBottom = ref.watch(searchBarBottomProvider).value ?? false;
     final fontScale = ref.watch(fontScaleProvider).value ?? 1.0;
+    final appFont = ref.watch(appFontProvider).value ?? AppFont.system;
     final cs = Theme.of(context).colorScheme;
 
-    final toolbar = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-      child: Row(
-        children: [
-          IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              if (GoRouter.of(context).canPop()) {
-                context.pop();
-              } else {
-                context.go('/');
-              }
-            },
-          ),
-          const Expanded(
-            child: Text('Settings',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                textAlign: TextAlign.center),
-          ),
-          const SizedBox(width: 48),
-        ],
-      ),
-    );
-
-    final appFont = ref.watch(appFontProvider).value ?? AppFont.system;
-
-    final body = ListView(
+    return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        // 1. Search Bar Position
         Card(
           child: SwitchListTile(
             title: const Text('Search bar at bottom'),
@@ -55,20 +28,16 @@ class SettingsScreen extends ConsumerWidget {
           ),
         ),
         const SizedBox(height: 12),
-
-        // 2. Theme
         Card(
           child: ListTile(
             leading: const Icon(Icons.palette),
             title: const Text('Theme'),
             subtitle: const Text('Colors, dark mode, and advanced customization'),
             trailing: Icon(Icons.chevron_right, color: cs.onSurfaceVariant),
-            onTap: () => context.go('/settings/theme'),
+            onTap: () => context.push('/settings/theme'),
           ),
         ),
         const SizedBox(height: 12),
-
-        // 3. Font
         Card(
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -108,7 +77,8 @@ class SettingsScreen extends ConsumerWidget {
                       const SizedBox(height: 8),
                       Text('كَتَبَ', style: TextStyle(fontSize: 18, color: cs.onSurface)),
                       const SizedBox(height: 4),
-                      Text('كتب kataba u (katb, كتبة kitba, كتابة kitāba) to write, pen, write down, put down in writing, note down, inscribe, enter, record, book, register (هـ s.th.); ', style: TextStyle(fontSize: 14, color: cs.onSurfaceVariant)),
+                      Text('كتب kataba u (katb, كتبة kitba, كتابة kitāba) to write, pen, write down, put down in writing, note down, inscribe, enter, record, book, register (هـ s.th.); ',
+                          style: TextStyle(fontSize: 14, color: cs.onSurfaceVariant)),
                     ],
                   ),
                 ),
@@ -117,8 +87,6 @@ class SettingsScreen extends ConsumerWidget {
           ),
         ),
         const SizedBox(height: 12),
-
-        // 4. Font Size
         Card(
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -160,18 +128,6 @@ class SettingsScreen extends ConsumerWidget {
           ),
         ),
       ],
-    );
-
-    return Scaffold(
-      body: SafeArea(
-        child: ConstrainedBody(
-          child: Column(
-            children: searchBarBottom
-                ? [Expanded(child: body), const Divider(height: 1), toolbar]
-                : [toolbar, const Divider(height: 1), Expanded(child: body)],
-          ),
-        ),
-      ),
     );
   }
 }

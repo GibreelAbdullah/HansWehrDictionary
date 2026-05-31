@@ -6,26 +6,6 @@ import '../domain/quran_reference.dart';
 class DictionaryRepository {
   Future<Database> get _db => DatabaseHelper.database;
 
-  Future<List<DictionaryEntry>> getRootEntries({int limit = 50, int offset = 0}) async {
-    final db = await _db;
-    final results = await db.rawQuery(
-      'SELECT id, word, definition, is_root, parent_id, quran_occurrence, favorite_flag '
-      'FROM DICTIONARY WHERE is_root = 1 ORDER BY id LIMIT ? OFFSET ?',
-      [limit, offset],
-    );
-    return results.map(DictionaryEntry.fromMap).toList();
-  }
-
-  Future<List<DictionaryEntry>> getAllEntries({int limit = 25000}) async {
-    final db = await _db;
-    final results = await db.rawQuery(
-      'SELECT id, word, definition, is_root, parent_id, quran_occurrence, favorite_flag '
-      'FROM DICTIONARY ORDER BY id LIMIT ?',
-      [limit],
-    );
-    return results.map(DictionaryEntry.fromMap).toList();
-  }
-
   Future<List<DictionaryEntry>> getChildEntries(int parentId) async {
     final db = await _db;
     final results = await db.rawQuery(
@@ -59,35 +39,24 @@ class DictionaryRepository {
     return DictionaryEntry.fromMap(results.first);
   }
 
-  /// Returns the 1-based occurrence index of a root entry among roots with the same word.
-  Future<int> getRootOccurrence(int id, String word) async {
-    final db = await _db;
-    final results = await db.rawQuery(
-      'SELECT id FROM DICTIONARY WHERE is_root = 1 AND word = ? ORDER BY id',
-      [word],
-    );
-    for (int i = 0; i < results.length; i++) {
-      if (results[i]['id'] == id) return i + 1;
-    }
-    return 1;
-  }
-
-  /// Returns the parent root entry + all siblings for a given entry
-  Future<List<DictionaryEntry>> getFamily(int parentId) async {
+  /// Returns all root entries matching [word].
+  Future<List<DictionaryEntry>> getAllRootsByWord(String word) async {
     final db = await _db;
     final results = await db.rawQuery(
       'SELECT id, word, definition, is_root, parent_id, quran_occurrence, favorite_flag '
-      'FROM DICTIONARY WHERE id = ? OR parent_id = ? ORDER BY is_root DESC, id',
-      [parentId, parentId],
+      'FROM DICTIONARY WHERE is_root = 1 AND word = ? ORDER BY id',
+      [word],
     );
     return results.map(DictionaryEntry.fromMap).toList();
   }
+
+
 
   Future<List<DictionaryEntry>> searchByWord(String query) async {
     final db = await _db;
     final results = await db.rawQuery(
       'SELECT id, word, definition, is_root, parent_id, quran_occurrence, favorite_flag '
-      'FROM DICTIONARY WHERE word LIKE ? ORDER BY is_root DESC, id LIMIT 100',
+      'FROM DICTIONARY WHERE word LIKE ? ORDER BY is_root DESC, LENGTH(word), id LIMIT 100',
       ['%$query%'],
     );
     return results.map(DictionaryEntry.fromMap).toList();
@@ -98,7 +67,7 @@ class DictionaryRepository {
     final results = await db.rawQuery(
       'SELECT d.id, d.word, d.definition, d.is_root, d.parent_id, d.quran_occurrence, d.favorite_flag '
       'FROM DICTIONARY d JOIN TRANSLITERATION t ON d.id = t.id '
-      'WHERE t.transliteration LIKE ? ORDER BY d.is_root DESC, d.id LIMIT 100',
+      'WHERE t.transliteration LIKE ? ORDER BY d.is_root DESC, LENGTH(d.word), d.id LIMIT 100',
       ['%$query%'],
     );
     return results.map(DictionaryEntry.fromMap).toList();

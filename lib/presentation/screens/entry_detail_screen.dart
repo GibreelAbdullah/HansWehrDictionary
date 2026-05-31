@@ -11,13 +11,13 @@ import '../widgets/quran_references_sheet.dart';
 
 class EntryDetailScreen extends ConsumerStatefulWidget {
   final String word;
-  final int occurrence;
+  final int? occurrence;
   final int? highlightEntryId;
 
   const EntryDetailScreen({
     super.key,
     required this.word,
-    this.occurrence = 1,
+    this.occurrence,
     this.highlightEntryId,
   });
 
@@ -48,30 +48,33 @@ class _EntryDetailScreenState extends ConsumerState<EntryDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final entryAsync = ref.watch(
-      entryByWordProvider((word: widget.word, occurrence: widget.occurrence)),
-    );
-
-    return entryAsync.when(
-      data: (entry) {
-        if (entry == null) {
-          return Scaffold(
-            body: SafeArea(
-              child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text('Entry not found'),
-                    const SizedBox(height: 16),
-                    TextButton(onPressed: () => context.go('/'), child: const Text('Go Home')),
-                  ],
-                ),
-              ),
-            ),
+    // If a specific occurrence is given, show just that one
+    // Otherwise show all root entries for this word
+    if (widget.occurrence != null) {
+      final entryAsync = ref.watch(
+        entryByWordProvider((word: widget.word, occurrence: widget.occurrence!)),
+      );
+      return entryAsync.when(
+        data: (entry) {
+          if (entry == null) return _notFound(context);
+          return _EntryDetailBody(
+            entries: [entry],
+            highlightEntryId: widget.highlightEntryId,
+            highlightKey: _highlightKey,
+            onTryScroll: _tryScroll,
           );
-        }
+        },
+        loading: () => const Scaffold(body: Center(child: CircularProgressIndicator())),
+        error: (e, _) => Scaffold(body: Center(child: Text('Error: $e'))),
+      );
+    }
+
+    final allRootsAsync = ref.watch(allRootsByWordProvider(widget.word));
+    return allRootsAsync.when(
+      data: (entries) {
+        if (entries.isEmpty) return _notFound(context);
         return _EntryDetailBody(
-          entry: entry,
+          entries: entries,
           highlightEntryId: widget.highlightEntryId,
           highlightKey: _highlightKey,
           onTryScroll: _tryScroll,
@@ -81,16 +84,33 @@ class _EntryDetailScreenState extends ConsumerState<EntryDetailScreen> {
       error: (e, _) => Scaffold(body: Center(child: Text('Error: $e'))),
     );
   }
+
+  Widget _notFound(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text('Entry not found'),
+              const SizedBox(height: 16),
+              TextButton(onPressed: () => context.go('/'), child: const Text('Go Home')),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class _EntryDetailBody extends ConsumerWidget {
-  final DictionaryEntry entry;
+  final List<DictionaryEntry> entries;
   final int? highlightEntryId;
   final GlobalKey highlightKey;
   final VoidCallback onTryScroll;
 
   const _EntryDetailBody({
-    required this.entry,
+    required this.entries,
     required this.highlightEntryId,
     required this.highlightKey,
     required this.onTryScroll,
@@ -98,42 +118,25 @@ class _EntryDetailBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final children = ref.watch(childEntriesProvider(entry.id));
-    final cs = Theme.of(context).colorScheme;
     final isBottom = ref.watch(searchBarBottomProvider).value ?? false;
+    final toolbar = _Toolbar(entry: entries.first);
 
-    final toolbar = _Toolbar(entry: entry);
-
-    final body = children.when(
-      data: (list) {
-        WidgetsBinding.instance.addPostFrameCallback((_) => onTryScroll());
-        return SingleChildScrollView(
-          padding: const EdgeInsets.only(bottom: 16),
-          child: SelectionArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                _buildRootHeader(context, cs),
-                if (list.isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
-                    child: Text('Derived Forms',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              color: cs.primary, fontWeight: FontWeight.w600)),
-                  ),
-                for (final child in list)
-                  Padding(
-                    key: child.id == highlightEntryId ? highlightKey : null,
-                    padding: const EdgeInsets.only(right: 24),
-                    child: EntryCard(entry: child, isHighlighted: child.id == highlightEntryId),
-                  ),
-              ],
-            ),
-          ),
-        );
-      },
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, _) => Center(child: Text('Error: $e')),
+    final body = SingleChildScrollView(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: SelectionArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            for (final entry in entries)
+              _EntrySection(
+                entry: entry,
+                highlightEntryId: highlightEntryId,
+                highlightKey: highlightKey,
+                onTryScroll: onTryScroll,
+              ),
+          ],
+        ),
+      ),
     );
 
     if (isBottom) {
@@ -164,6 +167,53 @@ class _EntryDetailBody extends ConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _EntrySection extends ConsumerWidget {
+  final DictionaryEntry entry;
+  final int? highlightEntryId;
+  final GlobalKey highlightKey;
+  final VoidCallback onTryScroll;
+
+  const _EntrySection({
+    required this.entry,
+    required this.highlightEntryId,
+    required this.highlightKey,
+    required this.onTryScroll,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final children = ref.watch(childEntriesProvider(entry.id));
+    final cs = Theme.of(context).colorScheme;
+
+    return children.when(
+      data: (list) {
+        WidgetsBinding.instance.addPostFrameCallback((_) => onTryScroll());
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _buildRootHeader(context, cs),
+            if (list.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+                child: Text('Derived Forms',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: cs.primary, fontWeight: FontWeight.w600)),
+              ),
+            for (final child in list)
+              Padding(
+                key: child.id == highlightEntryId ? highlightKey : null,
+                padding: const EdgeInsets.only(right: 24),
+                child: EntryCard(entry: child, isHighlighted: child.id == highlightEntryId),
+              ),
+          ],
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (e, _) => Center(child: Text('Error: $e')),
     );
   }
 

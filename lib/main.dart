@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'data/migration.dart';
 import 'data/database_init.dart' as db_init;
-import 'presentation/providers/dictionary_providers.dart';
 import 'presentation/providers/theme_provider.dart';
 import 'presentation/router.dart';
 import 'presentation/theme.dart';

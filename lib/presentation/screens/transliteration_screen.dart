@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import '../providers/dictionary_providers.dart';
-import '../widgets/constrained_body.dart';
 
 const _transliterationTable = [
   ('a', 'ا آ أ إ ء ى'),
@@ -30,39 +26,14 @@ const _transliterationTable = [
   ('y / i', 'ي'),
 ];
 
-class TransliterationScreen extends ConsumerWidget {
-  const TransliterationScreen({super.key});
+class TransliterationBody extends StatelessWidget {
+  const TransliterationBody({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isBottom = ref.watch(searchBarBottomProvider).value ?? false;
+  Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
 
-    final toolbar = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-      child: Row(
-        children: [
-          IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              if (GoRouter.of(context).canPop()) {
-                context.pop();
-              } else {
-                context.go('/');
-              }
-            },
-          ),
-          const Expanded(
-            child: Text('Transliteration',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                textAlign: TextAlign.center),
-          ),
-          const SizedBox(width: 48),
-        ],
-      ),
-    );
-
-    final body = ListView(
+    return ListView(
       padding: const EdgeInsets.all(12),
       children: [
         Card(
@@ -116,18 +87,6 @@ class TransliterationScreen extends ConsumerWidget {
           ),
         ),
       ],
-    );
-
-    return Scaffold(
-      body: SafeArea(
-        child: ConstrainedBody(
-          child: Column(
-            children: isBottom
-                ? [Expanded(child: body), const Divider(height: 1), toolbar]
-                : [toolbar, const Divider(height: 1), Expanded(child: body)],
-          ),
-        ),
-      ),
     );
   }
 }

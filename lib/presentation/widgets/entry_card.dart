@@ -79,8 +79,6 @@ class EntryCard extends StatelessWidget {
                         children: parseDefinition(entry.definition,
                             boldStyle: TextStyle(fontWeight: FontWeight.bold, color: cs.onSurface)),
                       ),
-                      maxLines: entry.isRoot ? 3 : 10,
-                      overflow: TextOverflow.ellipsis,
                     ),
             ],
           ),
