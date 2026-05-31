@@ -130,13 +130,13 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
                   ),
                 ),
               ),
-              // Floating dropdown — spans full search bar width
+              // Floating dropdown — with equal margin on both sides
               Positioned(
-                width: searchBarWidth,
+                width: searchBarWidth - 24,
                 child: CompositedTransformFollower(
                   link: _layerLink,
                   showWhenUnlinked: false,
-                  offset: isBottom ? Offset(-36, -4) : Offset(-36, 4),
+                  offset: Offset(-36, isBottom ? -4 : 4),
                   followerAnchor: isBottom ? Alignment.bottomLeft : Alignment.topLeft,
                   targetAnchor: isBottom ? Alignment.topLeft : Alignment.bottomLeft,
                   child: Material(
@@ -146,52 +146,7 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
                     surfaceTintColor: cs.primary,
                     child: ConstrainedBox(
                       constraints: const BoxConstraints(maxHeight: 300),
-                      child: ListView(
-                        shrinkWrap: true,
-                        padding: const EdgeInsets.symmetric(vertical: 4),
-                        children: [
-                          if (showSuggestions)
-                            ...suggestionItems.map((entry) => ListTile(
-                                  dense: true,
-                                  visualDensity: VisualDensity.compact,
-                                  contentPadding: EdgeInsets.only(
-                                    left: entry.isRoot ? 16 : 40,
-                                    right: 16,
-                                  ),
-                                  title: Text(
-                                    entry.word,
-                                    textDirection: TextDirection.rtl,
-                                    style: TextStyle(
-                                      fontSize: entry.isRoot ? 18 : 16,
-                                      fontWeight: entry.isRoot ? FontWeight.bold : FontWeight.normal,
-                                      color: entry.isRoot ? cs.onSurface : cs.onSurfaceVariant,
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    ref.read(searchHistoryProvider.notifier).add(entry.word);
-                                    _hideOverlay();
-                                    _focusNode.unfocus();
-                                    _navigateToEntry(context, ref, entry);
-                                  },
-                                ))
-                          else
-                            ...historyItems.map((item) => ListTile(
-                                  dense: true,
-                                  visualDensity: VisualDensity.compact,
-                                  trailing: Icon(Icons.history,
-                                      size: 18, color: cs.onSurfaceVariant),
-                                  title: Text(item, textDirection: _detectDirection(item)),
-                                  leading: IconButton(
-                                    icon: Icon(Icons.close,
-                                        size: 16, color: cs.onSurfaceVariant),
-                                    onPressed: () {
-                                      ref.read(searchHistoryProvider.notifier).remove(item);
-                                    },
-                                  ),
-                                  onTap: () => _selectHistory(item),
-                                )),
-                        ],
-                      ),
+                      child: _buildDropdownList(cs, showSuggestions, suggestionItems, historyItems, ref),
                     ),
                   ),
                 ),
@@ -213,6 +168,71 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
         context.push('/entry/${parent.word}?highlight=${entry.id}');
       }
     }
+  }
+
+  Widget _buildDropdownList(
+    ColorScheme cs,
+    bool showSuggestions,
+    List<DictionaryEntry> suggestionItems,
+    List<String> historyItems,
+    WidgetRef ref,
+  ) {
+    if (showSuggestions) {
+      return ListView.separated(
+        shrinkWrap: true,
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        itemCount: suggestionItems.length,
+        separatorBuilder: (_, _) => const Divider(height: 1, indent: 16, endIndent: 16),
+        itemBuilder: (_, i) {
+          final entry = suggestionItems[i];
+          return ListTile(
+            dense: true,
+            visualDensity: VisualDensity.compact,
+            contentPadding: EdgeInsets.only(
+              left: entry.isRoot ? 16 : 40,
+              right: 16,
+            ),
+            title: Text(
+              entry.word,
+              textDirection: TextDirection.rtl,
+              style: TextStyle(
+                fontSize: entry.isRoot ? 18 : 16,
+                fontWeight: entry.isRoot ? FontWeight.bold : FontWeight.normal,
+                color: entry.isRoot ? cs.onSurface : cs.onSurfaceVariant,
+              ),
+            ),
+            onTap: () {
+              ref.read(searchHistoryProvider.notifier).add(entry.word);
+              _hideOverlay();
+              _focusNode.unfocus();
+              _navigateToEntry(context, ref, entry);
+            },
+          );
+        },
+      );
+    }
+    return ListView.separated(
+      shrinkWrap: true,
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      itemCount: historyItems.length,
+      separatorBuilder: (_, _) => const Divider(height: 1, indent: 16, endIndent: 16),
+      itemBuilder: (_, i) {
+        final item = historyItems[i];
+        return ListTile(
+          dense: true,
+          visualDensity: VisualDensity.compact,
+          trailing: Icon(Icons.history, size: 18, color: cs.onSurfaceVariant),
+          title: Text(item, textDirection: _detectDirection(item)),
+          leading: IconButton(
+            icon: Icon(Icons.close, size: 16, color: cs.onSurfaceVariant),
+            onPressed: () {
+              ref.read(searchHistoryProvider.notifier).remove(item);
+            },
+          ),
+          onTap: () => _selectHistory(item),
+        );
+      },
+    );
   }
 
   void _typeNext() {
