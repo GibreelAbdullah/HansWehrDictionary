@@ -105,6 +105,7 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
           final renderBox = this.context.findRenderObject() as RenderBox?;
           final searchBarOffset = renderBox?.localToGlobal(Offset.zero) ?? Offset.zero;
           final searchBarHeight = renderBox?.size.height ?? 0;
+          final searchBarWidth = renderBox?.size.width ?? 0;
           final screenSize = MediaQuery.of(context).size;
 
           final double scrimTop = isBottom ? 0 : searchBarOffset.dy + searchBarHeight;
@@ -129,13 +130,13 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
                   ),
                 ),
               ),
-              // Floating dropdown
+              // Floating dropdown — spans full search bar width
               Positioned(
-                width: _layerLink.leaderSize?.width,
+                width: searchBarWidth,
                 child: CompositedTransformFollower(
                   link: _layerLink,
                   showWhenUnlinked: false,
-                  offset: isBottom ? const Offset(0, -4) : const Offset(0, 4),
+                  offset: isBottom ? Offset(-36, -4) : Offset(-36, 4),
                   followerAnchor: isBottom ? Alignment.bottomLeft : Alignment.topLeft,
                   targetAnchor: isBottom ? Alignment.topLeft : Alignment.bottomLeft,
                   child: Material(
@@ -153,12 +154,19 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
                             ...suggestionItems.map((entry) => ListTile(
                                   dense: true,
                                   visualDensity: VisualDensity.compact,
-                                  trailing: Icon(
-                                    entry.isRoot ? Icons.bookmark : Icons.subdirectory_arrow_right,
-                                    size: 18,
-                                    color: cs.primary,
+                                  contentPadding: EdgeInsets.only(
+                                    left: entry.isRoot ? 16 : 40,
+                                    right: 16,
                                   ),
-                                  title: Text(entry.word, textDirection: TextDirection.rtl),
+                                  title: Text(
+                                    entry.word,
+                                    textDirection: TextDirection.rtl,
+                                    style: TextStyle(
+                                      fontSize: entry.isRoot ? 18 : 16,
+                                      fontWeight: entry.isRoot ? FontWeight.bold : FontWeight.normal,
+                                      color: entry.isRoot ? cs.onSurface : cs.onSurfaceVariant,
+                                    ),
+                                  ),
                                   onTap: () {
                                     ref.read(searchHistoryProvider.notifier).add(entry.word);
                                     _hideOverlay();
@@ -289,7 +297,27 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
   void _selectHistory(String query) {
     _hideOverlay();
     _focusNode.unfocus();
-    context.push('/entry/$query');
+    // Look up the word — it might be a derivative, not a root
+    ref.read(repositoryProvider).searchByWord(query).then((results) {
+      final exact = results.where((e) => e.word == query).toList();
+      if (exact.isEmpty) {
+        // Fallback: navigate as root (may show "not found" for truly missing words)
+        if (mounted) context.push('/entry/$query');
+        return;
+      }
+      final entry = exact.first;
+      if (mounted) {
+        if (entry.isRoot) {
+          context.push('/entry/${entry.word}');
+        } else {
+          ref.read(repositoryProvider).getEntry(entry.parentId).then((parent) {
+            if (parent != null && mounted) {
+              context.push('/entry/${parent.word}?highlight=${entry.id}');
+            }
+          });
+        }
+      }
+    });
   }
 
   @override
