@@ -7,8 +7,18 @@ const _dbAssetUrl = 'assets/assets/hanswehr.sqlite';
 
 Future<Database> initDatabase(int dbVersion) async {
   const path = 'hanswehr.sqlite';
+  final prefs = await SharedPreferences.getInstance();
+  final currentVersion = prefs.getInt('db_version') ?? 0;
 
-  // On web, always fetch the latest DB from the deployed assets.
+  if (currentVersion >= dbVersion) {
+    // DB already exists in IndexedDB with correct version, just open it.
+    try {
+      return await openDatabase(path, readOnly: true);
+    } catch (_) {
+      // If open fails, fall through to re-download.
+    }
+  }
+
   try {
     await deleteDatabase(path);
   } catch (_) {}
@@ -17,7 +27,6 @@ Future<Database> initDatabase(int dbVersion) async {
   final Uint8List bytes = response.bodyBytes;
 
   await databaseFactory.writeDatabaseBytes(path, bytes);
-  final prefs = await SharedPreferences.getInstance();
   await prefs.setInt('db_version', dbVersion);
   return openDatabase(path, readOnly: true);
 }

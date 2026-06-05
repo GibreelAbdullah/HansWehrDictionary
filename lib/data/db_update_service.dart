@@ -17,7 +17,7 @@ class DbUpdateInfo {
 Future<DbUpdateInfo?> checkForDbUpdate() async {
   try {
     final prefs = await SharedPreferences.getInstance();
-    final localVersion = prefs.getInt('db_version') ?? 0;
+    final localVersion = prefs.getInt('db_version') ?? DatabaseHelper.dbVersion;
     final response = await http.get(Uri.parse(_manifestUrl));
     if (response.statusCode != 200) return null;
     final manifest = jsonDecode(response.body) as Map<String, dynamic>;
