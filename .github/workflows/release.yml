@@ -81,7 +81,7 @@ jobs:
       - run: |
           curl -L -o web/sqlite3.wasm \
             "https://github.com/simolus3/sqlite3.dart/releases/download/sqlite3-3.3.1/sqlite3.wasm"
-      - run: flutter build web --release --base-href "/HansWehrDictionary/" --dart-define=APP_VERSION=${GITHUB_REF_NAME#v}
+      - run: flutter build web --release --base-href "/" --dart-define=APP_VERSION=${GITHUB_REF_NAME#v}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: build/web
