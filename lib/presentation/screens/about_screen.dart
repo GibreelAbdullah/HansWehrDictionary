@@ -150,7 +150,7 @@ const _releaseUrl = 'https://github.com/GibreelAbdullah/HansWehrDictionary/relea
 const _platforms = [
   (icon: Icons.android, label: 'Android', url: 'https://play.google.com/store/apps/details?id=com.muslimtechnet.hanswehr'),
   (icon: Icons.phone_iphone, label: 'iOS', url: _releaseUrl),
-  (icon: Icons.language, label: 'Web', url: 'https://gibreelabdullah.github.io/HansWehrDictionary/'),
+  (icon: Icons.language, label: 'Web', url: 'https://hanswehr.hadithhub.com'),
   (icon: Icons.desktop_windows, label: 'Windows', url: _releaseUrl),
   (icon: Icons.desktop_mac, label: 'macOS', url: _releaseUrl),
   (icon: Icons.computer, label: 'Linux', url: _releaseUrl),
