@@ -85,7 +85,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                       isSelected ? _selected.remove(query) : _selected.add(query);
                     });
                   } else {
-                    context.push('/entry/$query');
+                    context.go('/entry/$query');
                   }
                 },
                 onLongPress: () {

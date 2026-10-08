@@ -45,7 +45,7 @@ class _LetterTile extends ConsumerWidget {
                   padding: const EdgeInsets.only(right: 16),
                   child: EntryCard(
                     entry: e,
-                    onTap: () => context.push('/entry/${e.word}'),
+                    onTap: () => context.go('/entry/${e.word}'),
                   ),
                 )),
             loading: () => [const Center(child: Padding(padding: EdgeInsets.all(8), child: CircularProgressIndicator()))],
@@ -100,7 +100,7 @@ class _PrefixEntries extends ConsumerWidget {
                 padding: const EdgeInsets.only(right: 48),
                 child: EntryCard(
                   entry: e,
-                  onTap: () => context.push('/entry/${e.word}'),
+                  onTap: () => context.go('/entry/${e.word}'),
                 ),
               )).toList(),
         ),

@@ -52,13 +52,14 @@ class FavoritesScreen extends ConsumerWidget {
   }
 
   Future<void> _pushEntry(BuildContext context, WidgetRef ref, DictionaryEntry entry) async {
+    final router = GoRouter.of(context);
     if (entry.isRoot) {
-      if (context.mounted) context.push('/entry/${entry.word}');
+      router.go('/entry/${entry.word}');
     } else {
       final repo = ref.read(repositoryProvider);
       final parent = await repo.getEntry(entry.parentId);
-      if (parent != null && context.mounted) {
-        context.push('/entry/${parent.word}?highlight=${entry.id}');
+      if (parent != null) {
+        router.go('/entry/${parent.word}?highlight=${entry.id}');
       }
     }
   }

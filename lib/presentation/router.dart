@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'screens/home_screen.dart';
+import 'screens/search_screen.dart';
 import 'screens/entry_detail_screen.dart';
 import 'screens/theme_settings_screen.dart';
 import 'screens/dashboard_screen.dart';
@@ -23,6 +24,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state, child) => HomeShell(child: child),
         routes: [
           GoRoute(path: '/', builder: (_, _) => const DashboardScreen()),
+          GoRoute(
+            path: '/search',
+            builder: (_, state) =>
+                SearchScreen(query: state.uri.queryParameters['q'] ?? ''),
+          ),
           GoRoute(path: '/favorites', builder: (_, _) => const FavoritesScreen()),
           GoRoute(path: '/quranic-words', builder: (_, _) => const QuranicWordsScreen()),
           GoRoute(path: '/browse', builder: (_, _) => const BrowseScreen()),

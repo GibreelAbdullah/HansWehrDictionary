@@ -5,8 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../providers/dictionary_providers.dart';
 import '../providers/db_update_provider.dart';
-import '../providers/search_history_provider.dart';
-import '../widgets/entry_card.dart';
 import '../widgets/search_bar.dart';
 import '../widgets/constrained_body.dart';
 
@@ -16,17 +14,12 @@ class HomeShell extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final query = ref.watch(searchQueryProvider);
-    final mode = ref.watch(searchModeProvider);
-    final isSearching = query.isNotEmpty && mode == SearchMode.fullText;
     final isBottom = ref.watch(searchBarBottomProvider).value ?? false;
     final location = GoRouterState.of(context).uri.path;
     final isHome = location == '/';
 
     const searchBar = DictionarySearchBar();
-    final content = Expanded(
-      child: isSearching ? const _SearchResults() : child,
-    );
+    final content = Expanded(child: child);
 
     return Scaffold(
       drawer: const _AppDrawer(),
@@ -211,60 +204,6 @@ class _AppDrawer extends ConsumerWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _SearchResults extends ConsumerWidget {
-  const _SearchResults();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final results = ref.watch(searchResultsProvider);
-    final mode = ref.watch(searchModeProvider);
-    final query = ref.watch(searchQueryProvider);
-
-    return results.when(
-      data: (list) {
-        if (list.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.search_off, size: 64, color: Theme.of(context).colorScheme.outlineVariant),
-                const SizedBox(height: 12),
-                Text('No results found', style: Theme.of(context).textTheme.bodyLarge),
-              ],
-            ),
-          );
-        }
-        return ListView.builder(
-          padding: const EdgeInsets.only(top: 4, bottom: 16),
-          itemCount: list.length,
-          itemBuilder: (_, i) {
-            final entry = list[i];
-            return EntryCard(
-              entry: entry,
-              indentDerivative: true,
-              highlightQuery: mode == SearchMode.fullText ? query : null,
-              onTap: () {
-                ref.read(searchHistoryProvider.notifier).add(entry.word);
-                if (entry.isRoot) {
-                  context.push('/entry/${entry.word}');
-                } else {
-                  ref.read(repositoryProvider).getEntry(entry.parentId).then((parent) {
-                    if (parent != null && context.mounted) {
-                      context.push('/entry/${parent.word}?highlight=${entry.id}');
-                    }
-                  });
-                }
-              },
-            );
-          },
-        );
-      },
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, _) => Center(child: Text('Search error: $e')),
     );
   }
 }

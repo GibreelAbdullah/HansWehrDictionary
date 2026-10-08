@@ -160,12 +160,13 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
 
   Future<void> _navigateToEntry(BuildContext _, WidgetRef ref, DictionaryEntry entry) async {
     final repo = ref.read(repositoryProvider);
+    final router = GoRouter.of(context);
     if (entry.isRoot) {
-      if (mounted) context.push('/entry/${entry.word}');
+      router.go('/entry/${entry.word}');
     } else {
       final parent = await repo.getEntry(entry.parentId);
-      if (parent != null && mounted) {
-        context.push('/entry/${parent.word}?highlight=${entry.id}');
+      if (parent != null) {
+        router.go('/entry/${parent.word}?highlight=${entry.id}');
       }
     }
   }
@@ -294,10 +295,12 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
       final mode = ref.read(searchModeProvider);
       // Update suggestion provider for keyword mode dropdown
       ref.read(suggestionQueryProvider.notifier).set(trimmed);
-      // For full-text mode, also update the main search query
-      if (mode == SearchMode.fullText) {
+      // For full-text mode, drive the shareable /search URL live.
+      if (mode == SearchMode.fullText && trimmed.isNotEmpty) {
         _lastSetQuery = trimmed;
-        ref.read(searchQueryProvider.notifier).set(trimmed);
+        if (mounted) {
+          context.go('/search?q=${Uri.encodeQueryComponent(trimmed)}');
+        }
       }
       _updateOverlay();
     });
@@ -308,7 +311,13 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
     if (trimmed.isNotEmpty) {
       _lastSetQuery = trimmed;
       ref.read(searchHistoryProvider.notifier).add(trimmed);
-      ref.read(searchQueryProvider.notifier).set(trimmed);
+      final mode = ref.read(searchModeProvider);
+      if (mode == SearchMode.fullText) {
+        // Navigate to a shareable URL; the search screen drives the results.
+        context.go('/search?q=${Uri.encodeQueryComponent(trimmed)}');
+      } else {
+        ref.read(searchQueryProvider.notifier).set(trimmed);
+      }
     }
     _focusNode.unfocus();
     _hideOverlay();
@@ -317,25 +326,24 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
   void _selectHistory(String query) {
     _hideOverlay();
     _focusNode.unfocus();
+    final router = GoRouter.of(context);
     // Look up the word — it might be a derivative, not a root
     ref.read(repositoryProvider).searchByWord(query).then((results) {
       final exact = results.where((e) => e.word == query).toList();
       if (exact.isEmpty) {
         // Fallback: navigate as root (may show "not found" for truly missing words)
-        if (mounted) context.push('/entry/$query');
+        router.go('/entry/$query');
         return;
       }
       final entry = exact.first;
-      if (mounted) {
-        if (entry.isRoot) {
-          context.push('/entry/${entry.word}');
-        } else {
-          ref.read(repositoryProvider).getEntry(entry.parentId).then((parent) {
-            if (parent != null && mounted) {
-              context.push('/entry/${parent.word}?highlight=${entry.id}');
-            }
-          });
-        }
+      if (entry.isRoot) {
+        router.go('/entry/${entry.word}');
+      } else {
+        ref.read(repositoryProvider).getEntry(entry.parentId).then((parent) {
+          if (parent != null) {
+            router.go('/entry/${parent.word}?highlight=${entry.id}');
+          }
+        });
       }
     });
   }
@@ -354,6 +362,17 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
           _controller.clear();
           ref.read(suggestionQueryProvider.notifier).set('');
           setState(() => _textDirection = TextDirection.ltr);
+        }
+      });
+    } else if (providerQuery.isNotEmpty &&
+        _controller.text.trim() != providerQuery) {
+      // Query arrived from the URL (e.g. a shared /search?q= link). Reflect it
+      // in the text field so the user sees what was searched.
+      _lastSetQuery = providerQuery;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted && _controller.text.trim() != providerQuery) {
+          _controller.text = providerQuery;
+          setState(() => _textDirection = _detectDirection(providerQuery));
         }
       });
     }
@@ -408,12 +427,14 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
         final trimmed = _controller.text.trim();
         if (s.first == SearchMode.fullText && trimmed.isNotEmpty) {
           _lastSetQuery = trimmed;
-          ref.read(searchQueryProvider.notifier).set(trimmed);
+          context.go('/search?q=${Uri.encodeQueryComponent(trimmed)}');
         } else if (s.first == SearchMode.keyword) {
-          // Clear main search results, suggestions handle it
+          // Leave the search results page; suggestions handle keyword mode.
           _lastSetQuery = '';
           ref.read(searchQueryProvider.notifier).set('');
           ref.read(suggestionQueryProvider.notifier).set(trimmed);
+          final location = GoRouterState.of(context).uri.path;
+          if (location == '/search') context.go('/');
         }
         _updateOverlay();
       },

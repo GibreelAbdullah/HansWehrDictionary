@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'data/migration.dart';
 import 'data/database_init.dart' as db_init;
 import 'presentation/providers/db_update_provider.dart';
@@ -10,6 +11,7 @@ import 'presentation/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  if (kIsWeb) usePathUrlStrategy();
   db_init.initDatabaseFactory();
   await migrateFromOldApp();
   runApp(const ProviderScope(child: HansWehrApp()));

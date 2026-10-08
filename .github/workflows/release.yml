@@ -82,6 +82,8 @@ jobs:
           curl -L -o web/sqlite3.wasm \
             "https://github.com/simolus3/sqlite3.dart/releases/download/sqlite3-3.3.1/sqlite3.wasm"
       - run: flutter build web --release --base-href "/" --dart-define=APP_VERSION=${GITHUB_REF_NAME#v}
+      - name: SPA fallback for GitHub Pages deep links
+        run: cp build/web/index.html build/web/404.html
       - uses: actions/upload-pages-artifact@v3
         with:
           path: build/web
