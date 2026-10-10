@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import '../../domain/dictionary_entry.dart';
 import '../providers/dictionary_providers.dart';
 import '../widgets/entry_card.dart';
+import 'entry_navigation.dart';
 
 class QuranicWordsScreen extends ConsumerWidget {
   const QuranicWordsScreen({super.key});
@@ -19,25 +18,12 @@ class QuranicWordsScreen extends ConsumerWidget {
           final entry = list[i];
           return EntryCard(
             entry: entry,
-            onTap: () => _pushEntry(context, ref, entry),
+            onTap: () => pushEntry(context, ref, entry),
           );
         },
       ),
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => Center(child: Text('Error: $e')),
     );
-  }
-
-  Future<void> _pushEntry(BuildContext context, WidgetRef ref, DictionaryEntry entry) async {
-    final router = GoRouter.of(context);
-    if (entry.isRoot) {
-      router.go('/entry/${entry.word}');
-    } else {
-      final repo = ref.read(repositoryProvider);
-      final parent = await repo.getEntry(entry.parentId);
-      if (parent != null) {
-        router.go('/entry/${parent.word}?highlight=${entry.id}');
-      }
-    }
   }
 }

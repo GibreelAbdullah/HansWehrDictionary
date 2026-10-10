@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import '../../domain/dictionary_entry.dart';
-import '../providers/dictionary_providers.dart';
 import '../providers/favorites_provider.dart';
+import 'entry_navigation.dart';
 
 class FavoritesScreen extends ConsumerWidget {
   const FavoritesScreen({super.key});
@@ -41,7 +39,7 @@ class FavoritesScreen extends ConsumerWidget {
               title: Text(entry.word,
                   style: TextStyle(fontSize: 18, color: cs.onSurface),
                   textDirection: TextDirection.rtl),
-              onTap: () => _pushEntry(context, ref, entry),
+              onTap: () => pushEntry(context, ref, entry),
             );
           },
         );
@@ -49,18 +47,5 @@ class FavoritesScreen extends ConsumerWidget {
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => Center(child: Text('Error: $e')),
     );
-  }
-
-  Future<void> _pushEntry(BuildContext context, WidgetRef ref, DictionaryEntry entry) async {
-    final router = GoRouter.of(context);
-    if (entry.isRoot) {
-      router.go('/entry/${entry.word}');
-    } else {
-      final repo = ref.read(repositoryProvider);
-      final parent = await repo.getEntry(entry.parentId);
-      if (parent != null) {
-        router.go('/entry/${parent.word}?highlight=${entry.id}');
-      }
-    }
   }
 }

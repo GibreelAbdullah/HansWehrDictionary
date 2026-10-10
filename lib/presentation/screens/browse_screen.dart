@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import '../providers/dictionary_providers.dart';
 import '../widgets/entry_card.dart';
+import 'entry_navigation.dart';
 
 class BrowseScreen extends ConsumerWidget {
   const BrowseScreen({super.key});
@@ -45,7 +45,7 @@ class _LetterTile extends ConsumerWidget {
                   padding: const EdgeInsets.only(right: 16),
                   child: EntryCard(
                     entry: e,
-                    onTap: () => context.go('/entry/${e.word}'),
+                    onTap: () => pushRootEntry(context, ref, e),
                   ),
                 )),
             loading: () => [const Center(child: Padding(padding: EdgeInsets.all(8), child: CircularProgressIndicator()))],
@@ -100,7 +100,7 @@ class _PrefixEntries extends ConsumerWidget {
                 padding: const EdgeInsets.only(right: 48),
                 child: EntryCard(
                   entry: e,
-                  onTap: () => context.go('/entry/${e.word}'),
+                  onTap: () => pushRootEntry(context, ref, e),
                 ),
               )).toList(),
         ),

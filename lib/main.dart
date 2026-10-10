@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'data/db_progress.dart';
 import 'data/migration.dart';
 import 'data/database_init.dart' as db_init;
 import 'presentation/providers/db_update_provider.dart';
@@ -27,7 +29,6 @@ class HansWehrApp extends ConsumerWidget {
     final themeSettings = ref.watch(themeSettingsProvider).value ?? const ThemeSettings();
     final fontScale = ref.watch(fontScaleProvider).value ?? 1.0;
     final appFont = ref.watch(appFontProvider).value ?? AppFont.system;
-    final dbReady = ref.watch(dbReadyProvider);
     return MaterialApp.router(
       title: 'Hans Wehr Dictionary',
       debugShowCheckedModeBanner: false,
@@ -42,7 +43,13 @@ class HansWehrApp extends ConsumerWidget {
           ),
           child: child!,
         );
+        // On web the SQLite DB must be fetched/opened before any screen can
+        // query it. Gate the UI *inside* the router's builder so the router
+        // (and the deep-link URL, e.g. /entry/<word>) stays mounted the whole
+        // time. Swapping in a separate MaterialApp here would reset the browser
+        // location to "/" and make shared links unusable.
         if (!kIsWeb) return scaled;
+        final dbReady = ref.watch(dbReadyProvider);
         return dbReady.when(
           data: (_) => scaled,
           loading: () => const _DbLoadingScreen(),
@@ -53,30 +60,68 @@ class HansWehrApp extends ConsumerWidget {
   }
 }
 
-class _DbLoadingScreen extends StatelessWidget {
+class _DbLoadingScreen extends StatefulWidget {
   const _DbLoadingScreen();
 
   @override
+  State<_DbLoadingScreen> createState() => _DbLoadingScreenState();
+}
+
+class _DbLoadingScreenState extends State<_DbLoadingScreen> {
+  bool _isDownloading = false;
+  double _progress = 0.0;
+  StreamSubscription<double>? _sub;
+
+  @override
+  void initState() {
+    super.initState();
+    _sub = dbDownloadProgress.stream.listen((p) {
+      if (mounted) {
+        setState(() {
+          _isDownloading = true;
+          _progress = p;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _sub?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Directionality(
-      textDirection: TextDirection.ltr,
-      child: ColoredBox(
-        color: Colors.white,
-        child: Center(
+    return Scaffold(
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 'Hans Wehr Dictionary',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black87, decoration: TextDecoration.none),
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
-              SizedBox(height: 24),
-              SizedBox(width: 200, child: LinearProgressIndicator()),
-              SizedBox(height: 12),
-              Text(
-                'Loading dictionary…',
-                style: TextStyle(fontSize: 14, color: Colors.black54, decoration: TextDecoration.none),
-              ),
+              const SizedBox(height: 24),
+              if (_isDownloading) ...[
+                const Text('Downloading dictionary...'),
+                const SizedBox(height: 24),
+                LinearProgressIndicator(
+                  value: _progress > 0 ? _progress.clamp(0.0, 1.0) : null,
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  '${(_progress.clamp(0.0, 1.0) * 100).toStringAsFixed(0)}%',
+                  style: const TextStyle(fontSize: 14),
+                ),
+              ] else ...[
+                const SizedBox(height: 16),
+                const CircularProgressIndicator(),
+              ],
             ],
           ),
         ),
@@ -91,18 +136,14 @@ class _DbErrorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: ColoredBox(
-        color: Colors.white,
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Text(
-              'Failed to load dictionary:\n$error',
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 14, color: Colors.red, decoration: TextDecoration.none),
-            ),
+    return Scaffold(
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Text(
+            'Failed to load dictionary:\n$error',
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 14, color: Colors.red),
           ),
         ),
       ),

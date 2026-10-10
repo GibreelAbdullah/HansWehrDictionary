@@ -6,6 +6,7 @@ import '../../data/transliteration.dart';
 import '../../domain/dictionary_entry.dart';
 import '../providers/dictionary_providers.dart';
 import '../providers/search_history_provider.dart';
+import '../screens/entry_navigation.dart';
 
 class DictionarySearchBar extends ConsumerStatefulWidget {
   const DictionarySearchBar({super.key});
@@ -158,17 +159,11 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
     );
   }
 
-  Future<void> _navigateToEntry(BuildContext _, WidgetRef ref, DictionaryEntry entry) async {
-    final repo = ref.read(repositoryProvider);
-    final router = GoRouter.of(context);
-    if (entry.isRoot) {
-      router.go('/entry/${entry.word}');
-    } else {
-      final parent = await repo.getEntry(entry.parentId);
-      if (parent != null) {
-        router.go('/entry/${parent.word}?highlight=${entry.id}');
-      }
-    }
+  /// Navigates to [entry]. Roots go directly; derivatives go to their parent
+  /// root with the derivative highlighted. Occurrence handling (if any) lives
+  /// in the per-app `entry_navigation.dart`.
+  Future<void> _navigateToEntry(WidgetRef ref, DictionaryEntry entry) async {
+    await pushEntry(context, ref, entry);
   }
 
   Widget _buildDropdownList(
@@ -206,7 +201,7 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
               ref.read(searchHistoryProvider.notifier).add(entry.word);
               _hideOverlay();
               _focusNode.unfocus();
-              _navigateToEntry(context, ref, entry);
+              _navigateToEntry(ref, entry);
             },
           );
         },
@@ -335,16 +330,7 @@ class _DictionarySearchBarState extends ConsumerState<DictionarySearchBar>
         router.go('/entry/$query');
         return;
       }
-      final entry = exact.first;
-      if (entry.isRoot) {
-        router.go('/entry/${entry.word}');
-      } else {
-        ref.read(repositoryProvider).getEntry(entry.parentId).then((parent) {
-          if (parent != null) {
-            router.go('/entry/${parent.word}?highlight=${entry.id}');
-          }
-        });
-      }
+      _navigateToEntry(ref, exact.first);
     });
   }
 

@@ -84,16 +84,18 @@ class EntryCard extends StatelessWidget {
           ),
     );
 
-    return Card(
-      color: cardColor,
-      margin: EdgeInsets.only(left: 12, right: rightMargin, top: entry.isRoot ? 6 : 3, bottom: entry.isRoot ? 6 : 3),
-      child: onTap != null
-          ? InkWell(
-              borderRadius: BorderRadius.circular(12),
-              onTap: onTap,
-              child: content,
-            )
-          : content,
+    return RepaintBoundary(
+      child: Card(
+        color: cardColor,
+        margin: EdgeInsets.only(left: 12, right: rightMargin, top: entry.isRoot ? 6 : 3, bottom: entry.isRoot ? 6 : 3),
+        child: onTap != null
+            ? InkWell(
+                borderRadius: BorderRadius.circular(12),
+                onTap: onTap,
+                child: content,
+              )
+            : content,
+      ),
     );
   }
 

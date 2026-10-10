@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import '../providers/dictionary_providers.dart';
 import '../providers/search_history_provider.dart';
 import '../widgets/entry_card.dart';
+import 'entry_navigation.dart';
 
 /// Full-text search results page. The query is driven by the `?q=` URL
 /// parameter so searches are shareable via their URL.
@@ -84,16 +84,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               highlightQuery: query,
               onTap: () {
                 ref.read(searchHistoryProvider.notifier).add(entry.word);
-                final router = GoRouter.of(context);
-                if (entry.isRoot) {
-                  router.go('/entry/${entry.word}');
-                } else {
-                  ref.read(repositoryProvider).getEntry(entry.parentId).then((parent) {
-                    if (parent != null) {
-                      router.go('/entry/${parent.word}?highlight=${entry.id}');
-                    }
-                  });
-                }
+                pushEntry(context, ref, entry);
               },
             );
           },

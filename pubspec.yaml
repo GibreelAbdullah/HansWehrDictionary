@@ -27,6 +27,7 @@ dependencies:
   http: ^1.4.0
   flutter_markdown_plus: ^1.0.7
   google_fonts: ^8.1.0
+  web: ^1.1.1
 
 dev_dependencies:
   flutter_test:
